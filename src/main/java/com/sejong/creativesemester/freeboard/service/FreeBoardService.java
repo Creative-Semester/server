@@ -2,6 +2,8 @@ package com.sejong.creativesemester.domain.freeboard.service;
 
 import com.sejong.creativesemester.domain.freeboard.dto.FreeBoardCreateRequestDto;
 import com.sejong.creativesemester.domain.freeboard.entity.FreeBoard;
+import com.sejong.creativesemester.domain.major.entity.Major;
+import com.sejong.creativesemester.domain.major.repository.MajorRepository;
 import com.sejong.creativesemester.domain.user.entity.User;
 import com.sejong.creativesemester.domain.freeboard.repository.FreeBoardRepository;
 import com.sejong.creativesemester.domain.user.repository.UserRepository;
@@ -23,8 +25,6 @@ public class FreeBoardService {
     public void createFreeBoard(Long userId, FreeBoardCreateRequestDto dto){
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
 
-        //이미지가 없으면?
-
         FreeBoard entity = FreeBoard.builder()
                 .user(user)
                 .title(dto.getTitle())
@@ -36,4 +36,6 @@ public class FreeBoardService {
         freeBoardRepository.save(entity);
 
     }
+
+    // 게시글 조회
 }
