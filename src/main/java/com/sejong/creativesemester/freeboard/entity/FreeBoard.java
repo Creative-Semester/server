@@ -1,8 +1,8 @@
-package com.sejong.creativesemester.domain.freeboard.entity;
+package com.sejong.creativesemester.freeboard.entity;
 
-import com.sejong.creativesemester.domain.comment.entity.Comment;
-import com.sejong.creativesemester.domain.major.entity.Major;
-import com.sejong.creativesemester.domain.user.entity.User;
+import com.sejong.creativesemester.comment.entity.Comment;
+import com.sejong.creativesemester.major.entity.Major;
+import com.sejong.creativesemester.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;

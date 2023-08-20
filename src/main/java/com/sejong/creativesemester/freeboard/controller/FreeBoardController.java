@@ -1,7 +1,7 @@
-package com.sejong.creativesemester.domain.freeboard.controller;
+package com.sejong.creativesemester.freeboard.controller;
 
-import com.sejong.creativesemester.domain.freeboard.dto.FreeBoardCreateRequestDto;
-import com.sejong.creativesemester.domain.freeboard.service.FreeBoardService;
+import com.sejong.creativesemester.freeboard.dto.FreeBoardCreateRequestDto;
+import com.sejong.creativesemester.freeboard.service.FreeBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

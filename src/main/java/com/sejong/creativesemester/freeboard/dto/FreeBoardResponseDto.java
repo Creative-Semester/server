@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.domain.freeboard.dto;
+package com.sejong.creativesemester.freeboard.dto;
 
 import lombok.Getter;
 

@@ -1,12 +1,10 @@
-package com.sejong.creativesemester.domain.freeboard.service;
+package com.sejong.creativesemester.freeboard.service;
 
-import com.sejong.creativesemester.domain.freeboard.dto.FreeBoardCreateRequestDto;
-import com.sejong.creativesemester.domain.freeboard.entity.FreeBoard;
-import com.sejong.creativesemester.domain.major.entity.Major;
-import com.sejong.creativesemester.domain.major.repository.MajorRepository;
-import com.sejong.creativesemester.domain.user.entity.User;
-import com.sejong.creativesemester.domain.freeboard.repository.FreeBoardRepository;
-import com.sejong.creativesemester.domain.user.repository.UserRepository;
+import com.sejong.creativesemester.freeboard.dto.FreeBoardCreateRequestDto;
+import com.sejong.creativesemester.freeboard.entity.FreeBoard;
+import com.sejong.creativesemester.user.entity.User;
+import com.sejong.creativesemester.freeboard.repository.FreeBoardRepository;
+import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

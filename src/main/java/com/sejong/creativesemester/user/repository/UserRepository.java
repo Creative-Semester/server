@@ -1,6 +1,6 @@
-package com.sejong.creativesemester.domain.user.repository;
+package com.sejong.creativesemester.user.repository;
 
-import com.sejong.creativesemester.domain.user.entity.User;
+import com.sejong.creativesemester.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

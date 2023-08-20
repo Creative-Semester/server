@@ -1,7 +1,7 @@
-package com.sejong.creativesemester.domain.user.entity;
+package com.sejong.creativesemester.user.entity;
 
 
-import com.sejong.creativesemester.domain.major.entity.Major;
+import com.sejong.creativesemester.major.entity.Major;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

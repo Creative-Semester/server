@@ -1,6 +1,6 @@
-package com.sejong.creativesemester.domain.freeboard.dto;
+package com.sejong.creativesemester.freeboard.dto;
 
-import com.sejong.creativesemester.domain.freeboard.entity.FreeBoard;
+import com.sejong.creativesemester.freeboard.entity.FreeBoard;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
