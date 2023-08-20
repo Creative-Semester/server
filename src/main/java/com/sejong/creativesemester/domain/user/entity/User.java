@@ -1,12 +1,12 @@
-package com.sejong.creativesemester.domain.entity;
+package com.sejong.creativesemester.domain.user.entity;
 
 
+import com.sejong.creativesemester.domain.major.entity.Major;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter

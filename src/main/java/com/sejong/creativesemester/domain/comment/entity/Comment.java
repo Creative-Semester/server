@@ -1,5 +1,7 @@
-package com.sejong.creativesemester.domain.entity;
+package com.sejong.creativesemester.domain.comment.entity;
 
+import com.sejong.creativesemester.domain.user.entity.User;
+import com.sejong.creativesemester.domain.freeboard.entity.FreeBoard;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
 
@@ -30,4 +33,9 @@ public class Comment {
 
     private LocalDateTime createdTime = LocalDateTime.now();
     private LocalDateTime modifiedTime;
+
+    @Builder
+    public Comment(String text){
+        this.text = text;
+    }
 }
