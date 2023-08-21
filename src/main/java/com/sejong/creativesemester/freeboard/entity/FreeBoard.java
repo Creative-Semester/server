@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.freeboard.entity;
 
+import com.sejong.creativesemester.config.BaseTimeEntity;
 import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.major.entity.Major;
 import com.sejong.creativesemester.user.entity.User;
@@ -15,7 +16,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Builder
 @Table(name = "FreeBoard")
-public class FreeBoard {
+public class FreeBoard extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

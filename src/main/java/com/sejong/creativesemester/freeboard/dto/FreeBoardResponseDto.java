@@ -1,10 +1,16 @@
 package com.sejong.creativesemester.freeboard.dto;
 
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
+import java.util.List;
+
+@Data
+@Builder
 public class FreeBoardResponseDto {
 
-    private Long freeBoardId;
+    private int totalPages;
+    private int currentPage;
+    private List<FreeBoardDetailResponseDto> freeboards;
 
 }

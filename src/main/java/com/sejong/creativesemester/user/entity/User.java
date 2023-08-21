@@ -1,19 +1,19 @@
 package com.sejong.creativesemester.user.entity;
 
 
+import com.sejong.creativesemester.config.BaseTimeEntity;
 import com.sejong.creativesemester.major.entity.Major;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "User")
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +42,6 @@ public class User {
     @Column(nullable = false)
     private int role;
 
-    private LocalDateTime createdTime = LocalDateTime.now();
-    private LocalDateTime modifiedTime;
+
 
 }
