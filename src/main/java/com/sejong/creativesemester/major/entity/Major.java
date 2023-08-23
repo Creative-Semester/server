@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.domain.major.entity;
+package com.sejong.creativesemester.major.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;

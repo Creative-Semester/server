@@ -1,7 +1,8 @@
-package com.sejong.creativesemester.domain.comment.entity;
+package com.sejong.creativesemester.comment.entity;
 
-import com.sejong.creativesemester.domain.user.entity.User;
-import com.sejong.creativesemester.domain.freeboard.entity.FreeBoard;
+import com.sejong.creativesemester.config.BaseTimeEntity;
+import com.sejong.creativesemester.user.entity.User;
+import com.sejong.creativesemester.freeboard.entity.FreeBoard;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +13,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +31,6 @@ public class Comment {
     @JoinColumn(name = "freeBoardId")
     private FreeBoard freeBoard;
 
-    private LocalDateTime createdTime = LocalDateTime.now();
-    private LocalDateTime modifiedTime;
 
     @Builder
     public Comment(String text){

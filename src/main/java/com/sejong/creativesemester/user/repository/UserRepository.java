@@ -1,11 +1,11 @@
-package com.sejong.creativesemester.domain.user.repository;
+package com.sejong.creativesemester.user.repository;
 
-import com.sejong.creativesemester.domain.user.entity.User;
+import com.sejong.creativesemester.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 
     Optional<User> findById(Long userId);
