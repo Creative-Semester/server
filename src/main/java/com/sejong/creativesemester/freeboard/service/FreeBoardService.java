@@ -45,6 +45,7 @@ public class FreeBoardService {
     }
 
     // 게시글 조회
+    @Transactional(readOnly = true)
     public FreeBoardResponseDto getFreeBoards(Pageable pageable, int page, long majorId){
         Page<FreeBoard> freeBoardPage = freeBoardRepository.findAllByMajorByCreatedDate(Long.valueOf(majorId)
         , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
@@ -61,6 +62,7 @@ public class FreeBoardService {
     }
 
     // 게시글 상세 조회
+    @Transactional(readOnly = true)
     public FreeBoardDetailResponseDto getDetailFreeBoards(Long freeBoardId){
         FreeBoard freeBoard = freeBoardRepository.findById(freeBoardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
 
