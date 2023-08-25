@@ -41,7 +41,7 @@ public class User extends BaseTimeEntity {
     private int role;
 
     @ManyToOne
-    @JoinColumn(name = "Key")
+    @JoinColumn(name = "key")
     private Council council;
 
 
