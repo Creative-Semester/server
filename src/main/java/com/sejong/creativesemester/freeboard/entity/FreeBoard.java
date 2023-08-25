@@ -15,7 +15,7 @@ import java.util.Collection;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Table(name = "FreeBoard")
+@Table(name = "FREEBOARD_TABLE")
 public class FreeBoard extends BaseTimeEntity {
 
     @Id
@@ -32,11 +32,7 @@ public class FreeBoard extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String content;
-
-
     private String image;
-    private LocalDateTime createdTime = LocalDateTime.now();
-    private LocalDateTime modifiedTime;
 
     //학과 아이디 추가
     @Column(nullable = false)
@@ -54,7 +50,6 @@ public class FreeBoard extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.image = image;
-        this.modifiedTime = LocalDateTime.now();
     }
 
 }

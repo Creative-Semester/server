@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "Major")
+@Table(name = "MAJOR_TABLE")
 public class Major {
 
     @Id

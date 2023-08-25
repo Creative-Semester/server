@@ -2,6 +2,7 @@ package com.sejong.creativesemester.freeboard.service;
 
 import com.sejong.creativesemester.freeboard.dto.FreeBoardCreateRequestDto;
 import com.sejong.creativesemester.freeboard.dto.FreeBoardDetailResponseDto;
+import com.sejong.creativesemester.freeboard.dto.FreeBoardModifyRequestDto;
 import com.sejong.creativesemester.freeboard.dto.FreeBoardResponseDto;
 import com.sejong.creativesemester.freeboard.entity.FreeBoard;
 import com.sejong.creativesemester.user.entity.User;
@@ -73,4 +74,10 @@ public class FreeBoardService {
                 .build();
     }
 
+    public void modifyFreeBoard(Long userId, FreeBoardModifyRequestDto dto) {
+        FreeBoard freeBoard = freeBoardRepository.findById(dto.getFreeBoardId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+
+    }
 }
