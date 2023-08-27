@@ -29,8 +29,10 @@ public class FreeBoardService {
     private final UserRepository userRepository;
 
     // 게시글 추가
-    public void createFreeBoard(Long userId, FreeBoardCreateRequestDto dto){
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
+    public void createFreeBoard(String studentNum, FreeBoardCreateRequestDto dto){
+        User user = userRepository.findByStudentNum(studentNum).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 사용자입니다.")
+        );
 
         FreeBoard entity = FreeBoard.builder()
                 .user(user)
