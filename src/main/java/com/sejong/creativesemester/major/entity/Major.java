@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Major {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -2,6 +2,7 @@ package com.sejong.creativesemester.user.entity;
 
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
+import com.sejong.creativesemester.coucil.entity.Council;
 import com.sejong.creativesemester.major.entity.Major;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,27 +16,20 @@ import javax.persistence.*;
 public class User extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
-    private int isCouncil;
-
-    @Column(nullable = false)
     private String studentNum;
-
     @ManyToOne
     @JoinColumn(name = "major_id")
     private Major major;
-
+    @ManyToOne
+    @JoinColumn(name = "council_id")
+    private Council council;
     @Column(nullable = false)
     private int grade;
-
     @Column(nullable = false)
-    private int status;
-
+    private String status;
     @Column(name = "nickname")
     private String nickname;
-
     @Column(nullable = false)
-    private int role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
