@@ -47,8 +47,8 @@ public class FreeBoardService {
     // 게시글 조회
     @Transactional(readOnly = true)
     public FreeBoardResponseDto getFreeBoards(Pageable pageable, int page, long majorId){
-        Page<FreeBoard> freeBoardPage = freeBoardRepository.findAllByMajorByCreatedDate(Long.valueOf(majorId)
-        , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
+        Page<FreeBoard> freeBoardPage = freeBoardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(majorId)
+                , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
 
         return FreeBoardResponseDto.builder()
                 .totalPages(freeBoardPage.getTotalPages())

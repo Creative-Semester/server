@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.comment.entity;
 
-import com.sejong.creativesemester.config.BaseTimeEntity;
+import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.freeboard.entity.FreeBoard;
 import lombok.AccessLevel;
@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -29,7 +28,7 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "freeBoardId")
-    private FreeBoard freeBoard;
+    private FreeBoard freeBoardId;
 
 
     @Builder

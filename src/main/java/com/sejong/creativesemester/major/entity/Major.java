@@ -6,16 +6,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "MAJOR_TABLE")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "Major")
 public class Major {
 
     @Id
-    @Column(name = "majorId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long majorId;
+    private Long id;
 
     @Column(nullable = false)
     private String majorName;
