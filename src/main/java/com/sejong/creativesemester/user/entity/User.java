@@ -18,10 +18,6 @@ public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
-    private Long userId;
-
-    @Column(nullable = false)
     private String studentNum;
 
     @ManyToOne

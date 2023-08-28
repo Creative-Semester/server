@@ -20,6 +20,7 @@ public class Council {
 
     @Column(nullable = false)
     private String name;
+
     private String introduce;
 
     @OneToOne

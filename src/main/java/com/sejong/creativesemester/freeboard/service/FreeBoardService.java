@@ -74,10 +74,27 @@ public class FreeBoardService {
                 .build();
     }
 
-    public void modifyFreeBoard(Long userId, FreeBoardModifyRequestDto dto) {
+    public void modifyFreeBoard(String studentNum, FreeBoardModifyRequestDto dto) {
         FreeBoard freeBoard = freeBoardRepository.findById(dto.getFreeBoardId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+        User user = userRepository.findById(studentNum).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
-
+        if(dto.getTitle() != null){
+            freeBoard.getModifiedTitle(dto.getTitle());
+        }
+        if(dto.getContent() != null){
+            freeBoard.getModifiedContent(dto.getContent());
+        }
+        if(dto.getImage() != null){
+            freeBoard.getModifiedImage(dto.getImage());
+        }
     }
+
+    public void deleteFreeBoard(String studentNum, Long freeBoardId){
+        FreeBoard freeBoard = freeBoardRepository.findById(freeBoardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+        User user = userRepository.findById(studentNum).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        freeBoardRepository.delete(freeBoard);
+    }
+
+
 }

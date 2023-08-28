@@ -24,7 +24,6 @@ public class FreeBoard extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "userId")
-    @Column(name = "userId")
     private User user;
 
     @Column(nullable = false)
@@ -35,7 +34,6 @@ public class FreeBoard extends BaseTimeEntity {
     private String image;
 
     //학과 아이디 추가
-    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "majorId")
     private Major major;
@@ -45,11 +43,15 @@ public class FreeBoard extends BaseTimeEntity {
     private Collection<Comment> comment;
 
 
-
-    public void update(String title, String content, String image){
+    public void getModifiedTitle(String title) {
         this.title = title;
-        this.content = content;
-        this.image = image;
     }
 
+    public void getModifiedContent(String content) {
+        this.content = content;
+    }
+
+    public void getModifiedImage(String image) {
+        this.image = image;
+    }
 }
