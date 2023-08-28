@@ -29,7 +29,7 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "freeBoardId")
-    private FreeBoard freeBoardId;
+    private FreeBoard freeBoard;
 
     // 학과 게시판 외래키 추가
 

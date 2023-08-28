@@ -27,7 +27,7 @@ public class User extends BaseTimeEntity {
     private String studentNum;
 
     @ManyToOne
-    @JoinColumn(name = "major_id")
+    @JoinColumn(name = "majorId")
     private Major major;
 
     @Column(nullable = false)

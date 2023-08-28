@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "FREEBOARD_TABLE")
-@Entity
+@Entity(name = "FREEBOARD_TABLE")
 public class FreeBoard extends BaseTimeEntity {
 
     @Id
@@ -37,12 +37,12 @@ public class FreeBoard extends BaseTimeEntity {
 
     //학과 아이디 추가
     @ManyToOne
-    @JoinColumn(name = "majorid",nullable = false)
+    @JoinColumn(name = "majorId",nullable = false)
     private Major major;
 
     //댓글을 적은 사용자 아이디
-    @OneToMany(mappedBy = "freeBoardId")
-    private List<Comment> comment=new ArrayList<>();
+    @OneToMany
+    private List<Comment> comment = new ArrayList<>();
 
 
     public void getModifiedTitle(String title) {
