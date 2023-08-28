@@ -11,11 +11,10 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "MAJOR_TABLE")
 public class Major {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long majorId;
 
     @Column(nullable = false)
-    private String majorName;
+    private String name;
 }
