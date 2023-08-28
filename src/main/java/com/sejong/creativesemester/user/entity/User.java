@@ -3,7 +3,7 @@ package com.sejong.creativesemester.user.entity;
 
 import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
-import com.sejong.creativesemester.coucil.entity.Council;
+import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.major.entity.Major;
 import lombok.AccessLevel;
 import lombok.Getter;

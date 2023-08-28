@@ -13,9 +13,14 @@ import java.util.function.Function;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+<<<<<<< HEAD
 
     Optional<User> findById(String studentNum);
 
     //Optional<User> findByUsername(String username);
 
+=======
+    Optional<User> findById(String userId);
+    Optional<User> findByStudentNum(String studentNum);
+>>>>>>> dev
 }

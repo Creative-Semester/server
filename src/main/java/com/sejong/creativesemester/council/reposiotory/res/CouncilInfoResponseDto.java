@@ -1,6 +1,6 @@
-package com.sejong.creativesemester.coucil.reposiotory.res;
+package com.sejong.creativesemester.council.reposiotory.res;
 
-import com.sejong.creativesemester.coucil.service.res.CouncilInfoResponse;
+import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
