@@ -1,7 +1,7 @@
 package com.sejong.creativesemester.promise.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
-import com.sejong.creativesemester.department.domain.Department;
+import com.sejong.creativesemester.department.entity.Department;
 
 import javax.persistence.*;
 @Entity(name = "PROMISE_TABLE")
@@ -14,6 +14,6 @@ public class Promise extends BaseTimeEntity {
     private boolean implementation;
 
     @ManyToOne
-    @JoinColumn(name = "councildepartment_id")
+    @JoinColumn(name = "department_id")
     private Department department;
 }

@@ -15,5 +15,5 @@ public class Major {
     private Long id;
 
     @Column(nullable = false)
-    private String majorName;
+    private String name;
 }
