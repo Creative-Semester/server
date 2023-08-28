@@ -1,12 +1,14 @@
-package com.sejong.creativesemester.council.reposiotory.impl;
+package com.sejong.creativesemester.coucil.reposiotory.impl;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sejong.creativesemester.council.reposiotory.res.CouncilInfoResponseDto;
-import com.sejong.creativesemester.council.reposiotory.CouncilRepositoryCustom;
+import com.sejong.creativesemester.coucil.reposiotory.res.CouncilInfoResponseDto;
+import com.sejong.creativesemester.coucil.reposiotory.CouncilRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 
-import static com.sejong.creativesemester.council.entity.QCouncil.council;
+import java.security.Principal;
+
+import static com.sejong.creativesemester.coucil.entity.QCouncil.council;
 
 @RequiredArgsConstructor
 public class CouncilRepositoryImpl implements CouncilRepositoryCustom {

@@ -61,7 +61,7 @@ public class FreeBoardService {
                         .content(freeBoard.getContent())
                         .image(freeBoard.getImage())
                         .build()).collect(Collectors.toList()))
-                        .build();
+                .build();
     }
 
     // 게시글 상세 조회

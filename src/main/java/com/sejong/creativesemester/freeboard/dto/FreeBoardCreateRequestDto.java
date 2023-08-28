@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FreeBoardCreateRequestDto {
 
-    private String title;
-    private String content;
-    private String image;
+    String title;
+    String content;
+    String image;
 
     public FreeBoard toEntity(){
         return FreeBoard.builder()

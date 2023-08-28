@@ -1,7 +1,7 @@
-package com.sejong.creativesemester.council.controller;
+package com.sejong.creativesemester.coucil.controller;
 
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
-import com.sejong.creativesemester.council.service.CouncilService;
+import com.sejong.creativesemester.coucil.service.CouncilService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

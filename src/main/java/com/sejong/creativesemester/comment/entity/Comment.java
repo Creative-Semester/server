@@ -12,7 +12,6 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "COMMENT_TABLE")
 @Entity(name = "COMMENT_TABLE")
 public class Comment extends BaseTimeEntity {
     @Id
@@ -28,9 +27,7 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "freeBoardId")
-    private FreeBoard freeBoard;
-
-    // 학과 게시판 외래키 추가
+    private FreeBoard freeBoardId;
 
 
     @Builder

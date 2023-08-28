@@ -11,16 +11,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-
-<<<<<<< HEAD
-
-    Optional<User> findById(String studentNum);
-
-    //Optional<User> findByUsername(String username);
-
-=======
-    Optional<User> findById(String userId);
+public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByStudentNum(String studentNum);
->>>>>>> dev
 }
