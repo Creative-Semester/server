@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.coucil.entity;
+package com.sejong.creativesemester.council.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.major.entity.Major;
