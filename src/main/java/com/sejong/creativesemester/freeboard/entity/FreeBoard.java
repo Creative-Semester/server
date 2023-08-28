@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.freeboard.entity;
 
-import com.sejong.creativesemester.config.BaseTimeEntity;
+import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.major.entity.Major;
 import com.sejong.creativesemester.user.entity.User;
@@ -8,14 +8,19 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+<<<<<<< HEAD
 @Table(name = "FREEBOARD_TABLE")
+=======
+@Entity(name = "FREEBOARD_TABLE")
+>>>>>>> dev
 public class FreeBoard extends BaseTimeEntity {
 
     @Id
@@ -35,16 +40,30 @@ public class FreeBoard extends BaseTimeEntity {
 
     //학과 아이디 추가
     @ManyToOne
-    @JoinColumn(name = "majorId")
+    @JoinColumn(name = "majorid",nullable = false)
     private Major major;
 
     //댓글을 적은 사용자 아이디
-    @OneToMany(mappedBy = "freeBoard")
-    private Collection<Comment> comment;
+    @OneToMany(mappedBy = "freeBoardId")
+    private List<Comment> comment=new ArrayList<>();
 
+
+<<<<<<< HEAD
+    public void getModifiedTitle(String title) {
+        this.title = title;
+=======
 
     public void getModifiedTitle(String title) {
         this.title = title;
+    }
+
+    public void getModifiedContent(String content) {
+        this.content = content;
+    }
+
+    public void getModifiedImage(String image) {
+        this.image = image;
+>>>>>>> dev
     }
 
     public void getModifiedContent(String content) {

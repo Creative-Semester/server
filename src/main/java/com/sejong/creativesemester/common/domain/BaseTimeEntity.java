@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.config;
+package com.sejong.creativesemester.common.domain;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
