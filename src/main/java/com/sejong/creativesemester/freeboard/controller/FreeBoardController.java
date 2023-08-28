@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -19,8 +21,8 @@ public class FreeBoardController {
 
     // 게시글 생성
     @PostMapping("/freeBoards/create")
-    public ResponseEntity<String> createFreeBoard(Long userId, @RequestBody final FreeBoardCreateRequestDto dto){
-        freeBoardService.createFreeBoard(userId, dto);
+    public ResponseEntity<String> createFreeBoard(Principal principal, @RequestBody final FreeBoardCreateRequestDto dto){
+        freeBoardService.createFreeBoard(principal.getName(), dto);
 
         return ResponseEntity.ok().body("creation success");
     }
