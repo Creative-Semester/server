@@ -21,10 +21,10 @@ public class FreeBoard extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long freeBoardId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column(nullable = false)
@@ -38,7 +38,7 @@ public class FreeBoard extends BaseTimeEntity {
 
     //학과 아이디 추가
     @ManyToOne
-    @JoinColumn(name = "major_id",nullable = false)
+    @JoinColumn(name = "majorid",nullable = false)
     private Major major;
 
     //댓글을 적은 사용자 아이디
@@ -47,9 +47,15 @@ public class FreeBoard extends BaseTimeEntity {
 
 
 
-    public void update(String title, String content, String image){
+    public void getModifiedTitle(String title) {
         this.title = title;
+    }
+
+    public void getModifiedContent(String content) {
         this.content = content;
+    }
+
+    public void getModifiedImage(String image) {
         this.image = image;
     }
 
