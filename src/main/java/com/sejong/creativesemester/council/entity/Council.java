@@ -16,7 +16,7 @@ public class Council {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long key;
+    private Long councilId;
 
     @Column(nullable = false)
     private String name;

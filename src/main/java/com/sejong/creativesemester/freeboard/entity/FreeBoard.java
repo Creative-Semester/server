@@ -16,11 +16,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-<<<<<<< HEAD
 @Table(name = "FREEBOARD_TABLE")
-=======
-@Entity(name = "FREEBOARD_TABLE")
->>>>>>> dev
+@Entity
 public class FreeBoard extends BaseTimeEntity {
 
     @Id
@@ -48,23 +45,10 @@ public class FreeBoard extends BaseTimeEntity {
     private List<Comment> comment=new ArrayList<>();
 
 
-<<<<<<< HEAD
-    public void getModifiedTitle(String title) {
-        this.title = title;
-=======
-
     public void getModifiedTitle(String title) {
         this.title = title;
     }
 
-    public void getModifiedContent(String content) {
-        this.content = content;
-    }
-
-    public void getModifiedImage(String image) {
-        this.image = image;
->>>>>>> dev
-    }
 
     public void getModifiedContent(String content) {
         this.content = content;
@@ -73,4 +57,6 @@ public class FreeBoard extends BaseTimeEntity {
     public void getModifiedImage(String image) {
         this.image = image;
     }
+
+
 }

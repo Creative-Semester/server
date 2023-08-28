@@ -96,8 +96,4 @@ public class FreeBoardService {
         freeBoardRepository.delete(freeBoard);
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 }

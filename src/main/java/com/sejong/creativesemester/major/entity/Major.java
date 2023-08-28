@@ -9,10 +9,7 @@ import javax.persistence.*;
 @Entity(name = "MAJOR_TABLE")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-<<<<<<< HEAD
 @Table(name = "MAJOR_TABLE")
-=======
->>>>>>> dev
 public class Major {
 
     @Id
