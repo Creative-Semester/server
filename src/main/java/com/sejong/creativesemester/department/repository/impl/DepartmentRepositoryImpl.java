@@ -7,11 +7,14 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sejong.creativesemester.department.repository.DepartmentRepositoryCustom;
 import com.sejong.creativesemester.department.repository.dto.PromisesForDepartmentDto;
+import com.sejong.creativesemester.department.service.res.DepartmentInfoResponseDto;
+import com.sejong.creativesemester.department.service.res.PromiseContentsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 
 import java.util.List;
 
+import static com.sejong.creativesemester.department.entity.QDepartment.department;
 import static com.sejong.creativesemester.promise.entity.QPromise.promise;
 
 @RequiredArgsConstructor

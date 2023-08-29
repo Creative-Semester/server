@@ -10,5 +10,5 @@ public interface DepartmentRepositoryCustom {
     - 각 부서의 전체 공약 개수
     - 각 부서의 공약 이행률
      */
-     List<PromisesForDepartmentDto> getPromisesForDepartment(String majorName);
+     List<PromisesForDepartmentDto> getCountOfPromises(Long councilId);
 }

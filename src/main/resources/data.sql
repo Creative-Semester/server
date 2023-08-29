@@ -1,4 +1,6 @@
 insert into major_table values (1,'지능기전');
+insert into council_table values (1,now(),now(),'루리','test',7,1);
+
 
 insert into department_table values (1,now(),now(),'복지',1);
 insert into department_table values (2,now(),now(),'문화',1);
