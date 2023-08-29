@@ -55,4 +55,17 @@ public class DepartmentService {
 
         return responseDto;
     }
+
+    public List<PromiseContentsResponseDto> getPromises(String studentNum, Long departmentId) {
+        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(()->new NullPointerException("사용자 없음"));
+        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
+        return departmentRepositoryImpl.getPromises(byMajorIdOrderByCreatedTimeDesc.get(0).getId(), departmentId);
+
+    }
+
+    public List<DepartmentInfoResponseDto> getDepartmentLists(String studentNum) {
+        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(()->new NullPointerException("사용자 없음"));
+        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
+        return departmentRepositoryImpl.getDepartmentsInfo(byMajorIdOrderByCreatedTimeDesc.get(0).getId());
+    }
 }
