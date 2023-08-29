@@ -44,7 +44,6 @@ public class FreeBoardService {
                 .build();
 
         freeBoardRepository.save(entity);
-
     }
 
     // 게시글 조회
