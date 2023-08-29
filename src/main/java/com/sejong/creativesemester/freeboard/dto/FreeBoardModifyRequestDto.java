@@ -2,10 +2,11 @@ package com.sejong.creativesemester.freeboard.dto;
 
 
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FreeBoardModifyRequestDto {
 
