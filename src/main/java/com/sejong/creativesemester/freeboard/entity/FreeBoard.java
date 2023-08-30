@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Table(name = "FREEBOARD_TABLE")
 @Entity(name = "FREEBOARD_TABLE")
 public class FreeBoard extends BaseTimeEntity {
 
@@ -41,7 +40,7 @@ public class FreeBoard extends BaseTimeEntity {
     private Major major;
 
     //댓글을 적은 사용자 아이디
-    @OneToMany
+    @OneToMany(mappedBy = "freeBoard")
     private List<Comment> comment = new ArrayList<>();
 
 
