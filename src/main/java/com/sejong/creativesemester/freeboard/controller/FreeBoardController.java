@@ -7,6 +7,7 @@ import com.sejong.creativesemester.freeboard.dto.FreeBoardDetailResponseDto;
 import com.sejong.creativesemester.freeboard.dto.FreeBoardModifyRequestDto;
 import com.sejong.creativesemester.freeboard.dto.FreeBoardResponseDto;
 import com.sejong.creativesemester.freeboard.service.FreeBoardService;
+import com.sun.net.httpserver.Authenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,7 @@ public class FreeBoardController {
     public SuccessResponse modifyFreeBoard(String studentNum, @RequestBody FreeBoardModifyRequestDto dto){
         freeBoardService.modifyFreeBoard(studentNum, dto);
 
-        return new SuccessResponse("modification success");
+        return new SuccessResponse("modify Success");
     }
 
     // 게시글 삭제

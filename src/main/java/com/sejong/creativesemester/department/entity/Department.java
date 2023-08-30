@@ -1,7 +1,7 @@
 package com.sejong.creativesemester.department.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
-import com.sejong.creativesemester.major.entity.Major;
+import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.promise.entity.Promise;
 
 import javax.persistence.*;
@@ -16,8 +16,8 @@ public class Department extends BaseTimeEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "major_id")
-    private Major major;
+    @JoinColumn(name = "council_id")
+    private Council council;
 
     @OneToMany(mappedBy = "department")
     private List<Promise> promises = new ArrayList<>();
