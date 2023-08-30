@@ -38,7 +38,6 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryCustom{
                 .where(department.council.id.eq(councilId))
                 .groupBy(department)//각 부서 pk값을 통해 그룹화
                 .fetch();
-
         return list;
     }
 
