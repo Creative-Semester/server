@@ -35,7 +35,6 @@ public class SuccessResponse<T> {
         this.code = SuccessResponseStatus.SUCCESS.getCode();
         this.message=SuccessResponseStatus.SUCCESS.getMessage();
     }
-<<<<<<< HEAD
 
     // 단순히 성공메시지 보낼때
     public static SuccessResponse ok(){
@@ -58,6 +57,6 @@ public class SuccessResponse<T> {
     }
 
 }
-=======
-}
->>>>>>> a7e2d1a62ce398bca9ef51105c6287a8aa957f82
+
+
+
