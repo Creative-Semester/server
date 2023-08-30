@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(name = "FREEBOARD_TABLE")
 @Entity(name = "FREEBOARD_TABLE")
 public class FreeBoard extends BaseTimeEntity {
 
@@ -32,19 +33,16 @@ public class FreeBoard extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String content;
-
-
     private String image;
 
     //학과 아이디 추가
     @ManyToOne
-    @JoinColumn(name = "majorid",nullable = false)
+    @JoinColumn(name = "majorId",nullable = false)
     private Major major;
 
     //댓글을 적은 사용자 아이디
-    @OneToMany(mappedBy = "freeBoardId")
-    private List<Comment> comment=new ArrayList<>();
-
+    @OneToMany
+    private List<Comment> comment = new ArrayList<>();
 
 
     public void getModifiedTitle(String title) {
@@ -58,5 +56,6 @@ public class FreeBoard extends BaseTimeEntity {
     public void getModifiedImage(String image) {
         this.image = image;
     }
+
 
 }

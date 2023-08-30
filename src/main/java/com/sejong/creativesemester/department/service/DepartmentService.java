@@ -2,7 +2,7 @@ package com.sejong.creativesemester.department.service;
 
 import com.sejong.creativesemester.common.converter.RoundToSecondDigit;
 import com.sejong.creativesemester.council.entity.Council;
-import com.sejong.creativesemester.council.reposiotory.CouncilRepository;
+import com.sejong.creativesemester.council.repository.CouncilRepository;
 import com.sejong.creativesemester.department.repository.dto.PromisesForDepartmentDto;
 import com.sejong.creativesemester.department.repository.impl.DepartmentRepositoryImpl;
 import com.sejong.creativesemester.department.service.res.DepartmentInfoResponseDto;

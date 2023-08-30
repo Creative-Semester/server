@@ -17,18 +17,24 @@ public class User extends BaseTimeEntity {
 
     @Id
     private String studentNum;
+
     @ManyToOne
     @JoinColumn(name = "major_id")
     private Major major;
+
     @ManyToOne
     @JoinColumn(name = "council_id")
     private Council council;
+
     @Column(nullable = false)
     private int grade;
+
     @Column(nullable = false)
     private String status;
+
     @Column(name = "nickname")
     private String nickname;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;

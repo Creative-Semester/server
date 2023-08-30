@@ -12,7 +12,6 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "COMMENT_TABLE")
 @Entity(name = "COMMENT_TABLE")
 public class Comment extends BaseTimeEntity {
     @Id
