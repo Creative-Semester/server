@@ -1,13 +1,11 @@
-package com.sejong.creativesemester.coucil.service;
+package com.sejong.creativesemester.council.service;
 
-import com.sejong.creativesemester.coucil.service.res.CouncilInfoResponse;
-import com.sejong.creativesemester.coucil.reposiotory.CouncilRepository;
+import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
+import com.sejong.creativesemester.council.repository.CouncilRepository;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.security.Principal;
 
 @RequiredArgsConstructor
 @Service

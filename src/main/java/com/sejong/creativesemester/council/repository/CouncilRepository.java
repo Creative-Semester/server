@@ -1,6 +1,6 @@
-package com.sejong.creativesemester.coucil.reposiotory;
+package com.sejong.creativesemester.council.repository;
 
-import com.sejong.creativesemester.coucil.entity.Council;
+import com.sejong.creativesemester.council.entity.Council;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-@Repository
 public interface CouncilRepository extends JpaRepository<Council,Long>,CouncilRepositoryCustom {
     @Query("select c from COUNCIL_TABLE c where c.major.id=:majorId order by c.createdTime desc")
     List<Council> findByMajor_IdOrderByCreatedTimeDesc(Long majorId);

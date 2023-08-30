@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.coucil.service.res;
+package com.sejong.creativesemester.council.service.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
