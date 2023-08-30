@@ -32,9 +32,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String status;
 
-    @Column(name = "nickname")
-    private String nickname;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
