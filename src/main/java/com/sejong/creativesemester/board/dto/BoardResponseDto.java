@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.freeboard.dto;
+package com.sejong.creativesemester.board.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -7,10 +7,10 @@ import java.util.List;
 
 @Data
 @Builder
-public class FreeBoardResponseDto {
+public class BoardResponseDto {
 
     private int totalPages;
     private int currentPage;
-    private List<FreeBoardDetailResponseDto> freeboards;
+    private List<BoardDetailResponseDto> boards;
 
 }

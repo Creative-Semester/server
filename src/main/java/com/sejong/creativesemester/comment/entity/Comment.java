@@ -1,8 +1,8 @@
 package com.sejong.creativesemester.comment.entity;
 
+import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.user.entity.User;
-import com.sejong.creativesemester.freeboard.entity.FreeBoard;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,8 +26,8 @@ public class Comment extends BaseTimeEntity {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "freeBoardId")
-    private FreeBoard freeBoard;
+    @JoinColumn(name = "boardId")
+    private Board board;
 
 
     @Builder
