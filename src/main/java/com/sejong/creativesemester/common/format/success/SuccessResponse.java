@@ -3,6 +3,7 @@ package com.sejong.creativesemester.common.format.success;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sun.net.httpserver.Authenticator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;
 
+@Builder
 @ToString
 @Getter
 @AllArgsConstructor
@@ -33,4 +35,25 @@ public class SuccessResponse<T> {
         this.code = SuccessResponseStatus.SUCCESS.getCode();
         this.message=SuccessResponseStatus.SUCCESS.getMessage();
     }
+
+    // 단순히 성공메시지 보낼때
+    public static SuccessResponse ok(){
+        return SuccessResponse.builder()
+                .status(HttpStatus.OK.value())
+                .time(now())
+                .code(SuccessResponseStatus.SUCCESS.getCode())
+                .message("SUCCESS")
+                .build();
+    }
+
+    // 성공후 메시지를 설정하여 보내고 싶을때
+    public static SuccessResponse ok(String message){
+        return SuccessResponse.builder()
+                .status(HttpStatus.OK.value())
+                .time(now())
+                .code(SuccessResponseStatus.SUCCESS.getCode())
+                .message(message)
+                .build();
+    }
+
 }
