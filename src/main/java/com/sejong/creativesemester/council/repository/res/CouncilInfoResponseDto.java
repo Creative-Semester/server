@@ -1,6 +1,6 @@
-package com.sejong.creativesemester.coucil.reposiotory.res;
+package com.sejong.creativesemester.council.repository.res;
 
-import com.sejong.creativesemester.coucil.service.res.CouncilInfoResponse;
+import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +10,7 @@ public class CouncilInfoResponseDto {
     private String name;
     private String introduce;
     private Integer number;
+
     public CouncilInfoResponse toResponse(){
         return CouncilInfoResponse.builder()
                 .name(name)

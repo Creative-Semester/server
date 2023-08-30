@@ -1,7 +1,7 @@
 package com.sejong.creativesemester.department.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
-import com.sejong.creativesemester.coucil.entity.Council;
+import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.promise.entity.Promise;
 
 import javax.persistence.*;

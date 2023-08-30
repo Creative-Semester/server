@@ -2,6 +2,7 @@ package com.sejong.creativesemester.freeboard.service;
 
 import com.sejong.creativesemester.freeboard.dto.FreeBoardCreateRequestDto;
 import com.sejong.creativesemester.freeboard.dto.FreeBoardDetailResponseDto;
+import com.sejong.creativesemester.freeboard.dto.FreeBoardModifyRequestDto;
 import com.sejong.creativesemester.freeboard.dto.FreeBoardResponseDto;
 import com.sejong.creativesemester.freeboard.entity.FreeBoard;
 import com.sejong.creativesemester.user.entity.User;
@@ -43,7 +44,6 @@ public class FreeBoardService {
                 .build();
 
         freeBoardRepository.save(entity);
-
     }
 
     // 게시글 조회
@@ -60,7 +60,7 @@ public class FreeBoardService {
                         .content(freeBoard.getContent())
                         .image(freeBoard.getImage())
                         .build()).collect(Collectors.toList()))
-                        .build();
+                .build();
     }
 
     // 게시글 상세 조회
@@ -73,6 +73,21 @@ public class FreeBoardService {
                 .content(freeBoard.getContent())
                 .image(freeBoard.getImage())
                 .build();
+    }
+
+    // 게시글 수정
+    public void modifyFreeBoard(String studentNum, FreeBoardModifyRequestDto dto) {
+        FreeBoard freeBoard = freeBoardRepository.findById(dto.getFreeBoardId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+        User user = userRepository.findById(studentNum).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        freeBoard.update(dto.getTitle(), dto.getContent(), dto.getImage());
+    }
+
+    public void deleteFreeBoard(String studentNum, Long freeBoardId){
+        FreeBoard freeBoard = freeBoardRepository.findById(freeBoardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+        User user = userRepository.findById(studentNum).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        freeBoardRepository.delete(freeBoard);
     }
 
 }
