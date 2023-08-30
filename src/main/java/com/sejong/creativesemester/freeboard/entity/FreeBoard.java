@@ -47,15 +47,9 @@ public class FreeBoard extends BaseTimeEntity {
 
 
 
-    public void getModifiedTitle(String title) {
+    public void update(String title, String content, String image){
         this.title = title;
-    }
-
-    public void getModifiedContent(String content) {
         this.content = content;
-    }
-
-    public void getModifiedImage(String image) {
         this.image = image;
     }
 
