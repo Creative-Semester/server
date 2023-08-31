@@ -48,7 +48,9 @@ public class BoardService {
     // 게시글 조회
     @Transactional(readOnly = true)
     public Page<Board> getBoards(Pageable pageable, long majorId){
-        return boardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(majorId), pageable);
+        Page<Board> boardPage = boardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(majorId), pageable);
+
+        return boardPage;
     }
 
     // 게시글 상세 조회
