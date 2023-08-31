@@ -47,24 +47,13 @@ public class BoardService {
 
     // 게시글 조회
     @Transactional(readOnly = true)
-    public BoardResponseDto getBoards(Pageable pageable, int page, long majorId){
-        Page<Board> boardPage = boardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(majorId)
-                , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
-
-        return BoardResponseDto.builder()
-                .totalPages(boardPage.getTotalPages())
-                .currentPage(boardPage.getNumber())
-                .boards(boardPage.getContent().stream().map((board) -> BoardDetailResponseDto.builder()
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .image(board.getImage())
-                        .build()).collect(Collectors.toList()))
-                .build();
+    public Page<Board> getBoards(Pageable pageable, long majorId){
+        return boardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(majorId), pageable);
     }
 
     // 게시글 상세 조회
     @Transactional(readOnly = true)
-    public BoardDetailResponseDto getDetailBoards(Long boardId){
+    public BoardDetailResponseDto getDetailBoards(Long majorId, Long boardId){
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
 
         return BoardDetailResponseDto.builder()

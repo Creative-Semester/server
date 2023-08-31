@@ -10,4 +10,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("select f from FREEBOARD_TABLE as f join f.major as m order by f.createdTime desc")
     Page<Board> findAllByOrderByCreatedDateDesc(long majorId, Pageable pageable);
-    ;}
+    ;
+}

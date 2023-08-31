@@ -8,6 +8,8 @@ import com.sejong.creativesemester.board.dto.BoardResponseDto;
 import com.sejong.creativesemester.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,22 +33,17 @@ public class BoardController {
     //게시판 조회
     @GetMapping("/boards/{majorId}")
     public SuccessResponse getBoards(@PathVariable Long majorId,
-                                     @RequestParam(required = false, defaultValue = "0", value = "page") int page,
-                                     Pageable pageable){
-        if (page==0){
-            page = 0;
-        }
-        else page = page-1;
+                                     @PageableDefault(size = 20, sort = "createdTime", direction = Sort.Direction.DESC) Pageable pageable){
 
-        BoardResponseDto boardResponseDto = boardService.getBoards(pageable, page, majorId);
+        boardService.getBoards(pageable, majorId);
 
-        return new SuccessResponse(boardResponseDto);
+        return new SuccessResponse("success");
     }
 
     //게시판 상세 조회
-    @GetMapping("/boards/{boardId}")
-    public SuccessResponse getDetailBoards(@PathVariable(value = "boardId", required = true) Long boardId){
-        BoardDetailResponseDto dto = boardService.getDetailBoards(boardId);
+    @GetMapping("/boards/{majorId}/{boardId}")
+    public SuccessResponse getDetailBoards(@PathVariable(value = "majorId", required = true) Long majorId, @PathVariable(value = "boardId", required = true) Long boardId){
+        BoardDetailResponseDto dto = boardService.getDetailBoards(majorId, boardId);
 
         return new SuccessResponse(dto);
     }
