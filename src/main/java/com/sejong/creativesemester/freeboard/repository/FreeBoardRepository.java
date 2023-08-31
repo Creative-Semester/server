@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
 
     @Query("select f from FREEBOARD_TABLE as f join f.major as m order by f.createdTime desc")

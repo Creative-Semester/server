@@ -10,6 +10,8 @@ import com.sejong.creativesemester.freeboard.service.FreeBoardService;
 import com.sun.net.httpserver.Authenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,16 +37,11 @@ public class FreeBoardController {
     //게시판 조회
     @GetMapping("/freeBoards/{majorId}")
     public SuccessResponse getFreeBoards(@PathVariable Long majorId,
-                                                              @RequestParam(required = false, defaultValue = "0", value = "page") int page,
-                                                              Pageable pageable){
-        if (page==0){
-            page = 0;
-        }
-        else page = page-1;
+                                         @PageableDefault(size = 20, sort = "createdTime", direction = Sort.Direction.DESC) Pageable pageable){
 
-        FreeBoardResponseDto freeBoardResponseDto = freeBoardService.getFreeBoards(pageable, page, majorId);
+        freeBoardService.getFreeBoards(pageable, majorId);
 
-        return new SuccessResponse(freeBoardResponseDto);
+        return new SuccessResponse("success");
     }
 
     //게시판 상세 조회

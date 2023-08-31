@@ -48,19 +48,11 @@ public class FreeBoardService {
 
     // 게시글 조회
     @Transactional(readOnly = true)
-    public FreeBoardResponseDto getFreeBoards(Pageable pageable, int page, long majorId){
-        Page<FreeBoard> freeBoardPage = freeBoardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(majorId)
-                , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
+    public Page<FreeBoard> getFreeBoards(Pageable pageable, long majorId){
+        return freeBoardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(majorId)
+                , pageable);
 
-        return FreeBoardResponseDto.builder()
-                .totalPages(freeBoardPage.getTotalPages())
-                .currentPage(freeBoardPage.getNumber())
-                .freeboards(freeBoardPage.getContent().stream().map((freeBoard) -> FreeBoardDetailResponseDto.builder()
-                        .title(freeBoard.getTitle())
-                        .content(freeBoard.getContent())
-                        .image(freeBoard.getImage())
-                        .build()).collect(Collectors.toList()))
-                .build();
+
     }
 
     // 게시글 상세 조회
