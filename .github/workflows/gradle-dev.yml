@@ -1,0 +1,98 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Java CI(dev) with Gradle
+
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+
+jobs:
+  if_merged:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if merged
+        run: |
+          if [[ "$(git log -1 --pretty=%B)" == *"Merge branch"* ]]; then
+            echo "The branch was merged"
+          else
+            echo "The branch was pushed without merge"
+          fi
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
+      - name: make application.properties
+        run: |
+          cd ./src/main/resources # resources 폴더로 이동
+          touch ./application-dev.yml # application.yml 생성
+          echo "${{ secrets.APPLICATION_DEV }}" > ./application-dev.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
+
+        shell: bash
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean compileQuerydsl build -x test
+
+      - name: docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker build & push
+        run: |
+          docker build -f Dockerfile.dev -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }}
+
+      ## deploy to production
+      - name: Deploy to dev
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USERNAME }}
+          key: ${{ secrets.AWS_PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker rm -f redis
+            sudo docker rm -f creative-semester-dev
+            sudo docker pull redis
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }}
+            docker run -d -p 6379:6379 --network creative-semester-network --name redis redis
+            docker run -d -p 8082:8082 --network creative-semester-network --name creative-semester-dev ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }}
+            docker image prune -f
+
+  current-time:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Current Time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH:mm:ss
+          utcOffset: "+09:00" # 기준이 UTC이기 때문에 한국시간인 KST를 맞추기 위해 +9시간 추가
+
+      - name: Print Current Time
+        run: echo "Current Time=${{steps.current-time.outputs.formattedTime}}" # current-time 에서 지정한 포맷대로 현재 시간 출력
+        shell: bash
+

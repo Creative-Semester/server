@@ -16,4 +16,4 @@ insert into promise_table values(7,now(),now(),'기획2',false,3);
 insert into promise_table values(8,now(),now(),'기획3',false,3);
 insert into promise_table values(9,now(),now(),'기획4',true,3);
 
-insert into user_table(STUDENT_NUM,CREATED_TIME,MODIFIED_TIME,GRADE,NICKNAME,ROLE,STATUS,MAJOR_ID) values('19011721',now(),now(),1,'test','ROLE_ADMIN','재학',1);
+insert into user_table(STUDENT_NUM,CREATED_TIME,MODIFIED_TIME,GRADE,ROLE,STATUS,MAJOR_ID) values('19011721',now(),now(),1,'ROLE_ADMIN','재학',1);

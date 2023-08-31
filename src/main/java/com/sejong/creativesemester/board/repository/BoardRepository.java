@@ -1,13 +1,13 @@
-package com.sejong.creativesemester.freeboard.repository;
+package com.sejong.creativesemester.board.repository;
 
-import com.sejong.creativesemester.freeboard.entity.FreeBoard;
+import com.sejong.creativesemester.board.entity.Board;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("select f from FREEBOARD_TABLE as f join f.major as m order by f.createdTime desc")
-    Page<FreeBoard> findAllByOrderByCreatedDateDesc(long majorId, Pageable pageable);
+    Page<Board> findAllByOrderByCreatedDateDesc(long majorId, Pageable pageable);
     ;}

@@ -1,8 +1,8 @@
 package com.sejong.creativesemester.comment.entity;
 
+import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.user.entity.User;
-import com.sejong.creativesemester.freeboard.entity.FreeBoard;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Comment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long id;
 
     @Column(nullable = false)
     private String text;
@@ -26,8 +26,8 @@ public class Comment extends BaseTimeEntity {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "freeBoardId")
-    private FreeBoard freeBoardId;
+    @JoinColumn(name = "boardId")
+    private Board board;
 
 
     @Builder

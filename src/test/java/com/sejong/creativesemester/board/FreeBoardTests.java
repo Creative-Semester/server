@@ -1,8 +1,7 @@
-package com.sejong.creativesemester.freeboard;
+package com.sejong.creativesemester.board;
 
-import com.sejong.creativesemester.freeboard.repository.FreeBoardRepository;
+import com.sejong.creativesemester.board.repository.BoardRepository;
 import com.sejong.creativesemester.user.repository.UserRepository;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -17,6 +16,6 @@ public class FreeBoardTests {
     UserRepository userRepository;
 
     @Autowired
-    FreeBoardRepository freeBoardRepository;
+    BoardRepository boardRepository;
 
 }
