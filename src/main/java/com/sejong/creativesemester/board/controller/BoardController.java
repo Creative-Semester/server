@@ -32,7 +32,7 @@ public class BoardController {
 
     //게시판 조회
     @GetMapping("/boards/{majorId}")
-    public SuccessResponse getBoards(@PathVariable Long majorId,
+    public SuccessResponse getBoards(@PathVariable(value = "majorId", required = true) Long majorId,
                                      @PageableDefault(size = 20, sort = "createdTime", direction = Sort.Direction.DESC) Pageable pageable){
 
         boardService.getBoards(pageable, majorId);
