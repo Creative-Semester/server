@@ -5,9 +5,12 @@ import com.sejong.creativesemester.board.dto.BoardDetailResponseDto;
 import com.sejong.creativesemester.board.dto.BoardModifyRequestDto;
 import com.sejong.creativesemester.board.dto.BoardResponseDto;
 import com.sejong.creativesemester.board.entity.Board;
+import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
 import com.sejong.creativesemester.user.repository.UserRepository;
+import com.sejong.creativesemester.vote.entity.Vote;
+import com.sejong.creativesemester.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,22 +30,22 @@ public class BoardService {
     private final int TOTAL_ITEMS_PER_PAGE = 20;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final VoteRepository voteRepository;
 
     // 게시글 추가
-    public void createBoard(String studentNum, BoardCreateRequestDto dto){
+    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType){
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 사용자입니다.")
         );
-
-        Board entity = Board.builder()
+        Board build = Board.builder()
                 .user(user)
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .image(dto.getImage())
                 .major(user.getMajor())
+                .boardType(boardType)
                 .build();
-
-        boardRepository.save(entity);
+        boardRepository.save(build);
     }
 
     // 게시글 조회
