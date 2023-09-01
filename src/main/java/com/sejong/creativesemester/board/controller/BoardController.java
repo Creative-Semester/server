@@ -35,9 +35,9 @@ public class BoardController {
     public SuccessResponse getBoards(@PathVariable(value = "majorId", required = true) Long majorId,
                                      @PageableDefault(size = 20, sort = "createdTime", direction = Sort.Direction.DESC) Pageable pageable){
 
-        boardService.getBoards(pageable, majorId);
+        BoardResponseDto dto = boardService.getBoards(pageable, 0, majorId);
 
-        return new SuccessResponse("success");
+        return new SuccessResponse(dto);
     }
 
     //게시판 상세 조회
