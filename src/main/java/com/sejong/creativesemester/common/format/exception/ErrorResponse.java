@@ -20,7 +20,7 @@ public class ErrorResponse {
 
     public ErrorResponse(ApplicationRunException e) {
         this.message = e.getMessage();
-        this.code = e.getErrorEnum().getCode();
+        this.code = e.getErrorEnumCode().getCode();
         this.status = HttpStatus.BAD_REQUEST.value();
         this.time = now();
     }
