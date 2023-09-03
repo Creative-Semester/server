@@ -7,10 +7,10 @@ import java.util.List;
 
 @Data
 @Builder
-public class BoardResponseDto {
+public class BoardListResponseDto {
 
     private int totalPages;
     private int currentPage;
-    private List<BoardDetailResponseDto> boards;
+    private List<BoardSimpleResponseDto> boards;
 
 }

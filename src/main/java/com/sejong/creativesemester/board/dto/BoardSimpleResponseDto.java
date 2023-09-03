@@ -1,13 +1,13 @@
 package com.sejong.creativesemester.board.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+
+@Getter
 @Builder
-public class BoardDetailResponseDto {
+public class BoardSimpleResponseDto {
+    private Long boardId;
     private String title;
     private String content;
-    private String image;
-    private Boolean isMine;
 }
