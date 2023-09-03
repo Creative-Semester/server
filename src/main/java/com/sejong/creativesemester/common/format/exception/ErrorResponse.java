@@ -1,6 +1,7 @@
 package com.sejong.creativesemester.common.format.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 import static java.time.LocalDateTime.now;
 
+@Getter
 public class ErrorResponse {
     private String message;
     private String code;
