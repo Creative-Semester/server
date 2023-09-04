@@ -1,19 +1,19 @@
 package com.sejong.creativesemester.board.dto;
 
 import com.sejong.creativesemester.board.entity.Board;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.sejong.creativesemester.vote.entity.Vote;
+import lombok.*;
 
-@Getter
+import java.time.LocalDateTime;
+
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Data
 public class BoardCreateRequestDto {
-
-    String title;
-    String content;
-    String image;
+    private String title;
+    private String content;
+    private String image;
 
     public Board toEntity(){
         return Board.builder()

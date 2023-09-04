@@ -1,39 +1,70 @@
 package com.sejong.creativesemester.board.controller;
 
+import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.board.dto.BoardCreateRequestDto;
 import com.sejong.creativesemester.board.dto.BoardDetailResponseDto;
 import com.sejong.creativesemester.board.dto.BoardModifyRequestDto;
 import com.sejong.creativesemester.board.dto.BoardResponseDto;
 import com.sejong.creativesemester.board.service.BoardService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Example;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
 
     // 게시글 생성
+<<<<<<< HEAD
     @PostMapping("/boards/create")
     public  SuccessResponse createBoard(Principal principal, @RequestBody final BoardCreateRequestDto dto){
         boardService.createBoard(principal.getName(), dto);
 
 
         return new SuccessResponse("success");
+=======
+    @ApiOperation(
+        value = "게시글 생성",
+            notes = "자유 게시판의 게시글 생성 api"
+    )
+    @PostMapping("/boards")
+    public SuccessResponse createBoard(@RequestParam String studentNum, @RequestBody final BoardCreateRequestDto dto
+            ,@Parameter(name = "게시판 종류",required = true,
+            schema = @Schema(
+            type = "string",
+            allowableValues = {"Free"}),
+            in = ParameterIn.QUERY) @RequestParam BoardType boardType){
+        boardService.createBoard(studentNum, dto,boardType);
+        return SuccessResponse.ok();
+>>>>>>> 935219af6353c1c6517b612259b995a951203a68
     }
 
     //게시판 조회
     @GetMapping("/boards/{majorId}")
-    public SuccessResponse getBoards(@PathVariable(value = "majorId", required = true) Long majorId,
-                                     @PageableDefault(size = 20, sort = "createdTime", direction = Sort.Direction.DESC) Pageable pageable){
+    public SuccessResponse getBoards(@PathVariable Long majorId,
+                                     @RequestParam(required = false, defaultValue = "0", value = "page") int page,
+                                     Pageable pageable) {
+        if (page==0){
+            page = 0;
+        }
+        else page = page-1;
 
         BoardResponseDto dto = boardService.getBoards(pageable, 0, majorId);
 
