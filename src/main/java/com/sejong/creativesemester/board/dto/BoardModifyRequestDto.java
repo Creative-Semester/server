@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardModifyRequestDto {
-
-    private Long boardId;
     private String title;
     private String content;
     private String image;
-
 }

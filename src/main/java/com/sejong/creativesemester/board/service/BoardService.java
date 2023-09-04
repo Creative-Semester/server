@@ -1,17 +1,14 @@
 package com.sejong.creativesemester.board.service;
 
-import com.sejong.creativesemester.board.dto.BoardCreateRequestDto;
-import com.sejong.creativesemester.board.dto.BoardDetailResponseDto;
-import com.sejong.creativesemester.board.dto.BoardModifyRequestDto;
-import com.sejong.creativesemester.board.dto.BoardResponseDto;
+import com.sejong.creativesemester.board.dto.*;
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardException;
+import com.sejong.creativesemester.common.format.exception.board.NotMatchUserException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
 import com.sejong.creativesemester.user.repository.UserRepository;
-import com.sejong.creativesemester.vote.entity.Vote;
 import com.sejong.creativesemester.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,13 +50,20 @@ public class BoardService {
 
     // 게시글 조회
     @Transactional(readOnly = true)
-    public BoardResponseDto getBoards(Pageable pageable, int page,String studentNum){
-        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow();
-        Page<BoardDetailResponseDto> boardPage = boardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(byStudentNum.getMajor().getId()),
-                PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
+    public BoardListResponseDto getBoards(String studentNum, Pageable pageable, int page){
+        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
+        Page<Board> boardPage = boardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(byStudentNum.getMajor().getId())
+                , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
 
-
-        return new BoardResponseDto(boardPage.getTotalElements(), boardPage.getTotalPages(), boardPage.getContent());
+        return BoardListResponseDto.builder()
+                .totalPages(boardPage.getTotalPages())
+                .currentPage(boardPage.getNumber())
+                .boards(boardPage.getContent().stream().map((board) -> BoardSimpleResponseDto.builder()
+                        .boardId(board.getId())
+                        .title(board.getTitle())
+                        .content(board.getContent())
+                        .build()).collect(Collectors.toList()))
+                .build();
     }
 
     // 게시글 상세 조회
@@ -67,11 +71,7 @@ public class BoardService {
     public BoardDetailResponseDto getDetailBoards(Long boardId,String studentNum){
         Boolean isMine;
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
-        if(board.getUser().getStudentNum().equals(studentNum)){
-             isMine= Boolean.TRUE;
-        }else{
-            isMine = Boolean.FALSE;
-        }
+        isMine = isMyBoard(studentNum, board);
         return BoardDetailResponseDto.builder()
                 .title(board.getTitle())
                 .content(board.getContent())
@@ -80,13 +80,23 @@ public class BoardService {
                 .build();
     }
 
+
+
     // 게시글 수정
     public void modifyBoard(String studentNum, BoardModifyRequestDto dto,Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
-
+        if (!isMyBoard(studentNum, board)) {
+            throw new NotMatchUserException();
+        }
         board.update(dto.getTitle(), dto.getContent(), dto.getImage());
     }
 
+    private static Boolean isMyBoard(String studentNum, Board board) { //게시글의 사용자가 맞는지 확인해주는 메서드
+        if(board.getUser().getStudentNum().equals(studentNum)){
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
     public void deleteBoard(String studentNum, Long boardId){
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
         User user = userRepository.findById(studentNum).orElseThrow(NotFoundUserException::new);
