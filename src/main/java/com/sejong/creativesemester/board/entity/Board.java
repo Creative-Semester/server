@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Entity(name = "FREEBOARD_TABLE")
+@Entity(name = "BOARD_TABLE")
 public class Board extends BaseTimeEntity {
 
     @Id
@@ -40,7 +40,7 @@ public class Board extends BaseTimeEntity {
 
     //댓글을 적은 사용자 아이디
     @OneToMany(mappedBy = "board")
-    private List<Comment> comment = new ArrayList<>();
+    private List<Comment> comment;
 
     @JoinColumn(name = "voteId")
     @OneToOne
@@ -54,6 +54,8 @@ public class Board extends BaseTimeEntity {
         this.content = content;
         this.image = image;
     }
-
+    public void makeVote(Vote vote){
+        this.vote = vote;
+    }
 
 }

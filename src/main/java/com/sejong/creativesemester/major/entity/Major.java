@@ -1,11 +1,11 @@
 package com.sejong.creativesemester.major.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
+@AllArgsConstructor
 @Entity(name = "MAJOR_TABLE")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
