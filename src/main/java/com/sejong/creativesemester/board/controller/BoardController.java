@@ -49,14 +49,23 @@ public class BoardController {
 
     //게시판 조회
     @GetMapping("/boards/{majorId}")
+<<<<<<< HEAD
     public SuccessResponse getBoards(Principal principal,
+=======
+    public SuccessResponse getBoards(@PathVariable Long majorId,
+>>>>>>> 935219af6353c1c6517b612259b995a951203a68
                                      @RequestParam(required = false, defaultValue = "0", value = "page") int page,
                                      Pageable pageable) {
         if (page==0){
             page = 0;
         }
         else page = page-1;
+<<<<<<< HEAD
         BoardResponseDto dto = boardService.getBoards(pageable, 0, principal.getName());
+=======
+
+        BoardResponseDto dto = boardService.getBoards(pageable, 0, majorId);
+>>>>>>> 935219af6353c1c6517b612259b995a951203a68
 
         return new SuccessResponse(dto);
     }

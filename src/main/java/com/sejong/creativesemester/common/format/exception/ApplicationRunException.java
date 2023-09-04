@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class ApplicationRunException extends RuntimeException{
-    private ErrorEnum errorEnum;
-    public ApplicationRunException(ErrorEnum errorEnum){
-        super(errorEnum.getMessage());
-        this.errorEnum = errorEnum;
+    private ErrorEnumCode errorEnumCode;
+    public ApplicationRunException(ErrorEnumCode errorEnumCode){
+        super(errorEnumCode.getMessage());
+        this.errorEnumCode = errorEnumCode;
     }
 }
