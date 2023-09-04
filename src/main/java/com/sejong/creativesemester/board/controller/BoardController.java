@@ -49,8 +49,13 @@ public class BoardController {
 
     //게시판 조회
     @GetMapping("/boards/{majorId}")
-    public SuccessResponse getBoards(@PathVariable(value = "majorId", required = true) Long majorId,
-                                     @PageableDefault(size = 20, sort = "createdTime", direction = Sort.Direction.DESC) Pageable pageable){
+    public SuccessResponse getBoards(@PathVariable Long majorId,
+                                     @RequestParam(required = false, defaultValue = "0", value = "page") int page,
+                                     Pageable pageable) {
+        if (page==0){
+            page = 0;
+        }
+        else page = page-1;
 
         BoardResponseDto dto = boardService.getBoards(pageable, 0, majorId);
 
