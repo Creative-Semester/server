@@ -23,7 +23,7 @@ public class BoardController {
 
     // 게시글 생성
     @PostMapping("/boards/create")
-    public SuccessResponse createBoard(Principal principal, @RequestBody final BoardCreateRequestDto dto){
+    public  SuccessResponse createBoard(Principal principal, @RequestBody final BoardCreateRequestDto dto){
         boardService.createBoard(principal.getName(), dto);
 
 
