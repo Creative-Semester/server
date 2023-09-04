@@ -26,14 +26,6 @@ public class BoardController {
     private final BoardService boardService;
 
     // 게시글 생성
-<<<<<<< HEAD
-    @PostMapping("/boards/create")
-    public  SuccessResponse createBoard(Principal principal, @RequestBody final BoardCreateRequestDto dto){
-        boardService.createBoard(principal.getName(), dto);
-
-
-        return new SuccessResponse("success");
-=======
     @ApiOperation(
         value = "게시글 생성",
             notes = "자유 게시판의 게시글 생성 api"
@@ -47,7 +39,6 @@ public class BoardController {
             in = ParameterIn.QUERY) @RequestParam BoardType boardType){
         boardService.createBoard(principal.getName(), dto,boardType);
         return SuccessResponse.ok();
->>>>>>> 935219af6353c1c6517b612259b995a951203a68
     }
 
     //게시판 조회
