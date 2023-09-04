@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -48,7 +50,6 @@ public class BoardController {
             page = 0;
         }
         else page = page-1;
-
         BoardListResponseDto boardListResponseDto = boardService.getBoards(principal.getName(),pageable, page);
 
         return new SuccessResponse(boardListResponseDto);
