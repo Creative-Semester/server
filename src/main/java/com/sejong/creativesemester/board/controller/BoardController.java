@@ -17,6 +17,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -47,23 +49,18 @@ public class BoardController {
 
     //게시판 조회
     @GetMapping("/boards/{majorId}")
-    public SuccessResponse getBoards(@PathVariable Long majorId,
-                                     @RequestParam(required = false, defaultValue = "0", value = "page") int page,
-                                     Pageable pageable) {
-        if (page==0){
-            page = 0;
-        }
-        else page = page-1;
+    public SuccessResponse getBoards(@PathVariable(value = "majorId", required = true) Long majorId,
+                                     @PageableDefault(size = 20, sort = "createdTime", direction = Sort.Direction.DESC) Pageable pageable){
 
-        BoardResponseDto boardResponseDto = boardService.getBoards(pageable, page, majorId);
+        BoardResponseDto dto = boardService.getBoards(pageable, 0, majorId);
 
-        return new SuccessResponse(boardResponseDto);
+        return new SuccessResponse(dto);
     }
 
     //게시판 상세 조회
-    @GetMapping("/boards/{boardId}")
-    public SuccessResponse getDetailBoards(@PathVariable(value = "boardId", required = true) Long boardId){
-        BoardDetailResponseDto dto = boardService.getDetailBoards(boardId);
+    @GetMapping("/boards/{majorId}/{boardId}")
+    public SuccessResponse getDetailBoards(@PathVariable(value = "majorId", required = true) Long majorId, @PathVariable(value = "boardId", required = true) Long boardId){
+        BoardDetailResponseDto dto = boardService.getDetailBoards(majorId, boardId);
 
         return new SuccessResponse(dto);
     }
