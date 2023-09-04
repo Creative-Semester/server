@@ -6,12 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-
+@Builder
 public class BoardDetailResponseDto {
-
     private String title;
     private String content;
     private String image;
+    private Boolean isMine;
 
     public BoardDetailResponseDto(Board board) {
         this.title = board.getTitle();
