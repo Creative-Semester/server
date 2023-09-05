@@ -32,7 +32,7 @@ public class BoardService {
     private final VoteRepository voteRepository;
 
     // 게시글 추가
-    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType){
+    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType) throws Exception {
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Board build = Board.builder()
                 .user(user)
