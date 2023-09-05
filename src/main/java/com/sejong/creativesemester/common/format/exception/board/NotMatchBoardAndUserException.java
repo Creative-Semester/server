@@ -5,14 +5,14 @@ import com.sejong.creativesemester.common.format.exception.ErrorEnumCode;
 
 import static com.sejong.creativesemester.common.format.exception.board.errorCode.BoardErrorCode.NOT_MATCH_USER;
 
-public class NotMatchUserException extends ApplicationRunException {
+public class NotMatchBoardAndUserException extends ApplicationRunException {
     private final static ErrorEnumCode CODE=NOT_MATCH_USER;
 
-    private NotMatchUserException(ErrorEnumCode CODE){
+    private NotMatchBoardAndUserException(ErrorEnumCode CODE){
         super(CODE);
     }
 
-    public NotMatchUserException(){
+    public NotMatchBoardAndUserException(){
         this(CODE);
     }
 }
