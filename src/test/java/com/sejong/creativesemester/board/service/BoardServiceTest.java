@@ -42,7 +42,7 @@ class BoardServiceTest {
 
     @DisplayName("투표를 포함한 게시글을 작성할때 게시글 생성")
     @Test
-    void createBoardWithVote(){
+    void createBoardWithVote() throws Exception {
         //given
         String studentNum = "19011721";
         Major save = majorRepository.save(getImeMajor());
@@ -76,7 +76,7 @@ class BoardServiceTest {
 
     @DisplayName("투표를 포함하지 않은 게시글(학생회 공지글)을 작성할때 게시글 생성")
     @Test
-    void createBoardWithCouncil(){
+    void createBoardWithCouncil() throws Exception {
         //given
         String studentNum = "19011721";
         BoardCreateRequestDto dto=BoardCreateRequestDto.builder()
@@ -95,7 +95,7 @@ class BoardServiceTest {
     @DisplayName("투표를 포함하지 않은 게시글(자유게시글)을 작성할때 게시글 생성")
 
     @Test
-    void test(){
+    void test() throws Exception {
         //given
         String studentNum = "19011721";
         BoardCreateRequestDto dto=BoardCreateRequestDto.builder()
