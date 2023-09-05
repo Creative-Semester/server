@@ -4,7 +4,7 @@ import com.sejong.creativesemester.board.dto.*;
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardException;
-import com.sejong.creativesemester.common.format.exception.board.NotMatchUserException;
+import com.sejong.creativesemester.common.format.exception.board.NotMatchBoardAndUserException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
@@ -18,9 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +32,7 @@ public class BoardService {
     private final VoteRepository voteRepository;
 
     // 게시글 추가
-    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType){
+    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType) throws Exception {
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Board build = Board.builder()
                 .user(user)
@@ -86,7 +83,7 @@ public class BoardService {
     public void modifyBoard(String studentNum, BoardModifyRequestDto dto,Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
         if (!isMyBoard(studentNum, board)) {
-            throw new NotMatchUserException();
+            throw new NotMatchBoardAndUserException();
         }
         board.update(dto.getTitle(), dto.getContent(), dto.getImage());
     }
@@ -99,9 +96,10 @@ public class BoardService {
     }
     public void deleteBoard(String studentNum, Long boardId){
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
-        User user = userRepository.findById(studentNum).orElseThrow(NotFoundUserException::new);
-
-        boardRepository.delete(board);
+        if(isMyBoard(studentNum,board)){
+            boardRepository.delete(board);
+        }
+        throw new NotMatchBoardAndUserException();
     }
 
 }
