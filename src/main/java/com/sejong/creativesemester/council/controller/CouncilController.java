@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
 
@@ -19,7 +20,7 @@ public class CouncilController {
     private final CouncilService councilService;
 
     @GetMapping("/info")
-    public SuccessResponse getInfo(Principal principal){
+    public SuccessResponse getInfo(@ApiIgnore Principal principal){
 //        log.info("{} : 학생회 정보조회",principal.getName());
         return new SuccessResponse(councilService.findCouncilInfo(principal.getName()));
     }
