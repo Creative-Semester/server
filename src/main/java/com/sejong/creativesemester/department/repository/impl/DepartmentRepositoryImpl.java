@@ -61,3 +61,4 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryCustom{
                 .fetch();
     }
 }
+}
