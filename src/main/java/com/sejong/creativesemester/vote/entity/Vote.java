@@ -1,6 +1,8 @@
 package com.sejong.creativesemester.vote.entity;
 
 import com.sejong.creativesemester.board.entity.Board;
+import com.sejong.creativesemester.user.entity.User;
+import com.sejong.creativesemester.voter.entity.Voter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.time.LocalDateTime.now;
 
@@ -28,6 +32,9 @@ public class Vote {
     @OneToOne(mappedBy = "vote")
     private Board board;
 
+    @OneToMany(mappedBy = "vote")
+    private List<Voter> voter=new ArrayList<>();
+
     public static Vote initVote(Board board){
         return Vote.builder()
                 .board(board)
@@ -37,4 +44,10 @@ public class Vote {
                 .build();
     }
 
+    public void increaseAgreeCnt(User user) {
+        this.agreeCnt++;
+    }
+    public void increaseOpposeCnt(User user){
+        this.opposeCnt++;
+    }
 }
