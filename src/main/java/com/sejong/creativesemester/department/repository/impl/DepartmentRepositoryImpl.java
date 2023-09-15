@@ -1,16 +1,13 @@
 package com.sejong.creativesemester.department.repository.impl;
 
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sejong.creativesemester.department.repository.DepartmentRepositoryCustom;
 import com.sejong.creativesemester.department.repository.dto.PromisesForDepartmentDto;
 import com.sejong.creativesemester.department.service.res.DepartmentInfoResponseDto;
 import com.sejong.creativesemester.department.service.res.PromiseContentsResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 
 import java.util.List;
 

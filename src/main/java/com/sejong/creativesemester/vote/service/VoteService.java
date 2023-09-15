@@ -10,12 +10,15 @@ import com.sejong.creativesemester.common.meta.DistributeLock;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import com.sejong.creativesemester.vote.entity.Vote;
+import com.sejong.creativesemester.vote.service.res.VoteCountResponseDto;
 import com.sejong.creativesemester.voter.entity.Voter;
 import com.sejong.creativesemester.voter.repository.VoterRepository;
 import com.sejong.creativesemester.voter.repository.VoterRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
@@ -46,5 +49,17 @@ public class VoteService {
                 .user(byStudentNum)
                 .vote(vote)
                 .build());
+    }
+
+    public VoteCountResponseDto getVoteCnt(Long boardId) {
+        Board findBoardbyId = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
+        Vote vote = findBoardbyId.getVote();
+        if (vote==null){
+            throw new NotFoundVoteException();
+        }
+        return VoteCountResponseDto.builder()
+                .agreeCnt(vote.getAgreeCnt())
+                .opposeCnt(vote.getOpposeCnt())
+                .build();
     }
 }
