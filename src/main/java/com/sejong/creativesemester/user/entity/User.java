@@ -4,9 +4,14 @@ package com.sejong.creativesemester.user.entity;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.major.entity.Major;
+import com.sejong.creativesemester.vote.entity.Vote;
+import com.sejong.creativesemester.voter.entity.Voter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -34,4 +39,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Voter> voter = new ArrayList<>();
 }

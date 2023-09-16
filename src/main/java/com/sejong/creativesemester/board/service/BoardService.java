@@ -9,7 +9,9 @@ import com.sejong.creativesemester.common.format.exception.user.NotFoundUserExce
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
 import com.sejong.creativesemester.user.repository.UserRepository;
+import com.sejong.creativesemester.vote.entity.Vote;
 import com.sejong.creativesemester.vote.repository.VoteRepository;
+import com.sejong.creativesemester.vote.service.res.VoteDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -69,11 +71,26 @@ public class BoardService {
         Boolean isMine;
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
         isMine = isMyBoard(studentNum, board);
+        if(board.getVote()!=null){
+            return BoardDetailResponseDto.builder()
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .image(board.getImage())
+                    .isMine(isMine)
+                    .voteDetail(VoteDetail.builder()
+                            .voteId(board.getVote().getId())
+                            .opposeCnt(board.getVote().getOpposeCnt())
+                            .agreeCnt(board.getVote().getAgreeCnt())
+                            .deadLine(board.getVote().getDeadLine())
+                            .build())
+                    .build();
+        }
         return BoardDetailResponseDto.builder()
                 .title(board.getTitle())
                 .content(board.getContent())
                 .image(board.getImage())
                 .isMine(isMine)
+                .voteDetail(null)
                 .build();
     }
 
