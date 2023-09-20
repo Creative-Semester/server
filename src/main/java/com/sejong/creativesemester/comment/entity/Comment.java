@@ -22,16 +22,24 @@ public class Comment extends BaseTimeEntity {
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "boardId")
     private Board board;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+    private Integer reportCnt;
+
+    public void reportComment(){
+        this.reportCnt++;
+    }
 
     @Builder
-    public Comment(String text){
+    public Comment(String text, Board board,User user) {
         this.text = text;
+        this.board = board;
+        this.user = user;
+        this.reportCnt = 0;
     }
 }
