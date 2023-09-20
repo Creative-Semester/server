@@ -5,6 +5,7 @@ import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.major.entity.Major;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,6 +25,9 @@ public class User extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "council_id")
     private Council council;
+
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private int grade;

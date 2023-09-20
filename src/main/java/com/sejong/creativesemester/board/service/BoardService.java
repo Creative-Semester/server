@@ -42,6 +42,7 @@ public class BoardService {
                 .major(user.getMajor())
                 .boardType(boardType)
                 .build();
+
         boardRepository.save(build);
     }
 
