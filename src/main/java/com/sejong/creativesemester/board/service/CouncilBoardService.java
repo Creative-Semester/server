@@ -43,7 +43,6 @@ public class CouncilBoardService {
             vote = Vote.initVote(saveBoard);
             Vote saveVote = voteRepository.save(vote);
             saveBoard.makeVote(saveVote);
-            System.out.println(saveVote.getBoard().getId());
         }
     }
 }

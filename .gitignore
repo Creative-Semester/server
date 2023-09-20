@@ -7,7 +7,7 @@ build/
 application.properties
 application-dev.properties
 application-test.properties
-
+/src/main/generated
 ### STS ###
 .apt_generated
 .classpath

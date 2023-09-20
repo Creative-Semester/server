@@ -8,6 +8,7 @@ import com.sejong.creativesemester.board.dto.BoardDetailResponseDto;
 import com.sejong.creativesemester.board.dto.BoardModifyRequestDto;
 import com.sejong.creativesemester.board.dto.BoardListResponseDto;
 import com.sejong.creativesemester.board.service.BoardService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -22,7 +23,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/boards")
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
@@ -40,7 +41,7 @@ public class BoardController {
         value = "게시글 생성",
             notes = "자유 게시판의 게시글 생성 api"
     )
-    @PostMapping("/boards")
+    @PostMapping()
     public SuccessResponse createBoard(@ApiIgnore Principal principal, @RequestBody final BoardCreateRequestDto dto
             , @Parameter(name = "게시판 종류",required = true,
             schema = @Schema(
@@ -56,7 +57,11 @@ public class BoardController {
     }
 
     //게시판 조회
-    @GetMapping("/boards")
+    @ApiOperation(
+            value = "게시글 목록 조회",
+            notes = "게시판 들어왔을때 게시글 목록을 조회해주는 api"
+    )
+    @GetMapping()
     public SuccessResponse getBoards(@ApiIgnore Principal principal,
                                      @RequestParam(required = false, defaultValue = "0", value = "page") int page,
                                      Pageable pageable) {
@@ -70,21 +75,33 @@ public class BoardController {
     }
 
     //게시판 상세 조회
-    @GetMapping("/boards/{boardId}")
+    @ApiOperation(
+            value = "게시글 상세 조회",
+            notes = "게시글 목록에서 특정 글을 눌렀을때 해당 글의 상세 내용 조회 api"
+    )
+    @GetMapping("/{boardId}")
     public SuccessResponse getDetailBoards(@ApiIgnore Principal principal, @PathVariable(value = "boardId", required = true) Long boardId){
         BoardDetailResponseDto dto = boardService.getDetailBoards(boardId,principal.getName());
         return new SuccessResponse(dto);
     }
 
     // 게시글 수정
-    @PutMapping("/boards/{boardId}")
+    @ApiOperation(
+            value = "게시글 수정",
+            notes = "특정 게시글 수정 api"
+    )
+    @PutMapping("/{boardId}")
     public SuccessResponse modifyBoard(@ApiIgnore Principal principal, @RequestBody BoardModifyRequestDto dto,@PathVariable Long boardId){
         boardService.modifyBoard(principal.getName(), dto,boardId);
         return new SuccessResponse("modify success");
     }
 
     // 게시글 삭제
-    @DeleteMapping("/boards/{boardId}")
+    @ApiOperation(
+            value = "게시글 삭제",
+            notes = "특정 게시글 삭제 api"
+    )
+    @DeleteMapping("/{boardId}")
     public SuccessResponse deleteBoard(@ApiIgnore Principal principal, @PathVariable(value = "boardId", required = true) Long boardId){
         boardService.deleteBoard(principal.getName(), boardId);
 
