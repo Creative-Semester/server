@@ -1,10 +1,3 @@
-// Querydsl 버전 plugins 위에 추가
-buildscript {
-	ext {
-		queryDslVersion = "5.0.0"
-	}
-}
-
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.14'
@@ -47,12 +40,17 @@ dependencies {
 	// Swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-	//querydsl
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+	// queryDSL 설정
+	implementation "com.querydsl:querydsl-jpa"
+	implementation "com.querydsl:querydsl-core"
+	implementation "com.querydsl:querydsl-collections"
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa" // querydsl JPAAnnotationProcessor 사용 지정
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api" // java.lang.NoClassDefFoundError (javax.annotation.Generated) 대응 코드
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api" // java.lang.NoClassDefFoundError (javax.annotation.Entity) 대응 코드
 	// testcontainers
 	testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
 	testImplementation "org.testcontainers:junit-jupiter:1.16.3"
+<<<<<<< HEAD
 	//spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	//webclient
@@ -61,34 +59,31 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+=======
+	// redisson
+	implementation 'org.redisson:redisson-spring-boot-starter:3.17.4'
+>>>>>>> dev
 
 }
-// querydsl에서 사용할 경로 설정(현재 지정한 부분은 .gitignore에 포함됨)
-def querydslDir = "$buildDir/generated/querydsl"
 
-// JPA 사용 여부 및 사용할 경로 설정
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
+// Querydsl 설정부
+def generated = 'src/main/generated'
+
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
-// build 시 사용할 sourceSet 추가 설정
+// java source set 에 querydsl QClass 위치 추가
 sourceSets {
-	main.java.srcDir querydslDir
+	main.java.srcDirs += [ generated ]
 }
 
-// querydsl 컴파일 시 사용할 옵션 설정
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+	delete file(generated)
 }
 
-// querydsl이 compileClassPath를 상속하도록 설정
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-	querydsl.extendsFrom compileClasspath
-}
 tasks.named('test') {
 	useJUnitPlatform()
 }
