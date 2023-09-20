@@ -4,6 +4,8 @@ import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.repository.BoardRepository;
 import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.comment.repository.CommentRepository;
+import com.sejong.creativesemester.comment.repository.CommentRepositoryCustom;
+import com.sejong.creativesemester.comment.repository.dto.CommentListDto;
 import com.sejong.creativesemester.comment.service.req.AddCommentRequestDto;
 import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
@@ -14,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -21,6 +25,7 @@ public class CommentService {
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
+    private final CommentRepositoryCustom commentRepositoryCustom;
     private static final String COMMENT_KEY = "COMMENT_";
 
     public void addComment(Long boardId, String studentNum, AddCommentRequestDto addCommentRequestDto) {
@@ -49,4 +54,9 @@ public class CommentService {
         );
         commentById.reportComment();
     }
+
+    public List<CommentListDto> getCommentList(Long boardId) {
+        return commentRepositoryCustom.findAllCommentOfBoard(boardId);
+    }
+
 }

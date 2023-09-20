@@ -3,14 +3,12 @@ package com.sejong.creativesemester.comment.entity;
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.user.entity.User;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "COMMENT_TABLE")
 public class Comment extends BaseTimeEntity {
