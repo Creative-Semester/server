@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@Getter
+
 @NoArgsConstructor
-@RequiredArgsConstructor
+@Getter
 public class SejongMemberResponseBody {
 
     private String grade;

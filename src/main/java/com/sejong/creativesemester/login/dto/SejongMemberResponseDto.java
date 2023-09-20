@@ -4,9 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
-@Getter
 @NoArgsConstructor
+@Getter
 public class SejongMemberResponseDto {
     private String msg;
     private SejongMemberResponseResult result;
