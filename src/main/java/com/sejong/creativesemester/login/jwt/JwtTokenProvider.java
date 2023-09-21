@@ -17,22 +17,25 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-@ComponentScan
 @RequiredArgsConstructor
-@AllArgsConstructor
+@Component
 public class JwtTokenProvider {
 
-    private final Key key;
+    private static Key KEY;
     private long tokenValidTime = 60 * 60 * 1000;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey){
-        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    public JwtTokenProvider(
+            @Value("${spring.jwt.secret-key}") String KEY
+    ){
+        this.KEY = Keys.hmacShaKeyFor(KEY.getBytes());
     }
 
     // accessToken 생성
@@ -48,7 +51,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime()+tokenValidTime))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(KEY)
                 .compact();
 
         return accessToken;
@@ -67,7 +70,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime()+tokenValidTime))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(KEY)
                 .compact();
 
         return refreshToken;
@@ -76,7 +79,7 @@ public class JwtTokenProvider {
     // 인증 하기
     public Authentication getAuthentication(String token){
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -91,14 +94,14 @@ public class JwtTokenProvider {
 
     // jwt에서 token 추출
     public Claims getUserPK(String token){
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(KEY).build().parseClaimsJws(token).getBody();
     }
 
 
     // 유효성 및 만료 날짜 확인
    public boolean validationToken(String token){
         try{
-            Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(KEY).build().parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         }catch(Exception e){
             return false;

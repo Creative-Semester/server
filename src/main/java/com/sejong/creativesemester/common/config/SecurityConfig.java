@@ -24,15 +24,11 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig{
 
-
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    UserDetailsService userDetailsService;
-
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtTokenProvider);
 
 
         // Cross-Site HTTP Request를 받기 위한 설정

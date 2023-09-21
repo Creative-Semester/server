@@ -53,5 +53,4 @@ public class LoginSecurityService {
         return memberDto;
     }
 
-    // 다음 서비스에 AuthUser나 User에 정보를 집어넣는 메서드 구현?
 }
