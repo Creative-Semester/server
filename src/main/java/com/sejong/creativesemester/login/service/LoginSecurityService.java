@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@RequiredArgsConstructor
+
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class LoginSecurityService {
 
@@ -40,7 +41,7 @@ public class LoginSecurityService {
             throw new NoAuthException();
         }
 
-        User user = userRepository.findByStudentNum(loginRequestDto.getId()).orElseGet(
+        userRepository.findByStudentNum(loginRequestDto.getId()).orElseGet(
                 () -> userRepository.save(User.builder()
                                 .studentNum(loginRequestDto.getId())
                                 .name(memberDto.getResult().getBody().getName())

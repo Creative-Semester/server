@@ -1,11 +1,11 @@
 package com.sejong.creativesemester.login.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 public class SejongMemberResponseBody {
 

@@ -11,6 +11,7 @@ import com.sejong.creativesemester.login.service.LoginSecurityService;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -19,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-@RequiredArgsConstructor
-@RequestMapping("/api/auth")
 @RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class LoginController {
 
     private final LoginSecurityService loginSecurityService;
@@ -31,10 +32,10 @@ public class LoginController {
 
     @ApiOperation(value = "로그인 기능",
     notes = "세종대학교 api를 이용하여 로그인 합니다.")
-    @GetMapping
+    @PostMapping("/login")
     public SuccessResponse login(@ModelAttribute LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse){
         httpServletResponse.setHeader("ACCESS-LOGIN", "o");
-        SejongMemberResponseDto sejongMemberResponseDto = loginSecurityService.doLogin(loginRequestDto);
+        loginSecurityService.doLogin(loginRequestDto);
         log.info("{} : 로그인 성공하였습니다.", loginRequestDto.getId());
 
         User user = userRepository.findByStudentNum(loginRequestDto.getId()).orElseThrow(NotFoundBoardException::new);

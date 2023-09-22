@@ -1,13 +1,16 @@
 package com.sejong.creativesemester.login.dto;
 
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 @Getter
-@Setter
 public class LoginRequestDto {
 
+    @NotNull
     private String id;
+
+    @NotNull
     private String pw;
 
     @Builder
