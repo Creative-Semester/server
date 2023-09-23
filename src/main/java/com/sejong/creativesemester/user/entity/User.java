@@ -1,6 +1,7 @@
 package com.sejong.creativesemester.user.entity;
 
 
+import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.major.entity.Major;
@@ -41,5 +42,12 @@ public class User extends BaseTimeEntity {
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
     private List<Voter> voter = new ArrayList<>();
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
 }
