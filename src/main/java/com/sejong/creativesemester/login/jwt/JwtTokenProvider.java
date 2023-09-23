@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -20,26 +21,27 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
 
-    private static Key KEY;
+    private static Key key;
     private long tokenValidTime = 60 * 60 * 1000;
 
     public JwtTokenProvider(
-            @Value("${spring.jwt.secret-key}") String KEY
+            @Value("${spring.jwt.key}") String KEY
     ){
-        this.KEY = Keys.hmacShaKeyFor(KEY.getBytes());
+        byte[] keyBytes = Decoders.BASE64.decode(KEY);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // accessToken 생성
-    public String createAccessToken(AuthUser authUser){
+    public String createToken(AuthUser authUser){
         Map<String, Object> claims = new HashMap<>();
         claims.put("studentNum", authUser.getUser().getStudentNum());
         claims.put("userName", authUser.getRole());
@@ -51,35 +53,16 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime()+tokenValidTime))
-                .signWith(KEY)
+                .signWith(key)
                 .compact();
 
         return accessToken;
     }
 
-    // refreshToken 생성
-    public String createRefreshToken(AuthUser authUser){
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("studentNum", authUser.getUser().getStudentNum());
-        claims.put("userName", authUser.getUsername());
-        claims.put("role", authUser.getRole());
-
-        Date now = new Date(System.currentTimeMillis());
-        String refreshToken = Jwts.builder()
-                .setSubject(authUser.getUser().getStudentNum())
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()+tokenValidTime))
-                .signWith(KEY)
-                .compact();
-
-        return refreshToken;
-    }
-
     // 인증 하기
     public Authentication getAuthentication(String token){
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(KEY)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -92,16 +75,16 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
-    // jwt에서 token 추출
-    public Claims getUserPK(String token){
-        return Jwts.parserBuilder().setSigningKey(KEY).build().parseClaimsJws(token).getBody();
+    public String resolveToken(HttpServletRequest request){
+        if(request.getHeader("authorization") != null)
+            return request.getHeader("authorization").substring(7);
+        return null;
     }
 
-
     // 유효성 및 만료 날짜 확인
-   public boolean validationToken(String token){
+   public Boolean validationToken(String token){
         try{
-            Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(KEY).build().parseClaimsJws(token);
+            Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         }catch(Exception e){
             return false;

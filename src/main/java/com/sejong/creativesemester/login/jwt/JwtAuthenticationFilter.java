@@ -21,20 +21,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if(!ObjectUtils.isEmpty(accessToken) && accessToken.startsWith("Bearer ")){
-            accessToken = accessToken.substring(7, accessToken.length());
-        }
+        String token = jwtTokenProvider.resolveToken(request);
 
-        if(accessToken != null && jwtTokenProvider.validationToken(accessToken)){
-            //토큰으로부터 유저 정보 받기
-            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-
-            // 객체 저장
+        if(token != null && jwtTokenProvider.validationToken(token)){
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.debug("Security Context에 '{}' 정보를 저장 완료 하였습니다.", authentication.getName());
         }
-
         filterChain.doFilter(request, response);
     }
 }

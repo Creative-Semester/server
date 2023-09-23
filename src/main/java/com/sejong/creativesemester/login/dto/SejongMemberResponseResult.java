@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class SejongMemberResponseResult {
 
     private SejongMemberResponseBody body;
-    private boolean is_auth;
+    private String is_auth;
 }

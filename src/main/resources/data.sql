@@ -16,6 +16,6 @@ insert into promise_table values(7,now(),now(),'기획2',false,3);
 insert into promise_table values(8,now(),now(),'기획3',false,3);
 insert into promise_table values(9,now(),now(),'기획4',true,3);
 
-insert into user_table(STUDENT_NUM,CREATED_TIME,MODIFIED_TIME,GRADE,ROLE,STATUS,MAJOR_ID) values('19011721',now(),now(),1,'ROLE_ADMIN','재학',1);
+insert into user_table(STUDENT_NUM, NAME, CREATED_TIME,MODIFIED_TIME,GRADE,ROLE,STATUS,MAJOR_ID) values('19011721', '이재표', now(),now(),1,'ROLE_ADMIN','재학',1);
 INSERT INTO vote_table VALUES (1, 0, CURRENT_DATE + 1, 0);
 insert into board_table values (1,now(),now(),'Council','test','test','test',1,'19011721',1);

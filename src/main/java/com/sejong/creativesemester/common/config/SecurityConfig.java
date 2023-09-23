@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +29,17 @@ public class SecurityConfig{
 
     private final JwtTokenProvider jwtTokenProvider;
 
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() throws Exception{
+        return (web) -> web.ignoring().antMatchers("/v3/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtTokenProvider);
@@ -33,7 +47,14 @@ public class SecurityConfig{
 
         // Cross-Site HTTP Request를 받기 위한 설정
         http
-                .httpBasic().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers("swagger-ui/**", "/api/auth/login").permitAll()
+                .antMatchers("/user/**").authenticated()
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()
                 .cors()
                 .configurationSource(configurationSource())
@@ -41,23 +62,7 @@ public class SecurityConfig{
                 .sessionManagement() // 다중 세션 로그인 유무
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
-                .expiredUrl("/api/auth/expired");
-
-        http
-                .authorizeRequests()
-                .antMatchers("swagger-ui/**", "/api/auth/login").permitAll()
-                .antMatchers("/user/**").authenticated()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin() // 로그인 http
-                .loginPage("/api/auth/login").permitAll()
-                .and()
-                .logout() // 로그아웃 http
-                .permitAll()
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .maxSessionsPreventsLogin(false);
 
 
         return http.build();

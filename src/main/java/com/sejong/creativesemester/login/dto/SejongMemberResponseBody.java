@@ -13,4 +13,5 @@ public class SejongMemberResponseBody {
     private String major;
     private String name;
     private String status;
+    private String message;
 }
