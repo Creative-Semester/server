@@ -1,35 +1,28 @@
 package com.sejong.creativesemester.login.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.sejong.creativesemester.user.entity.Role;
+import lombok.*;
+import org.springframework.data.redis.core.index.Indexed;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name = "Refresh_Token")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Builder
+@Entity(name = "REFRESH_TOKEN")
 public class RefreshToken {
 
     @Id
-    @Column(name = "refresh_token_id")
-    private Long id;
-
     private String studentNum;
-    private String token;
 
-    private RefreshToken(String studentNum, String token){
-        this.studentNum = studentNum;
-        this.token = token;
-    }
+    private String userName;
+    private Role role;
 
-    public static RefreshToken createRefreshToken(String studentNum, String token){
-        return new RefreshToken(studentNum, token);
-    }
+    private String ip;
 
-    public void changeToken(String token){
-        this.token = token;
-    }
+    @Indexed
+    private String refreshToken;
+
 }

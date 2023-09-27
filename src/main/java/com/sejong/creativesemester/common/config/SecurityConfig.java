@@ -49,7 +49,7 @@ public class SecurityConfig{
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("swagger-ui/**", "/api/auth/login").permitAll()
+                .antMatchers("swagger-ui/**", "/api/auth/login", "/api/auth/reissue").permitAll()
                 .antMatchers("/user/**").authenticated()
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()

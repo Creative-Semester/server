@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.login.dto;
 
+import com.sejong.creativesemester.login.dto.sejong.SejongMemberRequestDto;
 import com.sun.istack.NotNull;
 import lombok.*;
 

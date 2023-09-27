@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.login.dto;
+package com.sejong.creativesemester.login.dto.sejong;
 
 import lombok.Builder;
 import lombok.Getter;

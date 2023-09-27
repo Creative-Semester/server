@@ -2,13 +2,15 @@ package com.sejong.creativesemester.login.domain;
 
 import com.sejong.creativesemester.user.entity.Role;
 import com.sejong.creativesemester.user.entity.User;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 @Getter
+@NoArgsConstructor
+@Builder
 public class AuthUser implements UserDetails {
 
     private User user;
@@ -33,6 +35,10 @@ public class AuthUser implements UserDetails {
     @Override
     public String getUsername() {
         return user.getName();
+    }
+
+    public String getStudentNum(){
+        return user.getStudentNum();
     }
 
     @Override

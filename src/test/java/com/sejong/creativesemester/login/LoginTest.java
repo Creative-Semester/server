@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.login;
 
-import com.sejong.creativesemester.login.dto.SejongMemberRequestDto;
+import com.sejong.creativesemester.login.dto.sejong.SejongMemberRequestDto;
 import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
 import com.sejong.creativesemester.login.service.LoginSecurityService;
 import org.mockito.Mock;
