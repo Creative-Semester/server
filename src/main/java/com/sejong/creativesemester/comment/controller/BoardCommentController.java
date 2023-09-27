@@ -4,6 +4,7 @@ import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
 import com.sejong.creativesemester.comment.service.CommentService;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -19,7 +20,11 @@ public class BoardCommentController {
     @ApiOperation(value = "게시글 댓글생성 api",
             notes = "수업게시판의 경우 따로 api 만들예정")
     @PostMapping("/{boardId}/comment")
-    public SuccessResponse addComment(/*@ApiIgnore Principal principal*/@RequestParam String studentNum, @PathVariable Long boardId
+    public SuccessResponse addComment(/*@ApiIgnore Principal principal*/
+            @Parameter(name = "studentNum",description = "사용자의 학번(로그인 구현시 삭제예정)")
+            @RequestParam String studentNum,
+            @Parameter(name = "boardId",description = "게시글의 번호")
+            @PathVariable Long boardId
             , @RequestBody AddCommentRequest addCommentRequest) {
         commentService.addComment(boardId, studentNum/*principal.getName()*/, addCommentRequest.toRequestDto());
         return SuccessResponse.ok("댓글이 작성되었습니다.");
