@@ -63,7 +63,7 @@ public class LoginController {
     notes = "만료된 토큰을 재발급합니다.")
     @PostMapping(value = "/reissue")
     public SuccessResponse reissue(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        log.info("{}", httpServletRequest.getParameter("token"));
+        log.info("{}", httpServletRequest.getParameter("accessToken"));
 
         TokenInfo tokenInfo = loginSecurityService.reissueToken(httpServletRequest);
 
