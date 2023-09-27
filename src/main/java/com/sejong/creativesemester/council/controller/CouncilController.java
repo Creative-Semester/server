@@ -2,6 +2,8 @@ package com.sejong.creativesemester.council.controller;
 
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.council.service.CouncilService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +17,11 @@ import java.security.Principal;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/council")
+@RequestMapping("/api/v1/council")
 public class CouncilController {
     private final CouncilService councilService;
 
+    @ApiOperation(value = "학생회의 정보를 조회해주는 api")
     @GetMapping("/info")
     public SuccessResponse getInfo(@ApiIgnore Principal principal){
 //        log.info("{} : 학생회 정보조회",principal.getName());
