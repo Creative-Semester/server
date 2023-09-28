@@ -17,10 +17,10 @@ import java.util.List;
 @Getter
 public class BoardCreateRequestDto {
     @ApiModelProperty(value = "게시글 제목")
-    @NotBlank
+    @NotBlank(message = "게시글의 제목은 필수사항입니다.")
     private String title;
     @ApiModelProperty(value = "게시글 내용")
-    @NotBlank
+    @NotBlank(message = "게시글의 내용은 필수사항입니다.")
     private String content;
     @ApiModelProperty(value = "이미지 url")
     private List<ImageInfoRequest> image;
