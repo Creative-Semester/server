@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,13 +30,15 @@ public class ImageService {
         for (MultipartFile file : files) {
             String s3FileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
             ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(file.getInputStream().available());
+            InputStream inputStream = file.getInputStream();
+            objectMetadata.setContentLength(inputStream.available());
             amazonS3Client.putObject(bucket, s3FileName, file.getInputStream(), objectMetadata);
             String savedImgUrl = amazonS3Client.getUrl(bucket, s3FileName).toString();
             imageUrlList.add(imageInfo.builder()
                     .imageName(s3FileName)
                     .imageUrl(savedImgUrl)
                     .build());
+            inputStream.close();
         }
         return imageUrlList;
     }
