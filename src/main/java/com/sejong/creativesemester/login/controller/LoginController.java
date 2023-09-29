@@ -1,13 +1,11 @@
 package com.sejong.creativesemester.login.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sejong.creativesemester.common.domain.Helper;
+
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.login.domain.RefreshToken;
 import com.sejong.creativesemester.login.dto.LoginRequest;
-import com.sejong.creativesemester.login.dto.refreshToken.RefreshTokenDto;
 import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
 import com.sejong.creativesemester.login.jwt.TokenInfo;
 import com.sejong.creativesemester.login.repository.RefreshTokenRepository;
@@ -17,20 +15,24 @@ import com.sejong.creativesemester.user.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/auth")
+@RequestMapping(value = "/api/v1/auth")
 @RequiredArgsConstructor
 public class LoginController {
 
     private final LoginSecurityService loginSecurityService;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final RefreshTokenRepository refreshTokenRepository;
 
     @ApiOperation(value = "로그인 기능",
@@ -48,12 +50,14 @@ public class LoginController {
 
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser);
 
+        redisTemplate.opsForValue()
+                .set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
+                        tokenInfo.getRefreshTokenExpiration() - new Date().getTime(), TimeUnit.MILLISECONDS);
+
         refreshTokenRepository.save(RefreshToken.builder()
-                        .studentNum(authUser.getStudentNum())
-                        .userName(authUser.getUsername())
-                        .role(authUser.getRole())
-                        .ip(Helper.getClientIp(httpServletRequest))
-                        .refreshToken(tokenInfo.getRefreshToken())
+                        .id(authUser.getStudentNum())
+                .refreshToken(tokenInfo.getRefreshToken())
+                .expiration(tokenInfo.getRefreshTokenExpiration())
                 .build());
 
         return new SuccessResponse(tokenInfo);
@@ -65,10 +69,15 @@ public class LoginController {
     public SuccessResponse reissue(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         log.info("{}", httpServletRequest.getParameter("accessToken"));
 
-        TokenInfo tokenInfo = loginSecurityService.reissueToken(httpServletRequest);
-
-        return new SuccessResponse(tokenInfo);
+        return new SuccessResponse(loginSecurityService.reissueToken(httpServletRequest));
     }
-    
+
+    @ApiOperation(value = "로그아웃 기능",
+    notes = "토큰을 만료시켜 로그아웃을 합니다.")
+    @PostMapping(value = "/logout")
+    public SuccessResponse logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        log.info("{}", httpServletRequest.getParameter("accessToken"));
+        return new SuccessResponse(loginSecurityService.doLogout(httpServletRequest));
+    }
 
 }

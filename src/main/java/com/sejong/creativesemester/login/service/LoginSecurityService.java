@@ -1,7 +1,6 @@
 package com.sejong.creativesemester.login.service;
 
 
-import antlr.Token;
 import com.sejong.creativesemester.common.domain.Helper;
 import com.sejong.creativesemester.common.format.exception.login.NoAuthException;
 import com.sejong.creativesemester.common.format.exception.login.NoRefreshTokenException;
@@ -18,12 +17,17 @@ import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -35,6 +39,7 @@ public class LoginSecurityService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate<String, Object> redisTemplate;
 
 
     // login 했을 때 정보들 가져오기
@@ -85,37 +90,41 @@ public class LoginSecurityService {
     // 재발급 서비스 구현 시 return 할 클래스?
     // 토큰
     @Transactional
-    public TokenInfo reissueToken(HttpServletRequest request){
-        String token = jwtTokenProvider.resolveRefreshToken(request);
+    public ResponseEntity<?> reissueToken(HttpServletRequest request){
+        String token = jwtTokenProvider.resolveAccessToken(request);
         log.info("{}", token);
 
-        if(token != null && jwtTokenProvider.validationToken(token)){
-            if(jwtTokenProvider.isRefreshToken(token) == true){
-                RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(request.getParameter("refreshToken")).orElseThrow(NoRefreshTokenException::new);
-                if(refreshToken != null){
-                    String nowIp = Helper.getClientIp(request);
-                    if(refreshToken.getIp().equals(nowIp)){
-                        User user = userRepository.findByStudentNum(refreshToken.getStudentNum()).orElseThrow(NotFoundUserException::new);
-                        AuthUser authUser = new AuthUser(user);
-
-                        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser);
-
-                        refreshTokenRepository.save(RefreshToken.builder()
-                                .studentNum(authUser.getStudentNum())
-                                .userName(authUser.getUsername())
-                                .role(authUser.getRole())
-                                .ip(nowIp)
-                                .refreshToken(tokenInfo.getRefreshToken())
-                                .build());
-
-                        log.info("authUser: {}, {}", authUser.getStudentNum(), authUser.getUsername());
-                        return tokenInfo;
-                    }
-                }
+        if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
+            User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(token)).orElseThrow(NotFoundUserException::new);
+            AuthUser authUser = new AuthUser(user);
+            if(!(authUser.getStudentNum()).equals(jwtTokenProvider.isUserPK(token))) {
+                throw new NotFoundUserException();
+            }
+            else{
+                TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser);
+                redisTemplate.opsForValue().set("RefreshToken:"+authUser.getStudentNum(),tokenInfo.getRefreshToken(),
+                        tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
+                refreshTokenRepository.save(RefreshToken.builder().refreshToken(tokenInfo.getRefreshToken())
+                        .expiration(tokenInfo.getRefreshTokenExpiration()).build());
+                return ResponseEntity.ok(tokenInfo);
             }
         }
+        return ResponseEntity.ok("유효하지 않는 토큰입니다.");
+    }
 
-        return null;
+    @Transactional
+    public ResponseEntity<?> doLogout(HttpServletRequest httpServletRequest){
+        String accessToken = jwtTokenProvider.resolveAccessToken(httpServletRequest);
+        log.info("accessToken: {}", accessToken);
+
+        Long expiration = jwtTokenProvider.getExpiration(accessToken);
+        String id = jwtTokenProvider.isUserPK(accessToken);
+        log.info("pk: {}", id);
+
+        redisTemplate.opsForValue().set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
+        refreshTokenRepository.deleteById(id);
+
+        return ResponseEntity.ok("로그아웃되었습니다.");
     }
 
 

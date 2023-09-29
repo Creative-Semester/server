@@ -1,6 +1,8 @@
 package com.sejong.creativesemester.login.jwt;
 
+import com.sejong.creativesemester.login.domain.AccessToken;
 import com.sejong.creativesemester.login.domain.AuthUser;
+import com.sejong.creativesemester.login.domain.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -39,18 +41,20 @@ public class JwtTokenProvider {
 
     public TokenInfo generateToken(AuthUser authUser){
 
-        String accessToken = createAccessToken(authUser);
-        String refreshToken = createRefreshToken(authUser);
+        AccessToken token1 = createAccessToken(authUser);
+        RefreshToken token2 = createRefreshToken(authUser);
 
         return TokenInfo.builder()
                 .grantType("Bearer")
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(token1.getAccessToken())
+                .refreshToken(token2.getRefreshToken())
+                .accessTokenExpiration(token1.getExpiration())
+                .refreshTokenExpiration(token2.getExpiration())
                 .build();
     }
 
     // accessToken 생성
-    public String createAccessToken(AuthUser authUser){
+    public AccessToken createAccessToken(AuthUser authUser){
         Claims claims = Jwts.claims().setSubject(authUser.getStudentNum());
         claims.put("username", authUser.getUsername());
         claims.put("role", authUser.getRole());
@@ -64,21 +68,24 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(now.getTime()+tokenValidTime))
                 .signWith(key)
                 .compact();
+        Long expiration = now.getTime()+tokenValidTime;
 
-        return token;
+        return new AccessToken(token, expiration);
     }
 
-    public String createRefreshToken(AuthUser authUser){
+    public RefreshToken createRefreshToken(AuthUser authUser){
 
         Date now = new Date(System.currentTimeMillis());
         String token = BEARER_FREFIX + Jwts.builder()
+                .setSubject(authUser.getStudentNum())
                 .claim("type", "refresh")
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()+(tokenValidTime*24*14)))
+                .setExpiration(new Date(now.getTime()+(tokenValidTime*24*14))) // 2 weeks
                 .signWith(key)
                 .compact();
+        Long expiration = now.getTime()+(tokenValidTime*24*14);
 
-        return token;
+        return new RefreshToken(authUser.getStudentNum(), token, expiration);
     }
 
 
@@ -119,7 +126,7 @@ public class JwtTokenProvider {
         return null;
     }
 
-    // 유효성 및 만료 날짜 확인
+   // 유효성 및 만료 날짜 확인
    public Boolean validationToken(String token){
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         if(!StringUtils.hasText(token)){
@@ -132,5 +139,18 @@ public class JwtTokenProvider {
     public Boolean isRefreshToken(String token){
         String type = (String) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("type");
         return type.equals("refresh");
+    }
+
+    // jwt 토큰 만료시간
+    public Long getExpiration(String accessToken){
+        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+
+        long now = new Date().getTime();
+        return expiration.getTime()-now;
+    }
+
+    public String isUserPK(String token){
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return claims.getSubject();
     }
 }

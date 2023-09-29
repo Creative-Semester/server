@@ -1,28 +1,32 @@
 package com.sejong.creativesemester.login.domain;
 
-import com.sejong.creativesemester.user.entity.Role;
-import lombok.*;
-import org.springframework.data.redis.core.index.Indexed;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Builder
-@Entity(name = "REFRESH_TOKEN")
+@RedisHash("refreshToken")
 public class RefreshToken {
 
     @Id
-    private String studentNum;
+    private String id;
 
-    private String userName;
-    private Role role;
-
-    private String ip;
-
-    @Indexed
     private String refreshToken;
+    @TimeToLive
+    private Long expiration;
 
+    public RefreshToken(String id, String refreshToken, Long expiration){
+        this.id = id;
+        this.refreshToken = refreshToken;
+        this.expiration = expiration;
+    }
 }
