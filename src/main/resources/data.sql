@@ -33,25 +33,6 @@ values (8, now(), now(), '기획3', false, 3);
 insert into promise_table
 values (9, now(), now(), '기획4', true, 3);
 
-insert into user_table(STUDENT_NUM, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
-values ('19011721', now(), now(), 1, 'ROLE_ADMIN', '재학', 1);
-insert into user_table(STUDENT_NUM, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
-values ('19011722', now(), now(), 1, 'ROLE_ADMIN', '재학', 1);
-insert into user_table(STUDENT_NUM, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
-values ('19011723', now(), now(), 1, 'ROLE_ADMIN', '재학', 1);
-insert into user_table(STUDENT_NUM, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
-values ('19011724', now(), now(), 1, 'ROLE_ADMIN', '재학', 1);
+insert into user_table(STUDENT_NUM,CREATED_TIME,MODIFIED_TIME,GRADE,ROLE,STATUS,MAJOR_ID) values('19011721',now(),now(),1,'ROLE_ADMIN','재학',1);
+INSERT INTO vote_table VALUES (100, 0, CURRENT_DATE + 1, 0);
 
-INSERT INTO vote_table
-VALUES (1, 0, CURRENT_DATE + 1, 0);
-
-insert into board_table
-values (1, now(), now(), 'Council', 'test1', 'test1', 'test1', 1, '19011721', 1);
-insert into board_table (ID, CREATED_TIME, MODIFIED_TIME, BOARD_TYPE, CONTENT, IMAGE, TITLE, MAJOR_ID, USER_ID)
-values (2, now(), now(), 'Free', 'test2', 'test2', 'test2', 1, '19011722');
-
-insert into board_table (ID, CREATED_TIME, MODIFIED_TIME, BOARD_TYPE, CONTENT, IMAGE, TITLE, MAJOR_ID, USER_ID)
-values (3, now(), now(), 'Free', 'test3', 'test3', 'test3', 1, '19011723');
-
-insert into board_table (ID, CREATED_TIME, MODIFIED_TIME, BOARD_TYPE, CONTENT, IMAGE, TITLE, MAJOR_ID, USER_ID)
-values (4, now(), now(), 'Free', 'test4', 'test4', 'test4', 2, '19011724');
