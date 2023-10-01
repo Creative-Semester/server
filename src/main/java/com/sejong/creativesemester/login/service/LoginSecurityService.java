@@ -4,6 +4,7 @@ package com.sejong.creativesemester.login.service;
 import com.sejong.creativesemester.common.domain.Helper;
 import com.sejong.creativesemester.common.format.exception.login.NoAuthException;
 import com.sejong.creativesemester.common.format.exception.login.NoRefreshTokenException;
+import com.sejong.creativesemester.common.format.exception.login.NoValidTokenException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.login.domain.RefreshToken;
@@ -91,8 +92,8 @@ public class LoginSecurityService {
     // 토큰
     @Transactional
     public ResponseEntity<?> reissueToken(HttpServletRequest request){
-        String token = jwtTokenProvider.resolveAccessToken(request);
-        log.info("{}", token);
+        String token = jwtTokenProvider.resolveRefreshToken(request);
+        log.info("validation : {}, ifRefresh : {}", jwtTokenProvider.validationToken(token), jwtTokenProvider.isRefreshToken(token));
 
         if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
             User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(token)).orElseThrow(NotFoundUserException::new);
@@ -101,15 +102,25 @@ public class LoginSecurityService {
                 throw new NotFoundUserException();
             }
             else{
-                TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser);
-                redisTemplate.opsForValue().set("RefreshToken:"+authUser.getStudentNum(),tokenInfo.getRefreshToken(),
-                        tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
-                refreshTokenRepository.save(RefreshToken.builder().refreshToken(tokenInfo.getRefreshToken())
-                        .expiration(tokenInfo.getRefreshTokenExpiration()).build());
-                return ResponseEntity.ok(tokenInfo);
+                String currentIp = Helper.getClientIp(request);
+                RefreshToken refreshToken = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NotFoundUserException::new);
+                log.info("currentIp: {}", currentIp);
+                if(refreshToken.getIp().equals(currentIp)) {
+                    TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, currentIp);
+
+                    redisTemplate.opsForValue().set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
+                            tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
+                    
+                    refreshTokenRepository.save(RefreshToken.builder()
+                            .id(authUser.getStudentNum())
+                                    .ip(currentIp)
+                            .refreshToken(tokenInfo.getRefreshToken())
+                            .expiration(tokenInfo.getRefreshTokenExpiration()).build());
+                    return ResponseEntity.ok(tokenInfo);
+                }
             }
         }
-        return ResponseEntity.ok("유효하지 않는 토큰입니다.");
+        throw new NoValidTokenException();
     }
 
     @Transactional

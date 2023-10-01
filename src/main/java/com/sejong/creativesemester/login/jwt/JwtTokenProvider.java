@@ -39,10 +39,10 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenInfo generateToken(AuthUser authUser){
+    public TokenInfo generateToken(AuthUser authUser, String ip){
 
         AccessToken token1 = createAccessToken(authUser);
-        RefreshToken token2 = createRefreshToken(authUser);
+        RefreshToken token2 = createRefreshToken(authUser, ip);
 
         return TokenInfo.builder()
                 .grantType("Bearer")
@@ -73,7 +73,7 @@ public class JwtTokenProvider {
         return new AccessToken(token, expiration);
     }
 
-    public RefreshToken createRefreshToken(AuthUser authUser){
+    public RefreshToken createRefreshToken(AuthUser authUser, String ip){
 
         Date now = new Date(System.currentTimeMillis());
         String token = BEARER_FREFIX + Jwts.builder()
@@ -85,7 +85,7 @@ public class JwtTokenProvider {
                 .compact();
         Long expiration = now.getTime()+(tokenValidTime*24*14);
 
-        return new RefreshToken(authUser.getStudentNum(), token, expiration);
+        return new RefreshToken(authUser.getStudentNum(), ip, token, expiration);
     }
 
 

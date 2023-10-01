@@ -20,12 +20,14 @@ public class RefreshToken {
     @Id
     private String id;
 
+    private String ip;
     private String refreshToken;
     @TimeToLive
     private Long expiration;
 
-    public RefreshToken(String id, String refreshToken, Long expiration){
+    public RefreshToken(String id, String ip, String refreshToken, Long expiration){
         this.id = id;
+        this.ip = ip;
         this.refreshToken = refreshToken;
         this.expiration = expiration;
     }

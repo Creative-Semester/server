@@ -1,6 +1,7 @@
 package com.sejong.creativesemester.login.controller;
 
 
+import com.sejong.creativesemester.common.domain.Helper;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.login.domain.AuthUser;
@@ -48,7 +49,7 @@ public class LoginController {
         User user = userRepository.findByStudentNum(loginRequest.getId()).orElseThrow(NotFoundUserException::new);
         AuthUser authUser = new AuthUser(user);
 
-        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser);
+        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, Helper.getClientIp(httpServletRequest));
 
         redisTemplate.opsForValue()
                 .set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
@@ -56,6 +57,7 @@ public class LoginController {
 
         refreshTokenRepository.save(RefreshToken.builder()
                         .id(authUser.getStudentNum())
+                        .ip(Helper.getClientIp(httpServletRequest))
                 .refreshToken(tokenInfo.getRefreshToken())
                 .expiration(tokenInfo.getRefreshTokenExpiration())
                 .build());
