@@ -52,7 +52,6 @@ public class BoardService {
                 .boardType(boardType)
                 .build();
 
-        boardRepository.save(build);
         if(isVote==true){
             if (dto.getDeadLine() == null) {
                 throw new NullDeadlineForVoteException();
