@@ -35,10 +35,9 @@ public class Vote {
     @OneToMany(mappedBy = "vote")
     private List<Voter> voter=new ArrayList<>();
 
-    public static Vote initVote(Board board){
+    public static Vote initVote(LocalDateTime deadLine){
         return Vote.builder()
-                .board(board)
-                .deadLine(now())
+                .deadLine(deadLine)
                 .agreeCnt(0)
                 .opposeCnt(0)
                 .build();
@@ -49,5 +48,8 @@ public class Vote {
     }
     public void increaseOpposeCnt(User user){
         this.opposeCnt++;
+    }
+    public void makeVoteToBoard(){
+
     }
 }

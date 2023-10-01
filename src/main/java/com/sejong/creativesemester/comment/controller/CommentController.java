@@ -3,6 +3,7 @@ package com.sejong.creativesemester.comment.controller;
 import com.sejong.creativesemester.comment.service.CommentService;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/comment")
 public class CommentController {
     private final CommentService commentService;
+
     @ApiOperation(
             value = "댓글 삭제 api"
     )
     @DeleteMapping("/{commentId}")
-    public SuccessResponse deleteComment(@PathVariable Long commentId) {
+    public SuccessResponse deleteComment(
+            @Parameter(name = "commentId", description = "삭제하고자하는 댓글id") @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return SuccessResponse.ok("댓글이 삭제되었습니다.");
     }
@@ -27,7 +30,8 @@ public class CommentController {
             notes = "수정예정으로 사용하지말기, 동시성 고려안함"
     )
     @PostMapping("/{commentId}/report")
-    public SuccessResponse reportComment(@PathVariable Long commentId){
+    public SuccessResponse reportComment(
+            @Parameter(name = "commentId", description = "신고하고자하는 댓글id") @PathVariable Long commentId) {
         commentService.reportComment(commentId);
         return SuccessResponse.ok("댓글을 신고하였습니다.");
     }

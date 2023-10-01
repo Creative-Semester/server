@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RequiredArgsConstructor
@@ -20,13 +21,11 @@ public class BoardCommentController {
     @ApiOperation(value = "게시글 댓글생성 api",
             notes = "수업게시판의 경우 따로 api 만들예정")
     @PostMapping("/{boardId}/comment")
-    public SuccessResponse addComment(/*@ApiIgnore Principal principal*/
-            @Parameter(name = "studentNum",description = "사용자의 학번(로그인 구현시 삭제예정)")
-            @RequestParam String studentNum,
-            @Parameter(name = "boardId",description = "게시글의 번호")
-            @PathVariable Long boardId
-            , @RequestBody AddCommentRequest addCommentRequest) {
-        commentService.addComment(boardId, studentNum/*principal.getName()*/, addCommentRequest.toRequestDto());
+    public SuccessResponse addComment(
+            @ApiIgnore Principal principal
+            , @Parameter(name = "boardId", description = "게시글의 번호") @PathVariable Long boardId
+            , @Valid @RequestBody AddCommentRequest addCommentRequest) {
+        commentService.addComment(boardId, principal.getName(), addCommentRequest.toRequestDto());
         return SuccessResponse.ok("댓글이 작성되었습니다.");
     }
 
@@ -34,7 +33,8 @@ public class BoardCommentController {
     @ApiOperation(value = "게시글 댓글 조회 api",
             notes = "수업게시판의 경우 따로 댓글 조회 api 존재")
     @GetMapping("/{boardId}/comment")
-    public SuccessResponse getCommentList(@PathVariable Long boardId) {
+    public SuccessResponse getCommentList(
+            @Parameter(name = "boardId", description = "댓글을 달고자하는 게시글의 id") @PathVariable Long boardId) {
         return new SuccessResponse(commentService.getCommentList(boardId));
     }
 
