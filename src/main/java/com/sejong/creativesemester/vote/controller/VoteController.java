@@ -15,6 +15,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,16 +29,16 @@ public class VoteController {
             notes = "수업게시판의 경우는 해당 api를 사용하면 안됩니다.(추가예정)"
     )
     @PostMapping("/boards/{boardId}/vote")
-    public SuccessResponse voteAdd(@PathVariable Long boardId,
-                                   @Parameter(name = "studentNum", description = "학생의 학번")
-                                   @RequestParam String studentNum,
-                                   @Parameter(name = "studentNum", description = "학생의 학번",
-                                           schema = @Schema(
-                                                   type = "string",
-                                                   allowableValues = {"AGREE,OPPOSE"}),
-                                           in = ParameterIn.QUERY)
-                                   @RequestParam VoteType type) {
-        voteService.vote(studentNum, boardId, type);
+    public SuccessResponse voteAdd(
+            @ApiIgnore Principal principal
+            , @PathVariable Long boardId
+            , @Parameter(name = "studentNum", description = "학생의 학번",
+            schema = @Schema(
+                    type = "string",
+                    allowableValues = {"AGREE,OPPOSE"}),
+            in = ParameterIn.QUERY)
+            @RequestParam VoteType type) {
+        voteService.vote(principal.getName(), boardId, type);
         return SuccessResponse.ok();
     }
 

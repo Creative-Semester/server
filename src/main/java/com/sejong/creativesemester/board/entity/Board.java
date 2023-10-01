@@ -2,12 +2,14 @@ package com.sejong.creativesemester.board.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.comment.entity.Comment;
+import com.sejong.creativesemester.image.entity.Image;
 import com.sejong.creativesemester.major.entity.Major;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.vote.entity.Vote;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +33,14 @@ public class Board extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String content;
-    private String image;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "board")
+    private List<Image> images = new ArrayList<>();
 
     //학과 아이디 추가
     @ManyToOne
-    @JoinColumn(name = "majorId",nullable = false)
+    @JoinColumn(name = "majorId", nullable = false)
     private Major major;
 
     //댓글을 적은 사용자 아이디
@@ -49,12 +54,17 @@ public class Board extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
 
-    public void update(String title, String content, String image){
+
+    public void update(String title, String content, String image) {
         this.title = title;
         this.content = content;
-        this.image = image;
     }
-    public void makeVote(Vote vote){
+
+    public void updateImage(Image image){
+        this.images.add(image);
+        image.updateBoard(this);
+    }
+    public void makeVote(Vote vote) {
         this.vote = vote;
     }
 
