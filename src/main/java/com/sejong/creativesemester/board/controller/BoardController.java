@@ -2,7 +2,7 @@ package com.sejong.creativesemester.board.controller;
 
 import com.sejong.creativesemester.board.dto.*;
 import com.sejong.creativesemester.board.entity.BoardType;
-import com.sejong.creativesemester.common.config.format.success.SuccessResponse;
+import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.board.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;

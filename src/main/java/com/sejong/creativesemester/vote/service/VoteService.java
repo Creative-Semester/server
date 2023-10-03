@@ -2,11 +2,11 @@ package com.sejong.creativesemester.vote.service;
 
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.repository.BoardRepository;
-import com.sejong.creativesemester.common.config.format.exception.board.NotFoundBoardException;
-import com.sejong.creativesemester.common.config.format.exception.param.NotMatchConditionException;
-import com.sejong.creativesemester.common.config.format.exception.user.NotFoundUserException;
-import com.sejong.creativesemester.common.config.format.exception.vote.AlreadyVoteUserException;
-import com.sejong.creativesemester.common.config.format.exception.vote.NotFoundVoteException;
+import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardException;
+import com.sejong.creativesemester.common.format.exception.param.NotMatchConditionException;
+import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
+import com.sejong.creativesemester.common.format.exception.vote.AlreadyVoteUserException;
+import com.sejong.creativesemester.common.format.exception.vote.NotFoundVoteException;
 import com.sejong.creativesemester.common.meta.DistributeLock;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;

@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.department.controller;
 
-import com.sejong.creativesemester.common.config.format.success.SuccessResponse;
+import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.department.service.DepartmentService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;

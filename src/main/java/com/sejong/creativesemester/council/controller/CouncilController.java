@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.council.controller;
 
-import com.sejong.creativesemester.common.config.format.success.SuccessResponse;
+import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.council.service.CouncilService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

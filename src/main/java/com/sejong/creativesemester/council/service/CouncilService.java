@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.council.service;
 
-import com.sejong.creativesemester.common.config.format.exception.user.NotFoundUserException;
+import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import com.sejong.creativesemester.council.repository.CouncilRepository;
 import com.sejong.creativesemester.user.entity.User;
