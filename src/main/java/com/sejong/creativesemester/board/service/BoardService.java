@@ -51,6 +51,7 @@ public class BoardService {
                 .major(user.getMajor())
                 .boardType(boardType)
                 .build();
+
         if(isVote==true){
             if (dto.getDeadLine() == null) {
                 throw new NullDeadlineForVoteException();

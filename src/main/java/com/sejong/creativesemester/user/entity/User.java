@@ -8,6 +8,7 @@ import com.sejong.creativesemester.major.entity.Major;
 import com.sejong.creativesemester.vote.entity.Vote;
 import com.sejong.creativesemester.voter.entity.Voter;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class User extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "council_id")
     private Council council;
+
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private int grade;

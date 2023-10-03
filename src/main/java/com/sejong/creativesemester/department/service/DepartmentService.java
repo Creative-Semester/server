@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.department.service;
 
-import com.sejong.creativesemester.common.converter.RoundToSecondDigit;
+import com.sejong.creativesemester.common.format.converter.RoundToSecondDigit;
 import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.council.repository.CouncilRepository;
 import com.sejong.creativesemester.department.repository.dto.PromisesForDepartmentDto;
