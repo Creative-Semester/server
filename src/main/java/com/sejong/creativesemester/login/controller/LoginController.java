@@ -2,8 +2,8 @@ package com.sejong.creativesemester.login.controller;
 
 
 import com.sejong.creativesemester.common.domain.Helper;
-import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
-import com.sejong.creativesemester.common.format.success.SuccessResponse;
+import com.sejong.creativesemester.common.config.format.exception.user.NotFoundUserException;
+import com.sejong.creativesemester.common.config.format.success.SuccessResponse;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.login.domain.RefreshToken;
 import com.sejong.creativesemester.login.dto.LoginRequest;

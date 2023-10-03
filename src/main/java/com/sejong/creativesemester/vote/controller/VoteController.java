@@ -1,6 +1,6 @@
 package com.sejong.creativesemester.vote.controller;
 
-import com.sejong.creativesemester.common.format.success.SuccessResponse;
+import com.sejong.creativesemester.common.config.format.success.SuccessResponse;
 import com.sejong.creativesemester.vote.controller.res.VoteCountResponse;
 import com.sejong.creativesemester.vote.entity.VoteType;
 import com.sejong.creativesemester.vote.service.VoteService;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;

@@ -2,7 +2,7 @@ package com.sejong.creativesemester.comment.controller;
 
 import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
 import com.sejong.creativesemester.comment.service.CommentService;
-import com.sejong.creativesemester.common.format.success.SuccessResponse;
+import com.sejong.creativesemester.common.config.format.success.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;

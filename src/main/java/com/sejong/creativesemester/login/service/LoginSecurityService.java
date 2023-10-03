@@ -2,10 +2,9 @@ package com.sejong.creativesemester.login.service;
 
 
 import com.sejong.creativesemester.common.domain.Helper;
-import com.sejong.creativesemester.common.format.exception.login.NoAuthException;
-import com.sejong.creativesemester.common.format.exception.login.NoRefreshTokenException;
-import com.sejong.creativesemester.common.format.exception.login.NoValidTokenException;
-import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
+import com.sejong.creativesemester.common.config.format.exception.login.NoAuthException;
+import com.sejong.creativesemester.common.config.format.exception.login.NoValidTokenException;
+import com.sejong.creativesemester.common.config.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.login.domain.RefreshToken;
 import com.sejong.creativesemester.login.dto.sejong.SejongMemberRequestDto;
@@ -18,11 +17,9 @@ import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;

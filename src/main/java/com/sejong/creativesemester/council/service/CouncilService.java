@@ -1,13 +1,12 @@
 package com.sejong.creativesemester.council.service;
 
-import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
+import com.sejong.creativesemester.common.config.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import com.sejong.creativesemester.council.repository.CouncilRepository;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 @RequiredArgsConstructor
 @Service

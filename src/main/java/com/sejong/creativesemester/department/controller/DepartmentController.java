@@ -1,10 +1,9 @@
 package com.sejong.creativesemester.department.controller;
 
-import com.sejong.creativesemester.common.format.success.SuccessResponse;
+import com.sejong.creativesemester.common.config.format.success.SuccessResponse;
 import com.sejong.creativesemester.department.service.DepartmentService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
