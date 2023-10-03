@@ -104,7 +104,7 @@ public class LoginSecurityService {
     // 재발급 서비스 구현 시 return 할 클래스?
     // 토큰
     @Transactional
-    public ResponseEntity<?> reissueToken(TokenRequest tokenRequest, HttpServletRequest request){
+    public TokenInfo reissueToken(TokenRequest tokenRequest, HttpServletRequest request){
         String token = jwtTokenProvider.resolveToken(tokenRequest.getRefreshToken());
         log.info("validation : {}, ifRefresh : {}", jwtTokenProvider.validationToken(token), jwtTokenProvider.isRefreshToken(token));
 
@@ -129,7 +129,7 @@ public class LoginSecurityService {
                                     .ip(currentIp)
                             .refreshToken(tokenInfo.getRefreshToken())
                             .expiration(tokenInfo.getRefreshTokenExpiration()).build());
-                    return ResponseEntity.ok(tokenInfo);
+                    return tokenInfo;
                 }
             }
         }
