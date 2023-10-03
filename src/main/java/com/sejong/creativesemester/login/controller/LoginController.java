@@ -56,8 +56,9 @@ public class LoginController {
     @PostMapping(value = "/logout")
     public SuccessResponse logout(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         log.info("{}", httpServletRequest.getParameter("accessToken"));
+        loginSecurityService.doLogout(tokenRequest);
 
-        return new SuccessResponse(loginSecurityService.doLogout(tokenRequest));
+        return new SuccessResponse("로그아웃되었습니다.");
     }
 
 }
