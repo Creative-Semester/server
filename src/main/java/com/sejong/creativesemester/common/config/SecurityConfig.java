@@ -60,9 +60,7 @@ public class SecurityConfig{
                 .configurationSource(configurationSource())
                 .and()
                 .sessionManagement() // 다중 세션 로그인 유무
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
         return http.build();
