@@ -2,20 +2,13 @@ package com.sejong.creativesemester.board.controller;
 
 import com.sejong.creativesemester.board.dto.*;
 import com.sejong.creativesemester.board.entity.BoardType;
-import com.sejong.creativesemester.common.format.exception.param.NotMatchConditionException;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.board.service.BoardService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 

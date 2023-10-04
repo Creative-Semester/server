@@ -7,7 +7,6 @@ import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 @RequiredArgsConstructor
 @Service

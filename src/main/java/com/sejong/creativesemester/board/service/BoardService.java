@@ -11,7 +11,6 @@ import com.sejong.creativesemester.common.format.exception.user.NotFoundUserExce
 import com.sejong.creativesemester.image.entity.Image;
 import com.sejong.creativesemester.image.repository.ImageRepository;
 import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
-import com.sejong.creativesemester.user.entity.Role;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
 import com.sejong.creativesemester.user.repository.UserRepository;
@@ -22,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

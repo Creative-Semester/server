@@ -3,11 +3,11 @@ package com.sejong.creativesemester.login.service;
 
 import com.sejong.creativesemester.common.domain.Helper;
 import com.sejong.creativesemester.common.format.exception.login.NoAuthException;
-import com.sejong.creativesemester.common.format.exception.login.NoRefreshTokenException;
 import com.sejong.creativesemester.common.format.exception.login.NoValidTokenException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.login.domain.RefreshToken;
+import com.sejong.creativesemester.login.dto.TokenRequest;
 import com.sejong.creativesemester.login.dto.sejong.SejongMemberRequestDto;
 import com.sejong.creativesemester.login.dto.sejong.SejongMemberResponseDto;
 import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
@@ -18,16 +18,15 @@ import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
@@ -45,7 +44,7 @@ public class LoginSecurityService {
 
     // login 했을 때 정보들 가져오기
     @Transactional
-    public SejongMemberResponseDto doLogin(SejongMemberRequestDto sejongMemberRequestDto){
+    public TokenInfo doLogin(SejongMemberRequestDto sejongMemberRequestDto, HttpServletRequest httpServletRequest){
 
 //        sejongMemberRequestDto.setId("19011729");
 //        sejongMemberRequestDto.setPw("clark1245!");
@@ -83,16 +82,30 @@ public class LoginSecurityService {
         );
         AuthUser authUser = new AuthUser(user);
 
+        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, Helper.getClientIp(httpServletRequest));
 
-        return memberDto;
+        redisTemplate.opsForValue()
+                .set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
+                        tokenInfo.getRefreshTokenExpiration() - new Date().getTime(), TimeUnit.MILLISECONDS);
+
+        refreshTokenRepository.save(RefreshToken.builder()
+                .id(authUser.getStudentNum())
+                .ip(Helper.getClientIp(httpServletRequest))
+                .refreshToken(tokenInfo.getRefreshToken())
+                .expiration(tokenInfo.getRefreshTokenExpiration())
+                .build());
+
+
+
+        return tokenInfo;
     }
 
 
     // 재발급 서비스 구현 시 return 할 클래스?
     // 토큰
     @Transactional
-    public ResponseEntity<?> reissueToken(HttpServletRequest request){
-        String token = jwtTokenProvider.resolveRefreshToken(request);
+    public TokenInfo reissueToken(TokenRequest tokenRequest, HttpServletRequest request){
+        String token = jwtTokenProvider.resolveToken(tokenRequest.getRefreshToken());
         log.info("validation : {}, ifRefresh : {}", jwtTokenProvider.validationToken(token), jwtTokenProvider.isRefreshToken(token));
 
         if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
@@ -116,7 +129,7 @@ public class LoginSecurityService {
                                     .ip(currentIp)
                             .refreshToken(tokenInfo.getRefreshToken())
                             .expiration(tokenInfo.getRefreshTokenExpiration()).build());
-                    return ResponseEntity.ok(tokenInfo);
+                    return tokenInfo;
                 }
             }
         }
@@ -124,8 +137,8 @@ public class LoginSecurityService {
     }
 
     @Transactional
-    public ResponseEntity<?> doLogout(HttpServletRequest httpServletRequest){
-        String accessToken = jwtTokenProvider.resolveAccessToken(httpServletRequest);
+    public ResponseEntity<?> doLogout(TokenRequest tokenRequest){
+        String accessToken = jwtTokenProvider.resolveToken(tokenRequest.getAccessToken());
         log.info("accessToken: {}", accessToken);
 
         Long expiration = jwtTokenProvider.getExpiration(accessToken);

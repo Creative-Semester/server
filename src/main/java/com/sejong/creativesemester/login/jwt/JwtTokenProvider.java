@@ -110,16 +110,15 @@ public class JwtTokenProvider {
 
     }
 
-    public String resolveAccessToken(HttpServletRequest request){
-        String token = request.getParameter("accessToken");
+    public String resolveToken(String token){
         if(!ObjectUtils.isEmpty(token) && token.startsWith("Bearer ")){
                 return token.substring(7);
         }
         return null;
     }
 
-    public String resolveRefreshToken(HttpServletRequest request){
-        String token = request.getParameter("refreshToken");
+    public String resolveHttpToken(HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getParameter("accessToken");
         if(!ObjectUtils.isEmpty(token) && token.startsWith("Bearer ")){
             return token.substring(7);
         }

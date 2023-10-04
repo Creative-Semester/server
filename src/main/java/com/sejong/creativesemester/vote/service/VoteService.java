@@ -15,12 +15,9 @@ import com.sejong.creativesemester.vote.entity.VoteType;
 import com.sejong.creativesemester.vote.service.res.VoteCountResponseDto;
 import com.sejong.creativesemester.voter.entity.Voter;
 import com.sejong.creativesemester.voter.repository.VoterRepository;
-import com.sejong.creativesemester.voter.repository.VoterRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor

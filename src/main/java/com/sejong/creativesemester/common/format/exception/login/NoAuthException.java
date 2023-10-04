@@ -2,12 +2,11 @@ package com.sejong.creativesemester.common.format.exception.login;
 
 import com.sejong.creativesemester.common.format.exception.ApplicationRunException;
 import com.sejong.creativesemester.common.format.exception.ErrorEnumCode;
-
-import static com.sejong.creativesemester.common.format.exception.login.errorCode.LoginErrorCode.NO_AUTH_USER;
+import com.sejong.creativesemester.common.format.exception.login.errorCode.LoginErrorCode;
 
 public class NoAuthException extends ApplicationRunException {
 
-    private static final ErrorEnumCode CODE = NO_AUTH_USER;
+    private static final ErrorEnumCode CODE = LoginErrorCode.NO_AUTH_USER;
 
     public NoAuthException(ErrorEnumCode code) {
         super(code);

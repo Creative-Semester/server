@@ -1,6 +1,5 @@
 package com.sejong.creativesemester.image.controller;
 
-import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.image.service.ImageService;
 import io.swagger.annotations.ApiOperation;
