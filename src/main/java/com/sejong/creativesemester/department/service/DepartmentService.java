@@ -26,13 +26,14 @@ public class DepartmentService {
     private final CouncilRepository councilRepository;
     static Double totalPromise = 0D;
     static Double totalImplementation = 0D;
+
     public PromisePercentageResponseDto getPromisePercentage(String studentNum) {
         HashMap<String, Double> map = new HashMap<>();
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(
                 () -> new IllegalArgumentException("없는사용자")
         );
         List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
-        if(byMajorIdOrderByCreatedTimeDesc.isEmpty()){
+        if (byMajorIdOrderByCreatedTimeDesc.isEmpty()) {
             throw new IllegalArgumentException("해당 학생회가 없습니다");
         }
         List<PromisesForDepartmentDto> promisesForDepartment = departmentRepositoryImpl.getCountOfPromises(byMajorIdOrderByCreatedTimeDesc.get(0).getId());
@@ -42,29 +43,31 @@ public class DepartmentService {
          */
         promisesForDepartment.forEach(promisesForDepartmentDto -> {
             totalPromise += promisesForDepartmentDto.getPromiseCount();
-                    totalImplementation += promisesForDepartmentDto.getImplementationCount();
+            totalImplementation += promisesForDepartmentDto.getImplementationCount();
             map.put(promisesForDepartmentDto.getDepartmentName(),
                     roundToSecondDigit.convert(promisesForDepartmentDto.getImplementationCount() / promisesForDepartmentDto.getPromiseCount())
             );
         });
-        //전체 공약 및 이행 퍼센트계산
-        map.put("total", roundToSecondDigit.convert(totalImplementation / totalPromise));
 
         //responseDto로 변환
-        PromisePercentageResponseDto responseDto = PromisePercentageResponseDto.builder().promisePercentage(map).build();
+        PromisePercentageResponseDto responseDto = PromisePercentageResponseDto
+                .builder()
+                .promisePercentage(map)
+                .totalPercent(roundToSecondDigit.convert(totalImplementation / totalPromise))
+                .build();
 
         return responseDto;
     }
 
     public List<PromiseContentsResponseDto> getPromises(String studentNum, Long departmentId) {
-        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(()->new NullPointerException("사용자 없음"));
+        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(() -> new NullPointerException("사용자 없음"));
         List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
         return departmentRepositoryImpl.getPromises(byMajorIdOrderByCreatedTimeDesc.get(0).getId(), departmentId);
 
     }
 
     public List<DepartmentInfoResponseDto> getDepartmentLists(String studentNum) {
-        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(()->new NullPointerException("사용자 없음"));
+        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(() -> new NullPointerException("사용자 없음"));
         List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
         return departmentRepositoryImpl.getDepartmentsInfo(byMajorIdOrderByCreatedTimeDesc.get(0).getId());
     }

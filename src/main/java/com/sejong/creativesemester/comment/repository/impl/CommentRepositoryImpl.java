@@ -15,9 +15,11 @@ import static com.sejong.creativesemester.comment.entity.QComment.comment;
 @RequiredArgsConstructor
 public class CommentRepositoryImpl implements CommentRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
+
     @Override
     public List<CommentListDto> findAllCommentOfBoard(Long boardId) {
-        return jpaQueryFactory.select(Projections.constructor(CommentListDto.class,comment.id,comment.text,comment.createdTime))
+        return jpaQueryFactory.select(Projections.constructor(
+                        CommentListDto.class, comment.id, comment.text, comment.createdTime))
                 .from(comment)
                 .where(comment.board.id.eq(boardId))
                 .fetch();

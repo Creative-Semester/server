@@ -19,7 +19,7 @@ public class Council extends BaseTimeEntity {
     private String name;
     private String introduce;
     private Integer number;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_id")
     private Major major;
 }
