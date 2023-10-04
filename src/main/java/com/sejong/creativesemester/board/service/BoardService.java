@@ -89,12 +89,12 @@ public class BoardService {
                                                 .imageName(image.getImageName())
                                                 .build())
                                         .findFirst().get())
-                                .day(board.getModifiedTime())
+                                .day(board.getCreatedTime())
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
     }
-
+    
     // 게시글 상세 조회
     @Transactional(readOnly = true)
     public BoardDetailResponseDto getDetailBoards(Long boardId, String studentNum) {
