@@ -64,10 +64,10 @@ public class BoardController {
             notes = "게시글 목록에서 특정 글을 눌렀을때 해당 글의 상세 내용 조회 api"
     )
     @GetMapping("/{boardId}")
-    public SuccessResponse getDetailBoards(@ApiIgnore Principal principal
+    public SuccessResponse getDetailBoards(/*@ApiIgnore Principal principal*/@RequestParam String studentNum
 
             , @PathVariable(value = "boardId", required = true) Long boardId) {
-        BoardDetailResponseDto dto = boardService.getDetailBoards(boardId, principal.getName());
+        BoardDetailResponseDto dto = boardService.getDetailBoards(boardId, /*principal.getName()*/studentNum);
         return new SuccessResponse(dto);
     }
 
