@@ -106,7 +106,6 @@ public class LoginSecurityService {
     @Transactional
     public TokenInfo reissueToken(TokenRequest tokenRequest, HttpServletRequest request){
         String token = jwtTokenProvider.resolveToken(tokenRequest.getRefreshToken());
-        log.info("validation : {}, ifRefresh : {}", jwtTokenProvider.validationToken(token), jwtTokenProvider.isRefreshToken(token));
 
         if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
             User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(token)).orElseThrow(NotFoundUserException::new);
@@ -114,23 +113,21 @@ public class LoginSecurityService {
             if(!(authUser.getStudentNum()).equals(jwtTokenProvider.isUserPK(token))) {
                 throw new NotFoundUserException();
             }
-            else{
-                String currentIp = Helper.getClientIp(request);
-                RefreshToken refreshToken = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NotFoundUserException::new);
-                log.info("currentIp: {}", currentIp);
-                if(refreshToken.getIp().equals(currentIp)) {
-                    TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, currentIp);
 
-                    redisTemplate.opsForValue().set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
-                            tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
-                    
-                    refreshTokenRepository.save(RefreshToken.builder()
-                            .id(authUser.getStudentNum())
-                                    .ip(currentIp)
-                            .refreshToken(tokenInfo.getRefreshToken())
-                            .expiration(tokenInfo.getRefreshTokenExpiration()).build());
-                    return tokenInfo;
-                }
+            String currentIp = Helper.getClientIp(request);
+            RefreshToken refreshToken = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NotFoundUserException::new);
+            log.info("currentIp: {}", currentIp);
+            if(refreshToken.getIp().equals(currentIp)) {
+                TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, currentIp);
+                redisTemplate.opsForValue().set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
+                        tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
+
+                refreshTokenRepository.save(RefreshToken.builder()
+                        .id(authUser.getStudentNum())
+                        .ip(currentIp)
+                        .refreshToken(tokenInfo.getRefreshToken())
+                        .expiration(tokenInfo.getRefreshTokenExpiration()).build());
+                return tokenInfo;
             }
         }
         throw new NoValidTokenException();
