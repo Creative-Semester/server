@@ -3,9 +3,7 @@ package com.sejong.creativesemester.login.jwt;
 import com.sejong.creativesemester.login.domain.AccessToken;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.login.domain.RefreshToken;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +27,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private static Key key;
-    private long tokenValidTime = 60 * 60 * 1000; // 1hours
+    private long accessTokenValidTime = 60 * 60 * 1000; // 1hours
+    private long refreshTokenValidTime = 60*60*1000*24*14;
     private final String BEARER_FREFIX = "Bearer ";
 
     public JwtTokenProvider(
@@ -65,10 +64,10 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .claim("type", "access")
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()+tokenValidTime))
+                .setExpiration(new Date(now.getTime()+accessTokenValidTime))
                 .signWith(key)
                 .compact();
-        Long expiration = now.getTime()+tokenValidTime;
+        Long expiration = now.getTime()+accessTokenValidTime;
 
         return new AccessToken(token, expiration);
     }
@@ -80,10 +79,10 @@ public class JwtTokenProvider {
                 .setSubject(authUser.getStudentNum())
                 .claim("type", "refresh")
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()+(tokenValidTime*24*14))) // 2 weeks
+                .setExpiration(new Date(now.getTime()+(refreshTokenValidTime))) // 2 weeks
                 .signWith(key)
                 .compact();
-        Long expiration = now.getTime()+(tokenValidTime*24*14);
+        Long expiration = now.getTime()+(refreshTokenValidTime);
 
         return new RefreshToken(authUser.getStudentNum(), ip, token, expiration);
     }
@@ -127,11 +126,19 @@ public class JwtTokenProvider {
 
    // 유효성 및 만료 날짜 확인
    public Boolean validationToken(String token){
-        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        if(!StringUtils.hasText(token)){
-            return false;
+        try{
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.error("유효하지 않은 토큰입니다.", e);
+        } catch (ExpiredJwtException e) {
+            log.error("만료되지 않은 토큰입니다.", e);
+        } catch (UnsupportedJwtException e) {
+            log.error("지원되지 않는 토큰입니다.", e);
+        } catch (IllegalArgumentException e) {
+            log.error("토큰이 비어있습니다.", e);
         }
-        return !claims.getExpiration().before(new Date());
+        return false;
     }
 
     // refresh 토큰인지 확인
