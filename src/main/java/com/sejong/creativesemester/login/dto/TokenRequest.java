@@ -1,16 +1,14 @@
 package com.sejong.creativesemester.login.dto;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 
 @Getter
 @ToString
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TokenRequest {
 
     @NotNull
@@ -18,4 +16,11 @@ public class TokenRequest {
 
     @NotNull
     private String refreshToken;
+
+    public TokenRequest tokenRequest(){
+        return TokenRequest.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }

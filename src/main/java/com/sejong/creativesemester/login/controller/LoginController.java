@@ -48,7 +48,7 @@ public class LoginController {
     public SuccessResponse reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         log.info("{}", httpServletRequest.getParameter("accessToken"));
 
-        return new SuccessResponse(loginSecurityService.reissueToken(tokenRequest, httpServletRequest));
+        return new SuccessResponse(loginSecurityService.reissueToken(tokenRequest.tokenRequest(), httpServletRequest));
     }
 
     @ApiOperation(value = "로그아웃 기능",
@@ -56,7 +56,7 @@ public class LoginController {
     @PostMapping(value = "/logout")
     public SuccessResponse logout(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         log.info("{}", httpServletRequest.getParameter("accessToken"));
-        loginSecurityService.doLogout(tokenRequest);
+        loginSecurityService.doLogout(tokenRequest.tokenRequest());
 
         return new SuccessResponse("로그아웃되었습니다.");
     }
