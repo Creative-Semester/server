@@ -42,7 +42,6 @@ public class SecurityConfig{
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtTokenProvider);
 
 
         // Cross-Site HTTP Request를 받기 위한 설정
@@ -52,13 +51,14 @@ public class SecurityConfig{
                 .antMatchers("/swagger-ui/**", "/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()
                 .cors()
                 .configurationSource(configurationSource())
                 .and()
                 .sessionManagement() // 다중 세션 로그인 유무
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
 
         return http.build();
