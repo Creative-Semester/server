@@ -118,6 +118,7 @@ public class JwtTokenProvider {
 
     public String resolveHttpToken(HttpServletRequest httpServletRequest){
         String token = httpServletRequest.getHeader("accessToken");
+        log.info("token: {}", token);
         if(!ObjectUtils.isEmpty(token) && token.startsWith("Bearer ")){
             return token.substring(7);
         }

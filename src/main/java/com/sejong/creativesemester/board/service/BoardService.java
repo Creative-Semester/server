@@ -88,7 +88,9 @@ public class BoardService {
                                                 .imageUrl(image.getImageUrl())
                                                 .imageName(image.getImageName())
                                                 .build())
-                                        .findFirst().get()).build())
+                                        .findFirst().get())
+                                .day(board.getModifiedTime())
+                                .build())
                         .collect(Collectors.toList()))
                 .build();
     }

@@ -4,6 +4,7 @@ import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -14,4 +15,5 @@ public class BoardSimpleResponseDto {
     private String title;
     private String content;
     private ImageInfoResponseDto images;
+    private LocalDateTime day;
 }
