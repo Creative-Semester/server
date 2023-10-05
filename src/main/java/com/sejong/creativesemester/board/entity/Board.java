@@ -35,7 +35,7 @@ public class Board extends BaseTimeEntity {
     private String content;
 
     @Builder.Default
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
 
     //학과 아이디 추가
