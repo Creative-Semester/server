@@ -155,10 +155,9 @@ public class BoardService {
 
     public void deleteBoard(String studentNum, Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
-        if (isMyBoard(studentNum, board)) {
-            boardRepository.delete(board);
+        if (!isMyBoard(studentNum, board)) {
+            throw new NotMatchBoardAndUserException();
         }
-        throw new NotMatchBoardAndUserException();
+        boardRepository.delete(board);
     }
-
 }

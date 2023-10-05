@@ -19,7 +19,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     @Override
     public List<CommentListDto> findAllCommentOfBoard(Long boardId) {
         return jpaQueryFactory.select(Projections.constructor(
-                        CommentListDto.class, comment.id, comment.text, comment.createdTime))
+                        CommentListDto.class, comment.id, comment.text, comment.createdTime,comment.user.studentNum))
                 .from(comment)
                 .where(comment.board.id.eq(boardId))
                 .fetch();

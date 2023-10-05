@@ -1,19 +1,15 @@
-package com.sejong.creativesemester.comment.repository.dto;
+package com.sejong.creativesemester.comment.service.res;
 
-import com.fasterxml.jackson.databind.DatabindException;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Schema(description = "댓글 응답값")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-public class CommentListDto {
+@Builder
+public class CommentListResponseDto {
     @Schema(description = "댓글id")
     private Long id;
     @Schema(description = "댓글내용")
@@ -21,5 +17,6 @@ public class CommentListDto {
     @Schema(description = "댓글 생성시간")
     private LocalDateTime createdTime;
     @Schema(description = "댓글 작성자 학번")
-    private String studentNum;
+    private Boolean isMine;
+
 }
