@@ -4,10 +4,13 @@ import com.sejong.creativesemester.board.dto.*;
 import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.board.service.BoardService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -15,6 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import java.security.Principal;
 
+@Tag(name = "게시글 api", description = "게시글에 대한 api입니다.")
 @RestController
 @RequestMapping("/api/v1/boards")
 @RequiredArgsConstructor
@@ -56,9 +60,9 @@ public class BoardController {
             notes = "게시글 목록에서 특정 글을 눌렀을때 해당 글의 상세 내용 조회 api"
     )
     @GetMapping("/{boardId}")
-    public SuccessResponse<BoardDetailResponseDto> getDetailBoards(/*@ApiIgnore Principal principal*/@RequestParam String studentNum
+    public SuccessResponse<BoardDetailResponseDto> getDetailBoards(@ApiIgnore Principal principal
             , @PathVariable(value = "boardId", required = true) Long boardId) {
-        BoardDetailResponseDto dto = boardService.getDetailBoards(boardId, /*principal.getName()*/studentNum);
+        BoardDetailResponseDto dto = boardService.getDetailBoards(boardId, principal.getName());
         return new SuccessResponse(dto);
     }
 
