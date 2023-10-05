@@ -32,12 +32,14 @@ public class SecurityConfig{
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() throws Exception{
-        return (web) -> web.ignoring().antMatchers("/v3/api-docs",
+        return (web) -> web.ignoring().antMatchers(
+                "/v3/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",
                 "swagger-ui/**",
-                "/webjars/**");
+                "/webjars/**",
+                "/h2-console/**");
     }
 
     @Bean
@@ -48,7 +50,7 @@ public class SecurityConfig{
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/swagger-ui/**", "/api/v1/auth/**").permitAll()
+                .antMatchers("/swagger-ui/**", "/api/v1/auth/**","/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
