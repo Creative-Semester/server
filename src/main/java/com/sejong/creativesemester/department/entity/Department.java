@@ -15,7 +15,7 @@ public class Department extends BaseTimeEntity {
     private Long id;
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "council_id")
     private Council council;
 

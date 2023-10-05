@@ -2,6 +2,7 @@ package com.sejong.creativesemester.image.controller;
 
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.image.service.ImageService;
+import com.sejong.creativesemester.image.service.dto.imageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,7 +21,7 @@ public class ImageController {
 
     @ApiOperation(value = "게시판에 이미지 업로드시 사용 api")
     @PostMapping()
-    public SuccessResponse uploadImage(@Parameter(name = "이미지 파일", required = true,
+    public SuccessResponse<List<imageInfo>> uploadImage(@Parameter(name = "이미지 파일", required = true,
             schema = @Schema(type = "MultipartFile")) @RequestPart List<MultipartFile> files) throws IOException {
         return new SuccessResponse(imageService.uploadImageToS3(files));
     }

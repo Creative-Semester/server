@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 
 @Transactional
@@ -40,7 +41,7 @@ public class CommentService {
 
     }
 
-    public void deleteComment(Long commentId) {
+    public void deleteComment(String studentNum, Long commentId) {
         Comment commentById = commentRepository.findById(commentId).orElseThrow(
                 () -> new NullPointerException("없는 댓글입니다.")
         );
@@ -48,7 +49,7 @@ public class CommentService {
     }
 
     @DistributeLock(identifier = COMMENT_KEY, key = "#commentId")
-    public void reportComment(Long commentId) {
+    public void reportComment(String studentNum,Long commentId) {
         Comment commentById = commentRepository.findById(commentId).orElseThrow(
                 () -> new NullPointerException("존재하지 않는 댓글입니다.")
         );

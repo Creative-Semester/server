@@ -13,7 +13,7 @@ public class Promise extends BaseTimeEntity {
     private String content;
     private boolean implementation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 }

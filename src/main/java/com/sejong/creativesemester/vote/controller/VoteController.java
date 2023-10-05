@@ -24,31 +24,28 @@ import java.security.Principal;
 public class VoteController {
     private final VoteService voteService;
 
-    @ApiOperation(value = "게시글(학생회 게시판)에 투표하는 api",
-            notes = "수업게시판의 경우는 해당 api를 사용하면 안됩니다.(추가예정)"
-    )
+    @ApiOperation(value = "게시글(학생회 게시판)에 투표하는 api")
     @PostMapping("/boards/{boardId}/vote")
     public SuccessResponse voteAdd(
             @ApiIgnore Principal principal
             , @PathVariable Long boardId
-            , @Parameter(name = "studentNum", description = "학생의 학번",
+            , @Parameter(name = "VoteType", description = "투표할때 찬성 or 반대",
             schema = @Schema(
                     type = "string",
                     allowableValues = {"AGREE,OPPOSE"}),
             in = ParameterIn.QUERY)
             @RequestParam VoteType type) {
         voteService.vote(principal.getName(), boardId, type);
-        return SuccessResponse.ok();
+        return SuccessResponse.ok("투표하였습니다.");
     }
 
-    @ApiOperation(value = "자유게시판의 게시글의 투표수를 조회하는 api",
-            notes = "수업게시판의 경우는 해당 api를 사용하면 안됩니다.(추가예정)")
+    @ApiOperation(value = "자유게시판의 게시글의 투표수를 조회하는 api")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투표수 조회성공",
                     content = @Content(schema = @Schema(implementation = SuccessResponse.class)))
     })
     @GetMapping("/boards/{boardId}/vote")
-    public SuccessResponse<VoteCountResponse> getVoteCnt(@PathVariable Long boardId) {
+    public SuccessResponse<VoteCountResponse> getVoteCnt(@ApiIgnore Principal principal ,@PathVariable Long boardId) {
         VoteCountResponseDto voteCnt = voteService.getVoteCnt(boardId);
         return new SuccessResponse(
                 VoteCountResponse

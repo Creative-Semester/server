@@ -1,6 +1,7 @@
 package com.sejong.creativesemester.comment.controller;
 
 import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
+import com.sejong.creativesemester.comment.repository.dto.CommentListDto;
 import com.sejong.creativesemester.comment.service.CommentService;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,7 +35,7 @@ public class BoardCommentController {
     @ApiOperation(value = "게시글 댓글 조회 api",
             notes = "수업게시판의 경우 따로 댓글 조회 api 존재")
     @GetMapping("/{boardId}/comment")
-    public SuccessResponse getCommentList(
+    public SuccessResponse<List<CommentListDto>> getCommentList(
             @Parameter(name = "boardId", description = "댓글을 달고자하는 게시글의 id") @PathVariable Long boardId) {
         return new SuccessResponse(commentService.getCommentList(boardId));
     }

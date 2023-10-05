@@ -29,7 +29,7 @@ public class Vote {
     private Integer opposeCnt;
     private LocalDateTime deadLine;
 
-    @OneToOne(mappedBy = "vote")
+    @OneToOne(mappedBy = "vote",fetch = FetchType.LAZY)
     private Board board;
 
     @OneToMany(mappedBy = "vote")

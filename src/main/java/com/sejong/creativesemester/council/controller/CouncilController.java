@@ -2,6 +2,7 @@ package com.sejong.creativesemester.council.controller;
 
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.council.service.CouncilService;
+import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class CouncilController {
 
     @ApiOperation(value = "학생회의 정보를 조회해주는 api")
     @GetMapping("/info")
-    public SuccessResponse getInfo(@ApiIgnore Principal principal){
+    public SuccessResponse<CouncilInfoResponse> getInfo(@ApiIgnore Principal principal){
 //        log.info("{} : 학생회 정보조회",principal.getName());
         return new SuccessResponse(councilService.findCouncilInfo(principal.getName()));
     }
