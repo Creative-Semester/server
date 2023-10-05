@@ -24,7 +24,7 @@ public class Board extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
 
@@ -39,7 +39,7 @@ public class Board extends BaseTimeEntity {
     private List<Image> images = new ArrayList<>();
 
     //학과 아이디 추가
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "majorId", nullable = false)
     private Major major;
 
@@ -48,7 +48,7 @@ public class Board extends BaseTimeEntity {
     private List<Comment> comment;
 
     @JoinColumn(name = "voteId")
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Vote vote;
 
     @Enumerated(EnumType.STRING)

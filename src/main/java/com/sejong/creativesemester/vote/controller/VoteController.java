@@ -24,9 +24,7 @@ import java.security.Principal;
 public class VoteController {
     private final VoteService voteService;
 
-    @ApiOperation(value = "게시글(학생회 게시판)에 투표하는 api",
-            notes = "수업게시판의 경우는 해당 api를 사용하면 안됩니다.(추가예정)"
-    )
+    @ApiOperation(value = "게시글(학생회 게시판)에 투표하는 api")
     @PostMapping("/boards/{boardId}/vote")
     public SuccessResponse voteAdd(
             @ApiIgnore Principal principal
@@ -38,11 +36,10 @@ public class VoteController {
             in = ParameterIn.QUERY)
             @RequestParam VoteType type) {
         voteService.vote(principal.getName(), boardId, type);
-        return SuccessResponse.ok();
+        return SuccessResponse.ok("투표하였습니다.");
     }
 
-    @ApiOperation(value = "자유게시판의 게시글의 투표수를 조회하는 api",
-            notes = "수업게시판의 경우는 해당 api를 사용하면 안됩니다.(추가예정)")
+    @ApiOperation(value = "자유게시판의 게시글의 투표수를 조회하는 api")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투표수 조회성공",
                     content = @Content(schema = @Schema(implementation = SuccessResponse.class)))

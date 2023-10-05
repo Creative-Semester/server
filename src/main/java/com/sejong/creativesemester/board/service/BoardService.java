@@ -39,7 +39,7 @@ public class BoardService {
     private final VoteRepository voteRepository;
 
     // 게시글 추가
-    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType,boolean isVote) throws Exception {
+    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType, boolean isVote) throws Exception {
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Vote vote = null;
         Board buildBoard = Board.builder()
@@ -50,7 +50,7 @@ public class BoardService {
                 .boardType(boardType)
                 .build();
 
-        if(isVote==true){
+        if (isVote == true) {
             if (dto.getDeadLine() == null) {
                 throw new NullDeadlineForVoteException();
             }
@@ -94,7 +94,7 @@ public class BoardService {
                         .collect(Collectors.toList()))
                 .build();
     }
-    
+
     // 게시글 상세 조회
     @Transactional(readOnly = true)
     public BoardDetailResponseDto getDetailBoards(Long boardId, String studentNum) {

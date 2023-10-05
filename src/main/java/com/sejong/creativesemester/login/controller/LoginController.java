@@ -34,7 +34,7 @@ public class LoginController {
     @ApiOperation(value = "로그인 기능",
     notes = "세종대학교 api를 이용하여 로그인 합니다.")
     @PostMapping(value = "/login")
-    public SuccessResponse login(@RequestBody LoginRequest loginRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public SuccessResponse<TokenInfo> login(@RequestBody LoginRequest loginRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
         TokenInfo tokenInfo = loginSecurityService.doLogin(loginRequest.toSejongMember(), httpServletRequest);
         log.info("{} : 로그인 성공하였습니다.", loginRequest.toSejongMember().getId());
@@ -47,7 +47,7 @@ public class LoginController {
     @ApiOperation(value = "재발급 기능",
     notes = "만료된 토큰을 재발급합니다.")
     @PostMapping(value = "/reissue")
-    public SuccessResponse reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public SuccessResponse<TokenInfo> reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
 
         return new SuccessResponse(loginSecurityService.reissueToken(tokenRequest.tokenRequest(), httpServletRequest));
@@ -60,7 +60,7 @@ public class LoginController {
         log.info("{}", httpServletRequest.getParameter("accessToken"));
         loginSecurityService.doLogout(tokenRequest.tokenRequest());
 
-        return new SuccessResponse("로그아웃되었습니다.");
+        return SuccessResponse.ok("로그아웃되었습니다.");
     }
 
 }

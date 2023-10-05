@@ -21,7 +21,7 @@ public class Image extends BaseTimeEntity {
 
     private String imageUrl;
     private String imageName;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
