@@ -1,8 +1,10 @@
 package com.sejong.creativesemester.comment.controller;
 
 import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
+import com.sejong.creativesemester.comment.controller.res.CommentListResponse;
 import com.sejong.creativesemester.comment.repository.dto.CommentListDto;
 import com.sejong.creativesemester.comment.service.CommentService;
+import com.sejong.creativesemester.comment.service.res.CommentListResponseDto;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,9 +37,11 @@ public class BoardCommentController {
     @ApiOperation(value = "게시글 댓글 조회 api",
             notes = "수업게시판의 경우 따로 댓글 조회 api 존재")
     @GetMapping("/{boardId}/comment")
-    public SuccessResponse<List<CommentListDto>> getCommentList(
-            @Parameter(name = "boardId", description = "댓글을 달고자하는 게시글의 id") @PathVariable Long boardId) {
-        return new SuccessResponse(commentService.getCommentList(boardId));
+    public SuccessResponse<CommentListResponse> getCommentList(@ApiIgnore Principal principal
+            ,@Parameter(name = "boardId", description = "댓글을 달고자하는 게시글의 id") @PathVariable Long boardId) {
+        List<CommentListResponseDto> commentList = commentService.getCommentList(principal.getName(), boardId);
+        return new SuccessResponse(CommentListResponse.builder()
+                .commentList(commentList).build());
     }
 
 }
