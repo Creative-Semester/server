@@ -11,7 +11,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
 
-@Tag(name = "댓글api",description = "사용불가")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/comment")

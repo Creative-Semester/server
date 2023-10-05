@@ -18,7 +18,6 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import java.security.Principal;
 
-@Tag(name = "게시글 api", description = "게시글에 대한 api입니다.")
 @RestController
 @RequestMapping("/api/v1/boards")
 @RequiredArgsConstructor
