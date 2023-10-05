@@ -29,7 +29,7 @@ public class VoteController {
     public SuccessResponse voteAdd(
             @ApiIgnore Principal principal
             , @PathVariable Long boardId
-            , @Parameter(name = "studentNum", description = "학생의 학번",
+            , @Parameter(name = "VoteType", description = "투표할때 찬성 or 반대",
             schema = @Schema(
                     type = "string",
                     allowableValues = {"AGREE,OPPOSE"}),
@@ -45,7 +45,7 @@ public class VoteController {
                     content = @Content(schema = @Schema(implementation = SuccessResponse.class)))
     })
     @GetMapping("/boards/{boardId}/vote")
-    public SuccessResponse<VoteCountResponse> getVoteCnt(@PathVariable Long boardId) {
+    public SuccessResponse<VoteCountResponse> getVoteCnt(@ApiIgnore Principal principal ,@PathVariable Long boardId) {
         VoteCountResponseDto voteCnt = voteService.getVoteCnt(boardId);
         return new SuccessResponse(
                 VoteCountResponse
