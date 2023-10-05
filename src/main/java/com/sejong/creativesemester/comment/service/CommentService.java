@@ -2,11 +2,13 @@ package com.sejong.creativesemester.comment.service;
 
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.repository.BoardRepository;
+import com.sejong.creativesemester.comment.controller.res.CommentListResponse;
 import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.comment.repository.CommentRepository;
 import com.sejong.creativesemester.comment.repository.CommentRepositoryCustom;
 import com.sejong.creativesemester.comment.repository.dto.CommentListDto;
 import com.sejong.creativesemester.comment.service.req.AddCommentRequestDto;
+import com.sejong.creativesemester.comment.service.res.CommentListResponseDto;
 import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.common.meta.DistributeLock;
@@ -16,7 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 @Transactional
 @RequiredArgsConstructor
@@ -55,8 +61,22 @@ public class CommentService {
         commentById.reportComment();
     }
 
-    public List<CommentListDto> getCommentList(Long boardId) {
-        return commentRepositoryCustom.findAllCommentOfBoard(boardId);
+    public List<CommentListResponseDto> getCommentList(String studentNum, Long boardId) {
+        List<CommentListDto> allCommentOfBoard = commentRepositoryCustom.findAllCommentOfBoard(boardId);
+        List<CommentListResponseDto> commentListResponseDtoList = new ArrayList<>();
+        for (CommentListDto commentListDto : allCommentOfBoard) {
+            Boolean isMine = FALSE;
+            if(commentListDto.getStudentNum().equals(studentNum)){
+                isMine = TRUE;
+            }
+            commentListResponseDtoList.add(CommentListResponseDto.builder()
+                    .id(commentListDto.getId())
+                    .text(commentListDto.getText())
+                    .createdTime(commentListDto.getCreatedTime())
+                    .isMine(isMine)
+                    .build());
+        }
+        return commentListResponseDtoList;
     }
 
 }
