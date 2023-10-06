@@ -15,7 +15,7 @@ public class CommentInfoResponseDto {
     private List<CommentInfoDto> commentInfoDtoList;
     public CommentInfoResponse toResponse(){
         return CommentInfoResponse.builder()
-                .commentInfoDtoList(commentInfoDtoList)
+                .commentList(commentInfoDtoList)
                 .totalPage(totalPage)
                 .currentPage(currentPage)
                 .build();
