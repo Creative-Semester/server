@@ -46,8 +46,6 @@ public class LoginController {
     @ApiOperation(value = "재발급 기능",
     notes = "만료된 토큰을 재발급합니다.")
     @PostMapping(value = "/reissue")
-    public SuccessResponse reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        
     public SuccessResponse<TokenInfo> reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
 
