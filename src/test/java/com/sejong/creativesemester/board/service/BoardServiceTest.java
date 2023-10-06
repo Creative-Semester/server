@@ -1,8 +1,11 @@
 package com.sejong.creativesemester.board.service;
 
 import com.sejong.creativesemester.board.dto.BoardCreateRequestDto;
+import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.board.repository.BoardRepository;
+import com.sejong.creativesemester.image.entity.Image;
+import com.sejong.creativesemester.image.repository.ImageRepository;
 import com.sejong.creativesemester.major.entity.Major;
 import com.sejong.creativesemester.major.repository.MajorRepository;
 import com.sejong.creativesemester.user.entity.Role;
@@ -31,6 +34,7 @@ class BoardServiceTest {
     private BoardService boardService;
     @Autowired
     private MajorRepository majorRepository;
+
 
     @BeforeEach
     void beforeAll() {
