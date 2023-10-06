@@ -30,7 +30,7 @@ public class BoardController {
     )
     @PostMapping()
     public SuccessResponse createBoard(@ApiIgnore Principal principal
-            ,@Valid @RequestBody final BoardCreateRequestDto dto
+            , @Valid @RequestBody final BoardCreateRequestDto dto
             , @Parameter(name = "게시판 종류", required = true,
             schema = @Schema(
                     type = "string"),
@@ -48,8 +48,10 @@ public class BoardController {
     )
     @GetMapping()
     public SuccessResponse<BoardListResponseDto> getBoards(@ApiIgnore Principal principal
-            , @RequestParam(required = false, defaultValue = "0", value = "page") int page) {
-        BoardListResponseDto boardListResponseDto = boardService.getBoards(principal.getName(), page);
+            , @RequestParam(required = false, defaultValue = "0", value = "page") int page
+            , @RequestParam BoardType boardType
+    ) {
+        BoardListResponseDto boardListResponseDto = boardService.getBoards(principal.getName(), page,boardType);
         return new SuccessResponse(boardListResponseDto);
     }
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 @AllArgsConstructor
 @Builder
 @Entity(name = "BOARD_TABLE")
@@ -35,7 +35,7 @@ public class Board extends BaseTimeEntity {
     private String content;
 
     @Builder.Default
-    @OneToMany(mappedBy = "board", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
 
     //학과 아이디 추가
@@ -44,14 +44,11 @@ public class Board extends BaseTimeEntity {
     private Major major;
 
     //댓글을 적은 사용자 아이디
-    @OneToMany(mappedBy = "board",
-            orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "board")
     private List<Comment> comment;
 
     @JoinColumn(name = "voteId")
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
-            orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
     private Vote vote;
 
     @Enumerated(EnumType.STRING)
@@ -63,11 +60,10 @@ public class Board extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void updateImage(Image image) {
+    public void updateImage(Image image){
         this.images.add(image);
         image.updateBoard(this);
     }
-
     public void makeVote(Vote vote) {
         this.vote = vote;
     }
