@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Schema(description = "댓글 응답값")
 @Getter
 @Builder
-public class CommentListResponseDto {
+public class CommentInfoDto {
     @Schema(description = "댓글id")
     private Long id;
     @Schema(description = "댓글내용")

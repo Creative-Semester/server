@@ -1,10 +1,9 @@
 package com.sejong.creativesemester.comment.repository;
 
-import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.comment.repository.dto.CommentListDto;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CommentRepositoryCustom {
-    List<CommentListDto> findAllCommentOfBoard(Long boardId);
+    Page<CommentListDto> findAllCommentOfBoard(Long boardId, Pageable pageable);
 }

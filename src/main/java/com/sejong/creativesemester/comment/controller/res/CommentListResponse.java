@@ -1,14 +1,12 @@
 package com.sejong.creativesemester.comment.controller.res;
 
-import com.sejong.creativesemester.comment.repository.dto.CommentListDto;
-import com.sejong.creativesemester.comment.service.res.CommentListResponseDto;
+import com.sejong.creativesemester.comment.service.res.CommentInfoDto;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 @Getter
 @Builder
 public class CommentListResponse {
-    private List<CommentListResponseDto> commentList;
+    private Page<CommentInfoDto> commentList;
 }
