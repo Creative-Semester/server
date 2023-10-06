@@ -48,6 +48,10 @@ public class LoginController {
     @PostMapping(value = "/reissue")
     public SuccessResponse<TokenInfo> reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c2437f34f865077f44ccde1c1cf5acf8bec2c8d5
         return new SuccessResponse(loginSecurityService.reissueToken(tokenRequest.tokenRequest(), httpServletRequest));
     }
 
