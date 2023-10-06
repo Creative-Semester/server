@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor()
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Entity(name = "BOARD_TABLE")
@@ -35,7 +35,7 @@ public class Board extends BaseTimeEntity {
     private String content;
 
     @Builder.Default
-    @OneToMany(mappedBy = "board"/*, orphanRemoval = true*/, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Image> images = new ArrayList<>();
 
     //학과 아이디 추가

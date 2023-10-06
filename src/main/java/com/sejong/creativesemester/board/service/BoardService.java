@@ -4,7 +4,6 @@ import com.sejong.creativesemester.board.controller.req.ImageInfoRequest;
 import com.sejong.creativesemester.board.dto.*;
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.entity.BoardType;
-import com.sejong.creativesemester.board.repository.BoardRepositoryCustom;
 import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardException;
 import com.sejong.creativesemester.common.format.exception.board.NotMatchBoardAndUserException;
 import com.sejong.creativesemester.common.format.exception.param.NullDeadlineForVoteException;
@@ -38,7 +37,6 @@ public class BoardService {
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
     private final VoteRepository voteRepository;
-    private final BoardRepositoryCustom boardRepositoryCustom;
 
     // 게시글 추가
     public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType, boolean isVote) throws Exception {
@@ -70,15 +68,12 @@ public class BoardService {
         }
     }
 
-    // 게시글 목록 조회
+    // 게시글 조회
     @Transactional(readOnly = true)
-    public BoardListResponseDto getBoards(String studentNum, int page, BoardType boardType) {
+    public BoardListResponseDto getBoards(String studentNum, int page) {
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
-        Page<Board> boardPage = boardRepositoryCustom.findAllByBoardTypeAndMajor(
-                Long.valueOf(byStudentNum.getMajor().getId())
-                , boardType
-                , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
-
+        Page<Board> boardPage = boardRepository.findAllByOrderByCreatedDateDesc(Long.valueOf(byStudentNum.getMajor().getId()),
+                PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
 
         return BoardListResponseDto.builder()
                 .totalPages(boardPage.getTotalPages())
@@ -93,8 +88,8 @@ public class BoardService {
                                                 .imageUrl(image.getImageUrl())
                                                 .imageName(image.getImageName())
                                                 .build())
-                                        .collect(Collectors.toList()))
-                                .createdTime(board.getCreatedTime())
+                                        .findFirst().get())
+                                .day(board.getCreatedTime())
                                 .build())
                         .collect(Collectors.toList()))
                 .build();

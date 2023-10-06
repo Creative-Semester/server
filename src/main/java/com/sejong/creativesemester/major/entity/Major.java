@@ -8,7 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity(name = "MAJOR_TABLE")
 @Getter
-@NoArgsConstructor()
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Major {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
