@@ -9,6 +9,7 @@ import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardEx
 import com.sejong.creativesemester.common.format.exception.board.NotMatchBoardAndUserException;
 import com.sejong.creativesemester.common.format.exception.param.NullDeadlineForVoteException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
+import com.sejong.creativesemester.common.format.exception.user.NotHaveRoleException;
 import com.sejong.creativesemester.image.entity.Image;
 import com.sejong.creativesemester.image.repository.ImageRepository;
 import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
@@ -22,9 +23,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,8 +45,16 @@ public class BoardService {
     private final BoardRepositoryCustom boardRepositoryCustom;
 
     // 게시글 추가
-    public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType, boolean isVote) throws Exception {
-        User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
+    public void createBoard(Authentication authentication
+            , BoardCreateRequestDto dto
+            , BoardType boardType
+            , boolean isVote) throws Exception {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))
+                && boardType.getType().equals(BoardType.Council.getType())) {
+            throw new NotHaveRoleException();
+        }
+        User user = userRepository.findByStudentNum(authentication.getName())
+                .orElseThrow(NotFoundUserException::new);
         Vote vote = null;
         Board buildBoard = Board.builder()
                 .user(user)

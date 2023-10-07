@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -29,7 +30,7 @@ public class BoardController {
             value = "게시글 생성", notes = "학생회게시글과 자유게시글을 작성하는 api입니다."
     )
     @PostMapping()
-    public SuccessResponse createBoard(@ApiIgnore Principal principal
+    public SuccessResponse createBoard(@ApiIgnore Authentication authentication
             , @Valid @RequestBody final BoardCreateRequestDto dto
             , @Parameter(name = "게시판 종류", required = true,
             schema = @Schema(
@@ -37,7 +38,7 @@ public class BoardController {
             in = ParameterIn.QUERY) @RequestParam BoardType boardType
             , @Parameter(name = "투표 여부", required = true, schema = @Schema(
             type = "boolean"), in = ParameterIn.QUERY) @RequestParam Boolean isVote) throws Exception {
-        boardService.createBoard(principal.getName(), dto, boardType, isVote);
+        boardService.createBoard(authentication, dto, boardType, isVote);
         return SuccessResponse.ok();
     }
 
@@ -47,11 +48,11 @@ public class BoardController {
             notes = "게시판 들어왔을때 게시글 목록을 조회해주는 api"
     )
     @GetMapping()
-    public SuccessResponse<BoardListResponseDto> getBoards(@ApiIgnore Principal principal
+    public SuccessResponse<BoardListResponseDto> getBoards(@ApiIgnore Authentication authentication
             , @RequestParam(required = false, defaultValue = "0", value = "page") int page
             , @RequestParam BoardType boardType
     ) {
-        BoardListResponseDto boardListResponseDto = boardService.getBoards(principal.getName(), page,boardType);
+        BoardListResponseDto boardListResponseDto = boardService.getBoards(authentication.getName(), page,boardType);
         return new SuccessResponse(boardListResponseDto);
     }
 
@@ -64,6 +65,7 @@ public class BoardController {
     public SuccessResponse<BoardDetailResponseDto> getDetailBoards(@ApiIgnore Principal principal
             , @PathVariable(value = "boardId", required = true) Long boardId) {
         BoardDetailResponseDto dto = boardService.getDetailBoards(boardId, principal.getName());
+
         return new SuccessResponse(dto);
     }
 
