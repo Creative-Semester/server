@@ -29,13 +29,13 @@ public class VoteController {
     public SuccessResponse voteAdd(
             @ApiIgnore Principal principal
             , @PathVariable Long boardId
-            , @Parameter(name = "VoteType", description = "투표할때 찬성 or 반대",
+            , @Parameter(name = "voteType", description = "투표할때 찬성 or 반대",
             schema = @Schema(
                     type = "string",
                     allowableValues = {"AGREE,OPPOSE"}),
             in = ParameterIn.QUERY)
-            @RequestParam VoteType type) {
-        voteService.vote(principal.getName(), boardId, type);
+            @RequestParam VoteType voteType) {
+        voteService.vote(principal.getName(), boardId, voteType);
         return SuccessResponse.ok("투표하였습니다.");
     }
 
