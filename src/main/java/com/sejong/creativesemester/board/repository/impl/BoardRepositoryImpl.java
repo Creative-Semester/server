@@ -18,12 +18,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Board> findAllByBoardTypeAndMajor(Long majorId, BoardType boardType, Pageable pageable) {
+    public Page<Board> findAllByBoardTypeAndMajorDesc(Long majorId, BoardType boardType, Pageable pageable) {
         List<Board> fetch = queryFactory.selectFrom(board)
                 .where(board.boardType.eq(boardType)
                         , board.major.id.eq(majorId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.createdTime.desc())
                 .fetch();
         int size = queryFactory.select(board.count())
                 .from(board)
