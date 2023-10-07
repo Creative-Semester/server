@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.board.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sejong.creativesemester.image.entity.Image;
 import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,5 +29,6 @@ public class BoardSimpleResponseDto {
     private String content;
     @Schema(description = "이미지 정보")
     private List<ImageInfoResponseDto> images;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdTime;
 }
