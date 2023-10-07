@@ -49,7 +49,7 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryCustom{
 
     public List<PromiseContentsResponseDto> getPromises(Long councilId,Long departmentId) {
         return jpaQueryFactory.select(Projections.constructor(
-                        PromiseContentsResponseDto.class, promise.content, promise.implementation
+                        PromiseContentsResponseDto.class,promise.id ,promise.content, promise.implementation
                 ))
                 .from(department)
                 .leftJoin(department.promises, promise)

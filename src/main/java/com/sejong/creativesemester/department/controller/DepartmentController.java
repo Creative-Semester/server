@@ -35,9 +35,9 @@ public class DepartmentController {
     }
 
     @ApiOperation(value = "부서별 공약목록 및 이행여부 조회 api")
-    @GetMapping("/promises")
+    @GetMapping("/{departmentId}")
     public SuccessResponse<List<PromiseContentsResponseDto>> getPromiseList(@ApiIgnore Principal principal
-            , @Parameter(name = "조회하고 싶은 부서id",required = true) @RequestParam Long departmentId) {
+            , @Parameter(name = "조회하고 싶은 부서id",required = true) @PathVariable Long departmentId) {
         log.info("{} : 부서별 공약조회", principal.getName());
         return new SuccessResponse(
                 departmentService.getPromises(principal.getName(), departmentId)
