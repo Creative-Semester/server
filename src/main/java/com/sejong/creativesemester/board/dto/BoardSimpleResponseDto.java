@@ -30,5 +30,8 @@ public class BoardSimpleResponseDto {
     @Schema(description = "이미지 정보")
     private List<ImageInfoResponseDto> images;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+
+    @Schema(description = "게시글 생성 시간")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 }

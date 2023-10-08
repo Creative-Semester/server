@@ -28,7 +28,7 @@ public class JwtTokenProvider {
 
     private static Key key;
     private long accessTokenValidTime = 60 * 60 * 1000; // 1hours
-    private long refreshTokenValidTime = 60*60*1000*24*14;
+    private long refreshTokenValidTime = 60*60*1000*24*14; // 2주
     private final String BEARER_FREFIX = "Bearer ";
 
     public JwtTokenProvider(
