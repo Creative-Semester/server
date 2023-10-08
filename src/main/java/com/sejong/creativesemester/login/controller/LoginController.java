@@ -39,7 +39,6 @@ public class LoginController {
         TokenInfo tokenInfo = loginSecurityService.doLogin(loginRequest.toSejongMember(), httpServletRequest);
         log.info("{} : 로그인 성공하였습니다.", loginRequest.toSejongMember().getId());
 
-        httpServletResponse.setHeader("accessToken", tokenInfo.getAccessToken()); // header 추가
 
         return new SuccessResponse(tokenInfo);
     }
@@ -48,8 +47,6 @@ public class LoginController {
     notes = "만료된 토큰을 재발급합니다.")
     @PostMapping(value = "/reissue")
     public SuccessResponse<TokenInfo> reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-
-
         return new SuccessResponse(loginSecurityService.reissueToken(tokenRequest.tokenRequest(), httpServletRequest));
     }
 
