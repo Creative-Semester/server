@@ -7,13 +7,14 @@ import com.sejong.creativesemester.department.repository.dto.PromisesForDepartme
 import com.sejong.creativesemester.department.repository.impl.DepartmentRepositoryImpl;
 import com.sejong.creativesemester.department.service.res.DepartmentInfoResponseDto;
 import com.sejong.creativesemester.department.service.res.PromiseContentsResponseDto;
+import com.sejong.creativesemester.department.service.res.DeptPromiseRateDto;
 import com.sejong.creativesemester.department.service.res.PromisePercentageResponseDto;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class DepartmentService {
     static Double totalImplementation = 0D;
 
     public PromisePercentageResponseDto getPromisePercentage(String studentNum) {
-        HashMap<String, Double> map = new HashMap<>();
+        List<DeptPromiseRateDto> deptPromiseRateDtoList = new ArrayList<>();
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(
                 () -> new IllegalArgumentException("없는사용자")
         );
@@ -41,18 +42,19 @@ public class DepartmentService {
          - 각 부서별 공약이행도 퍼센트로 변환
          - 전체공약수 및 이행수 계산
          */
-        promisesForDepartment.forEach(promisesForDepartmentDto -> {
-            totalPromise += promisesForDepartmentDto.getPromiseCount();
-            totalImplementation += promisesForDepartmentDto.getImplementationCount();
-            map.put(promisesForDepartmentDto.getDepartmentName(),
-                    roundToSecondDigit.convert(promisesForDepartmentDto.getImplementationCount() / promisesForDepartmentDto.getPromiseCount())
-            );
+        promisesForDepartment.forEach(pd -> {
+            totalPromise += pd.getPromiseCount();
+            totalImplementation += pd.getImplementationCount();
+            deptPromiseRateDtoList.add(DeptPromiseRateDto.builder()
+                    .departmentName(pd.getDepartmentName())
+                    .percent(roundToSecondDigit.convert(pd.getImplementationCount() / pd.getPromiseCount()))
+                    .build());
         });
 
         //responseDto로 변환
         PromisePercentageResponseDto responseDto = PromisePercentageResponseDto
                 .builder()
-                .promisePercentage(map)
+                .deptPromiseRateDtos(deptPromiseRateDtoList)
                 .totalPercent(roundToSecondDigit.convert(totalImplementation / totalPromise))
                 .build();
 
