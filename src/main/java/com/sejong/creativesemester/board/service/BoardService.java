@@ -11,6 +11,7 @@ import com.sejong.creativesemester.common.format.exception.param.NullDeadlineFor
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.image.entity.Image;
 import com.sejong.creativesemester.image.repository.ImageRepository;
+import com.sejong.creativesemester.image.service.ImageService;
 import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
@@ -39,6 +40,7 @@ public class BoardService {
     private final ImageRepository imageRepository;
     private final VoteRepository voteRepository;
     private final BoardRepositoryCustom boardRepositoryCustom;
+    private final ImageService imageService;
 
     // 게시글 추가
     public void createBoard(String studentNum, BoardCreateRequestDto dto, BoardType boardType, boolean isVote) throws Exception {
@@ -163,6 +165,9 @@ public class BoardService {
         if (!isMyBoard(studentNum, board)) {
             throw new NotMatchBoardAndUserException();
         }
+        // 이미지s3에서 삭제하도록 로직 추가하기
+        board.getImages().stream()
+                .parallel().forEach(image -> imageService.deleteImageToS3(image.getImageName()));
         boardRepository.delete(board);
     }
 }
