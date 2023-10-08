@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sejong.creativesemester.comment.repository.CommentRepositoryCustom;
 import com.sejong.creativesemester.comment.repository.dto.CommentListDto;
+import com.sejong.creativesemester.user.controller.UserCommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,6 +33,28 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .from(comment)
                 .where(comment.board.id.eq(boardId)).fetch().size();
         return new PageImpl<>(commentListDtos, pageable, size);
+    }
+
+    @Override
+    public Page<UserCommentResponseDto> findAllByStudentNumDesc(String studentNum, Pageable pageable) {
+        List<UserCommentResponseDto> commentReponseList = jpaQueryFactory.select(Projections.constructor(
+                        UserCommentResponseDto.class
+                        , comment.id.as("commentId")
+                        , comment.text.as("text")
+                        , comment.createdTime.as("createdTime")
+                        , comment.board.id.as("boardId"))
+                )
+                .from(comment)
+                .where(comment.user.studentNum.eq(studentNum))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .orderBy(comment.createdTime.desc())
+                .fetch();
+
+        int size = jpaQueryFactory.select(comment.count())
+                .from(comment)
+                .where(comment.user.studentNum.eq(studentNum)).fetch().size();
+        return new PageImpl<>(commentReponseList, pageable, size);
 
     }
 }
