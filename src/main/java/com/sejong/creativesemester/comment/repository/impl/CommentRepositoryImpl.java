@@ -25,6 +25,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .where(comment.board.id.eq(boardId))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
+                .orderBy(comment.createdTime.desc())
                 .fetch();
         int size = jpaQueryFactory
                 .select(comment.count())
