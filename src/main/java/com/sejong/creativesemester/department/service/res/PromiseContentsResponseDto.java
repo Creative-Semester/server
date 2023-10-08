@@ -10,6 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class PromiseContentsResponseDto {
+    @Schema(description = "공약id")
+    private Long promiseId;
     @Schema(description = "공약내용")
     private String contents;
     @Schema(description = "이행여부")

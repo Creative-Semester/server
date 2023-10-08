@@ -2,8 +2,10 @@ package com.sejong.creativesemester.promise.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.department.entity.Department;
+import lombok.Getter;
 
 import javax.persistence.*;
+@Getter
 @Entity(name = "PROMISE_TABLE")
 public class Promise extends BaseTimeEntity {
     @Id
@@ -11,9 +13,12 @@ public class Promise extends BaseTimeEntity {
     private Long id;
 
     private String content;
-    private boolean implementation;
-
+    private boolean implementation=false;
+    public void implementPromise(){
+        this.implementation = true;
+    }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
+
 }
