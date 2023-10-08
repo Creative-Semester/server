@@ -33,6 +33,7 @@ public class Vote {
     private Board board;
 
     @OneToMany(mappedBy = "vote")
+    @Builder.Default
     private List<Voter> voter=new ArrayList<>();
 
     public static Vote initVote(LocalDateTime deadLine){
