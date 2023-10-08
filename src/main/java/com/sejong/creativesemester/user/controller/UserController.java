@@ -2,6 +2,7 @@ package com.sejong.creativesemester.user.controller;
 
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.user.service.UserBoardResponseDto;
+import com.sejong.creativesemester.user.service.UserInfoResponseDto;
 import com.sejong.creativesemester.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/user")
 public class UserController {
     private final UserService userService;
+    @GetMapping("/info")
+    public SuccessResponse<UserInfoResponse> userInfo(@ApiIgnore Authentication authentication){
+        return new SuccessResponse(userService.getMyInfo(authentication.getName()).toResponse());
+    }
 
     @GetMapping("/boards")
     public SuccessResponse<UserBoardResponse> myBoard(@ApiIgnore Authentication authentication
