@@ -18,6 +18,23 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
+    public Page<Board> findAllByStudentNumDesc(String studentNum,Pageable pageable) {
+        List<Board> fetch = queryFactory.selectFrom(board)
+                .where(board.user.studentNum.eq(studentNum))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(board.createdTime.desc())
+                .fetch();
+        int size = queryFactory.select(board.count())
+                .from(board)
+                .where(board.user.studentNum.eq(studentNum))
+                .fetch()
+                .size();
+        return new PageImpl<>(fetch, pageable, size);
+
+    }
+
+    @Override
     public Page<Board> findAllByBoardTypeAndMajorDesc(Long majorId, BoardType boardType, Pageable pageable) {
         List<Board> fetch = queryFactory.selectFrom(board)
                 .where(board.boardType.eq(boardType)
