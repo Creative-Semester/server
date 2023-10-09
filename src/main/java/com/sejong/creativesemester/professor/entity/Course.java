@@ -29,8 +29,8 @@ public class Course extends BaseTimeEntity {
     private String classification;
 
     @NotNull
-    private int grade;
+    private String grade;
 
     @NotNull
-    private int score;
+    private String score;
 }
