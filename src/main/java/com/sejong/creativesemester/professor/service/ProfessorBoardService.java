@@ -64,6 +64,7 @@ public class ProfessorBoardService {
                 .totalPage(coursePage.getTotalPages())
                 .currentPage(coursePage.getNumber())
                 .list(coursePage.getContent().stream().map((course) -> CourseSimpleResponseDto.builder()
+                        .courseId(course.getId())
                         .title(course.getTitle())
                         .classification(course.getClassification())
                         .grade(course.getGrade())

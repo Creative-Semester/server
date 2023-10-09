@@ -9,6 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CourseSimpleResponseDto {
 
+    private Long courseId;
+
     private String title;
     private String classification;
     private String grade;
