@@ -18,7 +18,7 @@ import java.security.Principal;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/v1/professor")
+@RequestMapping("/api/v1/professor")
 public class ProfessorBoardController {
 
     private final ProfessorBoardService professorBoardService;
