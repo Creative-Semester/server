@@ -43,7 +43,7 @@ public class ProfessorBoardService {
                 .totalPage(list.getTotalPages())
                 .currentPage(list.getNumber())
                 .list(list.getContent().stream().map((professor -> ProfessorListSimpleResponseDto.builder()
-                        .boardId(professor.getId())
+                        .professId(professor.getId())
                         .name(professor.getName())
                         .intro(professor.getIntro())
                         .image(professor.getImage())
