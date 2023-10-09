@@ -12,7 +12,7 @@ import com.sejong.creativesemester.common.format.exception.user.NotFoundUserExce
 import com.sejong.creativesemester.common.format.exception.user.NotHaveRoleException;
 import com.sejong.creativesemester.image.entity.Image;
 import com.sejong.creativesemester.image.repository.ImageRepository;
-import com.sejong.creativesemester.image.service.ImageService;
+import com.sejong.creativesemester.image.service.FileS3Service;
 import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
@@ -25,11 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +42,7 @@ public class BoardService {
     private final ImageRepository imageRepository;
     private final VoteRepository voteRepository;
     private final BoardRepositoryCustom boardRepositoryCustom;
-    private final ImageService imageService;
+    private final FileS3Service fileS3Service;
 
     // 게시글 추가
     public void createBoard(Authentication authentication
@@ -179,7 +177,7 @@ public class BoardService {
         }
         // 이미지s3에서 삭제하도록 로직 추가하기
         board.getImages().stream()
-                .parallel().forEach(image -> imageService.deleteImageToS3(image.getImageName()));
+                .parallel().forEach(image -> fileS3Service.deleteImageToS3(image.getImageName()));
         boardRepository.delete(board);
     }
 }

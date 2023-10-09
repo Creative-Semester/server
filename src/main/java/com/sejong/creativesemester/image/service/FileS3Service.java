@@ -2,8 +2,6 @@ package com.sejong.creativesemester.image.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.sejong.creativesemester.board.entity.BoardType;
-import com.sejong.creativesemester.image.repository.ImageRepository;
 import com.sejong.creativesemester.image.service.dto.imageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +18,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ImageService {
+public class FileS3Service {
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
