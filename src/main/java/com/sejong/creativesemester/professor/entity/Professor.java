@@ -17,22 +17,26 @@ public class Professor extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotNull
     private String name;
 
     @NotNull
-    private String office;
+    private String location;
 
     @NotNull
-    private String phoneNum;
+    private String phonenum;
+
     @NotNull
     private String email;
+
     @NotNull
     private String majorSub;
+
     @NotNull
     private String lab;
+
     @NotNull
     private String intro;
 
