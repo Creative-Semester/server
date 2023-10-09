@@ -42,12 +42,12 @@ public class ProfessorBoardService {
         return ProfessorListResponseDto.builder()
                 .totalPage(list.getTotalPages())
                 .currentPage(list.getNumber())
-                .list(list.getContent().stream().map((professor -> ProfessorListSimpleResponseDto.builder()
-                        .professId(professor.getId())
+                .list(list.getContent().stream().map((professor) -> ProfessorListSimpleResponseDto.builder()
+                        .professorId(professor.getId())
                         .name(professor.getName())
                         .intro(professor.getIntro())
                         .image(professor.getImage())
-                        .build()))
+                        .build())
                         .collect(Collectors.toList()))
                 .build();
     }
