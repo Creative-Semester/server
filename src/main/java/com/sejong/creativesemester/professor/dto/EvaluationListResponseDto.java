@@ -7,9 +7,9 @@ import java.util.List;
 
 @Builder
 @Getter
-public class ProfessorListResponseDto {
+public class EvaluationListResponseDto {
 
     private int totalPage;
     private int currentPage;
-    private List<ProfessorListSimpleResponseDto> list;
+    private List<EvaluationSimpleResponseDto> evaluationList;
 }
