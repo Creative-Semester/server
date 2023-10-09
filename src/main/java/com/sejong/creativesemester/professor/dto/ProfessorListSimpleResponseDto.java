@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class ProfessorListSimpleResponseDto {
 
-    private Long professId;
+    private Long professorId;
     private String name;
     private String intro;
     private String image;
