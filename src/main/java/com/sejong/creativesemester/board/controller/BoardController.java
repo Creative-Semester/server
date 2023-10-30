@@ -75,7 +75,6 @@ public class BoardController {
             notes = "특정 게시글 수정 api"
     )
     @PutMapping("/{boardId}")
-
     public SuccessResponse modifyBoard(@ApiIgnore Principal principal,
                                        @RequestBody BoardModifyRequestDto dto,
                                        @Parameter(name = "boardId", description = "게시판 아이디")

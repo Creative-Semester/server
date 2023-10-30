@@ -9,6 +9,7 @@ import com.sejong.creativesemester.professor.service.ProfessorBoardService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -18,6 +19,7 @@ import java.security.Principal;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 @RequestMapping("/api/v1/professor")
 public class ProfessorBoardController {
 
@@ -30,6 +32,7 @@ public class ProfessorBoardController {
     @GetMapping()
     public SuccessResponse<ProfessorListResponseDto> getProfessorBoards(@ApiIgnore Authentication authentication,
                                                                         @RequestParam(required = false, defaultValue = "0", value = "page") int page){
+        log.info("name: {}", authentication.getName());
         return new SuccessResponse(professorBoardService.getBoards(authentication.getName(), page));
     }
 

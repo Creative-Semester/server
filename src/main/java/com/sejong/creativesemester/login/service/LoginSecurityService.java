@@ -101,11 +101,10 @@ public class LoginSecurityService {
     }
 
 
-    // 재발급 서비스 구현 시 return 할 클래스?
     // 토큰
     @Transactional
-    public TokenInfo reissueToken(TokenRequest tokenRequest, HttpServletRequest request){
-        String token = jwtTokenProvider.resolveToken(tokenRequest.getRefreshToken());
+    public TokenInfo reissueToken(HttpServletRequest request){
+        String token = jwtTokenProvider.resolveRefreshToken(request);
 
         if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
             User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(token)).orElseThrow(NotFoundUserException::new);
@@ -134,8 +133,8 @@ public class LoginSecurityService {
     }
 
     @Transactional
-    public ResponseEntity<?> doLogout(TokenRequest tokenRequest){
-        String accessToken = jwtTokenProvider.resolveToken(tokenRequest.getAccessToken());
+    public ResponseEntity<?> doLogout(HttpServletRequest httpServletRequest){
+        String accessToken = jwtTokenProvider.resolveAccessToken(httpServletRequest);
         log.info("accessToken: {}", accessToken);
 
         Long expiration = jwtTokenProvider.getExpiration(accessToken);
