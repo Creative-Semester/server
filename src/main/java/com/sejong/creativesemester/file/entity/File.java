@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.image.entity;
+package com.sejong.creativesemester.file.entity;
 
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
@@ -14,13 +14,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Image extends BaseTimeEntity {
+public class File extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imageUrl;
-    private String imageName;
+    private String fileUrl;
+    private String fileName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
     private Board board;

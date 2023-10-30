@@ -2,7 +2,7 @@ package com.sejong.creativesemester.user.service;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sejong.creativesemester.board.entity.BoardType;
-import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
+import com.sejong.creativesemester.file.service.dto.res.ImageInfoResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
