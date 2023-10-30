@@ -46,16 +46,16 @@ public class LoginController {
     @ApiOperation(value = "재발급 기능",
     notes = "만료된 토큰을 재발급합니다.")
     @PostMapping(value = "/reissue")
-    public SuccessResponse<TokenInfo> reissue(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        return new SuccessResponse(loginSecurityService.reissueToken(tokenRequest.tokenRequest(), httpServletRequest));
+    public SuccessResponse<TokenInfo> reissue(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        return new SuccessResponse(loginSecurityService.reissueToken(httpServletRequest));
     }
 
     @ApiOperation(value = "로그아웃 기능",
     notes = "토큰을 만료시켜 로그아웃을 합니다.")
     @PostMapping(value = "/logout")
-    public SuccessResponse logout(@RequestBody TokenRequest tokenRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public SuccessResponse logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         log.info("{}", httpServletRequest.getParameter("accessToken"));
-        loginSecurityService.doLogout(tokenRequest.tokenRequest());
+        loginSecurityService.doLogout(httpServletRequest);
 
         return SuccessResponse.ok("로그아웃되었습니다.");
     }

@@ -5,6 +5,7 @@ import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.council.entity.Council;
 import com.sejong.creativesemester.major.entity.Major;
+import com.sejong.creativesemester.professor.entity.Evaluation;
 import com.sejong.creativesemester.vote.entity.Vote;
 import com.sejong.creativesemester.voter.entity.Voter;
 import lombok.*;
@@ -53,7 +54,15 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     private List<Voter> voter = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<Evaluation> evaluations = new ArrayList<>();
+
     public void addComment(Comment comment) {
         this.comments.add(comment);
     }
+    public void addEvaluation(Evaluation evaluation) {
+        this.evaluations.add(evaluation);
+    }
+
 }

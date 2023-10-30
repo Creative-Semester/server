@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private static Key key;
-    private long accessTokenValidTime = 60 * 60 * 1000; // 1hours
-    private long refreshTokenValidTime = 60*60*1000*24*14; // 2주
+    private long accessTokenValidTime = 60 * 60 * 1000L; // 1hours
+    private long refreshTokenValidTime = 14*24*60*60*1000L; // 2주
     private final String BEARER_FREFIX = "Bearer ";
 
     public JwtTokenProvider(
@@ -59,7 +59,7 @@ public class JwtTokenProvider {
         claims.put("role", authUser.getRole());
 
 
-        Date now = new Date(System.currentTimeMillis());
+        Date now = new Date();
         String token = BEARER_FREFIX+ Jwts.builder()
                 .setClaims(claims)
                 .claim("type", "access")
@@ -74,12 +74,12 @@ public class JwtTokenProvider {
 
     public RefreshToken createRefreshToken(AuthUser authUser, String ip){
 
-        Date now = new Date(System.currentTimeMillis());
+        Date now = new Date();
         String token = BEARER_FREFIX + Jwts.builder()
                 .setSubject(authUser.getStudentNum())
                 .claim("type", "refresh")
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()+(refreshTokenValidTime))) // 2 weeks
+                .setExpiration(new Date(now.getTime()+refreshTokenValidTime)) // 2 weeks
                 .signWith(key)
                 .compact();
         Long expiration = now.getTime()+(refreshTokenValidTime);
@@ -109,14 +109,15 @@ public class JwtTokenProvider {
 
     }
 
-    public String resolveToken(String token){
+    public String resolveRefreshToken(HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("refreshToken");
         if(!ObjectUtils.isEmpty(token) && token.startsWith("Bearer ")){
                 return token.substring(7);
         }
         return null;
     }
 
-    public String resolveHttpToken(HttpServletRequest httpServletRequest){
+    public String resolveAccessToken(HttpServletRequest httpServletRequest){
         String token = httpServletRequest.getHeader("accessToken");
         log.info("token: {}", token);
         if(!ObjectUtils.isEmpty(token) && token.startsWith("Bearer ")){
