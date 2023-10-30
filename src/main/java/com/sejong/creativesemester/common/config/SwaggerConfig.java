@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.common.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
@@ -31,12 +32,19 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
+    @Value("${accessToken}")
+    String accessToken_HEADER;
+
+    @Value("${refreshToken}")
+    String refreshToken_HEADER;
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(true) // Swagger 에서 제공해주는 기본 응답 코드를 표시할 것이면 true
                 .securityContexts(List.of(this.securityContext())) // SecurityContext 설정
-                .securitySchemes(List.of(this.apiKey())) // ApiKey 설정
+                .securitySchemes(List.of(apiKey(), anotherApiKey())) // ApiKey 설정
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.sejong.creativesemester")) // Controller가 들어있는 패키지. 이 경로의 하위에 있는 api만 표시됨.
@@ -53,14 +61,21 @@ public class SwaggerConfig {
 
     private List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope authorizationScope1 = new AuthorizationScope("global", "refreshEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        AuthorizationScope[] authorizationScopes1 = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return List.of(new SecurityReference("accessToken", authorizationScopes));
+        authorizationScopes1[0] = authorizationScope1;
+        return List.of(new SecurityReference(accessToken_HEADER, authorizationScopes), new SecurityReference(refreshToken_HEADER, authorizationScopes1));
     }
 
     // ApiKey 정의
-    private ApiKey apiKey() {
-        return new ApiKey("accessToken", "accessToken", "header");
+    private ApiKey apiKey(){
+        return new ApiKey(accessToken_HEADER, accessToken_HEADER, "header");
+    }
+
+    private ApiKey anotherApiKey(){
+        return new ApiKey(refreshToken_HEADER, refreshToken_HEADER, "header");
     }
 
     public ApiInfo apiInfo() {
