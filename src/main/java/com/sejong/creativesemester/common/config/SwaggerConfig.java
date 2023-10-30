@@ -33,11 +33,6 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Value("${spring.jwt.key}")
-    String accessToken_HEADER;
-
-    @Value("${spring.jwt.key}")
-    String refreshToken_HEADER;
 
     @Bean
     public Docket api() {
@@ -66,16 +61,16 @@ public class SwaggerConfig {
         AuthorizationScope[] authorizationScopes1 = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         authorizationScopes1[0] = authorizationScope1;
-        return List.of(new SecurityReference(accessToken_HEADER, authorizationScopes), new SecurityReference(refreshToken_HEADER, authorizationScopes1));
+        return List.of(new SecurityReference("accessToken", authorizationScopes), new SecurityReference("refreshToken", authorizationScopes1));
     }
 
     // ApiKey 정의
     private ApiKey apiKey(){
-        return new ApiKey("Bearer +accessToken", accessToken_HEADER, "header");
+        return new ApiKey("Bearer +accessToken", "accessToken", "header");
     }
 
     private ApiKey anotherApiKey(){
-        return new ApiKey("Bearer +refreshToken", refreshToken_HEADER, "header");
+        return new ApiKey("Bearer +refreshToken", "refreshToken", "header");
     }
 
     public ApiInfo apiInfo() {
