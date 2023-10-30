@@ -1,4 +1,4 @@
-package com.sejong.creativesemester.image.service.dto.res;
+package com.sejong.creativesemester.file.service.dto.res;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

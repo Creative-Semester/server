@@ -10,10 +10,10 @@ import com.sejong.creativesemester.common.format.exception.board.NotMatchBoardAn
 import com.sejong.creativesemester.common.format.exception.param.NullDeadlineForVoteException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.common.format.exception.user.NotHaveRoleException;
-import com.sejong.creativesemester.image.entity.Image;
-import com.sejong.creativesemester.image.repository.ImageRepository;
-import com.sejong.creativesemester.image.service.ImageService;
-import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
+import com.sejong.creativesemester.file.entity.File;
+import com.sejong.creativesemester.file.repository.FileRepository;
+import com.sejong.creativesemester.file.service.FileS3Service;
+import com.sejong.creativesemester.file.service.dto.res.ImageInfoResponseDto;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.board.repository.BoardRepository;
 import com.sejong.creativesemester.user.repository.UserRepository;
@@ -25,11 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,10 +39,10 @@ public class BoardService {
     private final int TOTAL_ITEMS_PER_PAGE = 20;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
-    private final ImageRepository imageRepository;
+    private final FileRepository fileRepository;
     private final VoteRepository voteRepository;
     private final BoardRepositoryCustom boardRepositoryCustom;
-    private final ImageService imageService;
+    private final FileS3Service fileS3Service;
 
     // 게시글 추가
     public void createBoard(Authentication authentication
@@ -75,12 +73,12 @@ public class BoardService {
         }
         Board saveBoard = boardRepository.save(buildBoard);
         for (ImageInfoRequest imageInfoRequest : dto.getImage()) {
-            Image saveImage = imageRepository.save(Image.builder()
+            File saveFile = fileRepository.save(File.builder()
                     .board(saveBoard)
-                    .imageUrl(imageInfoRequest.getImageUrl())
-                    .imageName(imageInfoRequest.getImageName())
+                    .fileUrl(imageInfoRequest.getImageUrl())
+                    .fileName(imageInfoRequest.getImageName())
                     .build());
-            saveBoard.updateImage(saveImage);
+            saveBoard.updateImage(saveFile);
         }
     }
 
@@ -101,11 +99,11 @@ public class BoardService {
                                 .boardId(board.getId())
                                 .title(board.getTitle())
                                 .content(board.getContent())
-                                .images(board.getImages().stream()
+                                .images(board.getFiles().stream()
                                         .map(image -> ImageInfoResponseDto
                                                 .builder()
-                                                .imageUrl(image.getImageUrl())
-                                                .imageName(image.getImageName())
+                                                .imageUrl(image.getFileUrl())
+                                                .imageName(image.getFileName())
                                                 .build())
                                         .collect(Collectors.toList()))
                                 .createdTime(board.getCreatedTime())
@@ -124,11 +122,11 @@ public class BoardService {
             return BoardDetailResponseDto.builder()
                     .title(board.getTitle())
                     .content(board.getContent())
-                    .images(board.getImages().stream().parallel()
+                    .images(board.getFiles().stream().parallel()
                             .map(image ->
                                     ImageInfoResponseDto.builder()
-                                            .imageName(image.getImageName())
-                                            .imageUrl(image.getImageUrl())
+                                            .imageName(image.getFileName())
+                                            .imageUrl(image.getFileUrl())
                                             .build()
                             ).collect(Collectors.toList()))
                     .isMine(isMine)
@@ -143,11 +141,11 @@ public class BoardService {
         return BoardDetailResponseDto.builder()
                 .title(board.getTitle())
                 .content(board.getContent())
-                .images(board.getImages().stream().parallel()
+                .images(board.getFiles().stream().parallel()
                         .map(image ->
                                 ImageInfoResponseDto.builder()
-                                        .imageName(image.getImageName())
-                                        .imageUrl(image.getImageUrl())
+                                        .imageName(image.getFileName())
+                                        .imageUrl(image.getFileUrl())
                                         .build()
                         ).collect(Collectors.toList()))
                 .isMine(isMine)
@@ -178,8 +176,8 @@ public class BoardService {
             throw new NotMatchBoardAndUserException();
         }
         // 이미지s3에서 삭제하도록 로직 추가하기
-        board.getImages().stream()
-                .parallel().forEach(image -> imageService.deleteImageToS3(image.getImageName()));
+        board.getFiles().stream()
+                .parallel().forEach(image -> fileS3Service.deleteImageToS3(image.getFileName()));
         boardRepository.delete(board);
     }
 }

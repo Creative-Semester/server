@@ -4,13 +4,12 @@ import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.board.repository.BoardRepositoryCustom;
 import com.sejong.creativesemester.comment.repository.CommentRepositoryCustom;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
-import com.sejong.creativesemester.image.service.dto.res.ImageInfoResponseDto;
+import com.sejong.creativesemester.file.service.dto.res.ImageInfoResponseDto;
 import com.sejong.creativesemester.user.controller.UserCommentResponseDto;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +33,10 @@ public class UserService {
                         .boardId(board.getId())
                         .boardType(board.getBoardType())
                         .title(board.getTitle())
-                        .images(board.getImages().stream()
+                        .images(board.getFiles().stream()
                                 .map(image -> ImageInfoResponseDto.builder()
-                                        .imageName(image.getImageName())
-                                        .imageUrl(image.getImageUrl())
+                                        .imageName(image.getFileName())
+                                        .imageUrl(image.getFileUrl())
                                         .build()).collect(Collectors.toList()))
                         .content(board.getContent())
                         .createdTime(board.getCreatedTime())

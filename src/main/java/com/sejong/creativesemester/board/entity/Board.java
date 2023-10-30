@@ -2,14 +2,13 @@ package com.sejong.creativesemester.board.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.comment.entity.Comment;
-import com.sejong.creativesemester.image.entity.Image;
+import com.sejong.creativesemester.file.entity.File;
 import com.sejong.creativesemester.major.entity.Major;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.vote.entity.Vote;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class Board extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "board",orphanRemoval = true)
-    private List<Image> images = new ArrayList<>();
+    private List<File> files = new ArrayList<>();
 
     //학과 아이디 추가
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,9 +59,9 @@ public class Board extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void updateImage(Image image){
-        this.images.add(image);
-        image.updateBoard(this);
+    public void updateImage(File file){
+        this.files.add(file);
+        file.updateBoard(this);
     }
     public void makeVote(Vote vote) {
         this.vote = vote;
