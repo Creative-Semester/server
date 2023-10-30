@@ -33,10 +33,10 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Value("${accessToken}")
+    @Value("${spring.jwt.key}")
     String accessToken_HEADER;
 
-    @Value("${refreshToken}")
+    @Value("${spring.jwt.key}")
     String refreshToken_HEADER;
 
     @Bean
@@ -71,11 +71,11 @@ public class SwaggerConfig {
 
     // ApiKey 정의
     private ApiKey apiKey(){
-        return new ApiKey(accessToken_HEADER, accessToken_HEADER, "header");
+        return new ApiKey("Bearer +accessToken", accessToken_HEADER, "header");
     }
 
     private ApiKey anotherApiKey(){
-        return new ApiKey(refreshToken_HEADER, refreshToken_HEADER, "header");
+        return new ApiKey("Bearer +refreshToken", refreshToken_HEADER, "header");
     }
 
     public ApiInfo apiInfo() {
