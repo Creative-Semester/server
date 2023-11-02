@@ -50,7 +50,7 @@ public class SecurityConfig{
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/swagger-ui/**", "/api/v1/auth/**","/h2-console/**").permitAll()
+                .antMatchers("/swagger-ui/**", "/api/v1/auth/**","/h2-console/**", "/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
