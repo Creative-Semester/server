@@ -52,8 +52,8 @@ public class ProfessorBoardController {
     public SuccessResponse addEvaluation(@ApiIgnore Principal principal,
             @PathVariable(value = "professorId", required = true) Long professorId,
             @PathVariable(value = "courseId", required = true) Long courseId,
-            @Valid @RequestBody AddEvaluationRequest addCommentRequest) {
-        professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest);
+            @Valid @RequestBody AddCommentRequest addCommentRequest) {
+        professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest.toRequestDto());
         return SuccessResponse.ok("댓글이 작성되었습니다.");
     }
 
