@@ -48,7 +48,7 @@ public class ProfessorBoardController {
 
     @ApiOperation(value = "평가댓글 생성 api",
             notes = "강의에 대한 평가댓글을 작성합니다.")
-    @PostMapping("/{professorId}/{courseId}")
+    @RequestMapping(value = "/{professorId}/{courseId}", method = RequestMethod.POST)
     public SuccessResponse addEvaluation(@ApiIgnore Principal principal,
             @PathVariable(value = "professorId", required = true) Long professorId,
             @PathVariable(value = "courseId", required = true) Long courseId,
