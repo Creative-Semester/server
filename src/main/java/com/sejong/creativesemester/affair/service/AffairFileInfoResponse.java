@@ -11,4 +11,5 @@ public class AffairFileInfoResponse {
     private String restMoney;
     private String usedMoney;
     private FileInfo fileInfo;
+    private String title;
 }
