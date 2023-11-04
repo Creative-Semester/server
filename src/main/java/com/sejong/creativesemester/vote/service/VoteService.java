@@ -44,7 +44,7 @@ public class VoteService {
         if (voterRepository.findByVoteIdAndUserId(vote, byStudentNum)) {
             throw new AlreadyVoteUserException();
         }
-        if(boardById.getVote().getDeadLine().isAfter(now())){
+        if(boardById.getVote().getDeadLine().isBefore(now())){
             throw new ExpiredVotePeriodException();
         }
         if (type.getType().equals("AGREE")) {
