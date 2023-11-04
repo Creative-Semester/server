@@ -9,9 +9,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 @Getter
-public class imageInfo {
-    @Schema(description = "이미지명")
-    private String imageName;
+public class fileInfo {
+    @Schema(description = "파일 이름, 해당 이미지 이름")
+    private String fileName;
     @Schema(description = "이미지 url, 해당값이 이미지를 보여줌")
-    private String imageUrl;
+    private String fileUrl;
 }

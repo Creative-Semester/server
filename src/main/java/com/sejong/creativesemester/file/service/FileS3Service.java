@@ -2,7 +2,7 @@ package com.sejong.creativesemester.file.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.sejong.creativesemester.file.service.dto.imageInfo;
+import com.sejong.creativesemester.file.service.dto.fileInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,8 +23,8 @@ public class FileS3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public List<imageInfo> uploadImageToS3(List<MultipartFile> files) throws IOException {
-        ArrayList<imageInfo> imageUrlList = new ArrayList<>();
+    public List<fileInfo> uploadImageToS3(List<MultipartFile> files) throws IOException {
+        ArrayList<fileInfo> imageUrlList = new ArrayList<>();
         for (MultipartFile file : files) {
             String s3FileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -32,9 +32,9 @@ public class FileS3Service {
             objectMetadata.setContentLength(inputStream.available());
             amazonS3Client.putObject(bucket, s3FileName, file.getInputStream(), objectMetadata);
             String savedImgUrl = amazonS3Client.getUrl(bucket, s3FileName).toString();
-            imageUrlList.add(imageInfo.builder()
-                    .imageName(s3FileName)
-                    .imageUrl(savedImgUrl)
+            imageUrlList.add(fileInfo.builder()
+                    .fileName(s3FileName)
+                    .fileUrl(savedImgUrl)
                     .build());
             inputStream.close();
         }
