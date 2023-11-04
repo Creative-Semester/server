@@ -3,6 +3,7 @@ package com.sejong.creativesemester.login.service;
 
 import com.sejong.creativesemester.common.domain.Helper;
 import com.sejong.creativesemester.common.format.exception.login.NoAuthException;
+import com.sejong.creativesemester.common.format.exception.login.NoRefreshTokenException;
 import com.sejong.creativesemester.common.format.exception.login.NoValidTokenException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.login.domain.AuthUser;
@@ -109,12 +110,9 @@ public class LoginSecurityService {
         if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
             User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(token)).orElseThrow(NotFoundUserException::new);
             AuthUser authUser = new AuthUser(user);
-            if(!(authUser.getStudentNum()).equals(jwtTokenProvider.isUserPK(token))) {
-                throw new NotFoundUserException();
-            }
 
             String currentIp = Helper.getClientIp(request);
-            RefreshToken refreshToken = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NotFoundUserException::new);
+            RefreshToken refreshToken = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NoRefreshTokenException::new);
             log.info("currentIp: {}", currentIp);
             if(refreshToken.getIp().equals(currentIp)) {
                 TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, currentIp);
