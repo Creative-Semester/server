@@ -6,6 +6,7 @@ import com.sejong.creativesemester.common.format.exception.board.NotFoundBoardEx
 import com.sejong.creativesemester.common.format.exception.param.NotMatchConditionException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.common.format.exception.vote.AlreadyVoteUserException;
+import com.sejong.creativesemester.common.format.exception.vote.ExpiredVotePeriodException;
 import com.sejong.creativesemester.common.format.exception.vote.NotFoundVoteException;
 import com.sejong.creativesemester.common.meta.DistributeLock;
 import com.sejong.creativesemester.user.entity.User;
@@ -18,6 +19,10 @@ import com.sejong.creativesemester.voter.repository.VoterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+import static java.time.LocalDateTime.now;
 
 @Transactional
 @RequiredArgsConstructor
@@ -38,6 +43,9 @@ public class VoteService {
         }
         if (voterRepository.findByVoteIdAndUserId(vote, byStudentNum)) {
             throw new AlreadyVoteUserException();
+        }
+        if(boardById.getVote().getDeadLine().isAfter(now())){
+            throw new ExpiredVotePeriodException();
         }
         if (type.getType().equals("AGREE")) {
             vote.increaseAgreeCnt(byStudentNum);
