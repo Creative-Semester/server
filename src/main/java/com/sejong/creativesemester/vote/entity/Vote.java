@@ -32,7 +32,7 @@ public class Vote {
     @OneToOne(mappedBy = "vote",fetch = FetchType.LAZY)
     private Board board;
 
-    @OneToMany(mappedBy = "vote")
+    @OneToMany(mappedBy = "vote",orphanRemoval = true)
     @Builder.Default
     private List<Voter> voter=new ArrayList<>();
 
