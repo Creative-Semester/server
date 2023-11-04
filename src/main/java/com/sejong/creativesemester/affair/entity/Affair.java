@@ -17,7 +17,7 @@ public class Affair {
 
     private String restMoney;
     private String usedMoney;
-
+    private String title;
     @OneToOne
     @JoinColumn(name = "file_id")
     private File file;

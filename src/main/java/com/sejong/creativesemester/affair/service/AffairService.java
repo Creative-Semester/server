@@ -21,6 +21,7 @@ public class AffairService {
 
     public void saveAffair(SaveAffairRequest saveAffairRequest) {
         Affair build = Affair.builder()
+                .title(saveAffairRequest.getTitle())
                 .usedMoney(saveAffairRequest.getUsedMoney())
                 .restMoney(saveAffairRequest.getRestMoney()).build();
         Affair save = affairRepository.save(build);
@@ -50,6 +51,7 @@ public class AffairService {
                 .affairId(affair.getId())
                 .usedMoney(affair.getUsedMoney())
                 .restMoney(affair.getRestMoney())
+                .title(affair.getTitle())
                 .fileInfo(FileInfo.builder()
                         .fileName(affair.getFile().getFileName())
                         .fileUrl(affair.getFile().getFileUrl())
