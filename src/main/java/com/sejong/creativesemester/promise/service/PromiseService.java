@@ -15,11 +15,11 @@ import java.util.Optional;
 @Service
 public class PromiseService {
     private final PromiseRepository promiseRepository;
-    public void implementPromise(Authentication authentication, Long promiseId){
+    public boolean implementPromise(Authentication authentication, Long promiseId){
         if(authentication.getAuthorities().stream().anyMatch(a->a.getAuthority().equals("ROLE_USER"))){
             throw new NotHaveRoleException();
         }
         Promise findPromise = promiseRepository.findById(promiseId).orElseThrow(IllegalAccessError::new);
-        findPromise.implementPromise();
+        return findPromise.implementPromise();
     }
 }

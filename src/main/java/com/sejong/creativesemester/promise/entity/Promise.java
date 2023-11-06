@@ -14,8 +14,13 @@ public class Promise extends BaseTimeEntity {
 
     private String content;
     private boolean implementation=false;
-    public void implementPromise(){
-        this.implementation = true;
+    public boolean implementPromise(){
+        if(implementation==true){
+            implementation = false;
+            return false;
+        }
+        implementation = true;
+        return true;
     }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
