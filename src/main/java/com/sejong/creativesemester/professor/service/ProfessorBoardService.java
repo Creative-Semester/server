@@ -5,7 +5,6 @@ import com.sejong.creativesemester.comment.service.req.AddCommentRequestDto;
 import com.sejong.creativesemester.common.format.exception.professor.NotFoundCourseException;
 import com.sejong.creativesemester.common.format.exception.professor.NotMatchProfessorException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
-import com.sejong.creativesemester.professor.controller.req.AddEvaluationRequest;
 import com.sejong.creativesemester.professor.dto.*;
 import com.sejong.creativesemester.professor.entity.Course;
 import com.sejong.creativesemester.professor.entity.Evaluation;

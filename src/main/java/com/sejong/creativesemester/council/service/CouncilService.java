@@ -17,4 +17,8 @@ public class CouncilService {
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         return councilRepository.findCouncilInfoByMajorId(byStudentNum.getMajor().getId()).toResponse();
     }
+
+    public void grantAuthority(String studentNum){
+        User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
+    }
 }
