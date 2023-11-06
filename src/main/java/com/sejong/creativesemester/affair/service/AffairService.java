@@ -1,11 +1,16 @@
 package com.sejong.creativesemester.affair.service;
 
+import com.sejong.creativesemester.affair.controller.RemoveAffairRequest;
 import com.sejong.creativesemester.affair.controller.SaveAffairRequest;
 import com.sejong.creativesemester.affair.entity.Affair;
 import com.sejong.creativesemester.affair.repository.AffairRepository;
+import com.sejong.creativesemester.board.entity.BoardType;
+import com.sejong.creativesemester.common.format.exception.user.NotHaveRoleException;
 import com.sejong.creativesemester.file.entity.File;
 import com.sejong.creativesemester.file.repository.FileRepository;
+import com.sejong.creativesemester.file.service.FileS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +23,12 @@ import java.util.List;
 public class AffairService {
     private final AffairRepository affairRepository;
     private final FileRepository fileRepository;
+    private final FileS3Service fileS3Service;
 
-    public void saveAffair(SaveAffairRequest saveAffairRequest) {
+    public void saveAffair(Authentication authentication, SaveAffairRequest saveAffairRequest) {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+            throw new NotHaveRoleException();
+        }
         Affair build = Affair.builder()
                 .title(saveAffairRequest.getTitle())
                 .usedMoney(saveAffairRequest.getUsedMoney())
@@ -46,7 +55,8 @@ public class AffairService {
         AffairFileInfoResponse affairFileInfoResponse = makeAffaireInfoResponse(byId);
         return affairFileInfoResponse;
     }
-    public AffairFileInfoResponse makeAffaireInfoResponse(Affair affair){
+
+    public AffairFileInfoResponse makeAffaireInfoResponse(Affair affair) {
         return AffairFileInfoResponse.builder()
                 .affairId(affair.getId())
                 .usedMoney(affair.getUsedMoney())
@@ -59,4 +69,11 @@ public class AffairService {
                 .build();
     }
 
+    public void removeAffair(Authentication authentication,Long affairId, RemoveAffairRequest removeAffairRequest) {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+            throw new NotHaveRoleException();
+        }
+        fileS3Service.deleteImageToS3(removeAffairRequest.getAffairName());
+        affairRepository.deleteById(affairId);
+    }
 }
