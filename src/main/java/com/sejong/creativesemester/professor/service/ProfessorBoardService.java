@@ -98,7 +98,6 @@ public class ProfessorBoardService {
                 .build());
 
         log.info("text: {}", evaluation.getText());
-        evaluation.getUser().addEvaluation(evaluation);
     }
 
     public EvaluationListResponseDto getEvaluationBoards(Long professorId, Long courseId, String studentNum, int page){
