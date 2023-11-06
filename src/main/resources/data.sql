@@ -2,6 +2,15 @@ insert into major_table
 values (1, '지능기전');
 insert into major_table
 values (2, '컴퓨터공학과');
+insert into major_table
+values (3, '데이터사이언스학과');
+
+insert into grantcode_table(ID, MAJOR_ID, GRANT_CODE)
+values (1, 1, 'Jngj1');
+insert into grantcode_table(ID, MAJOR_ID, GRANT_CODE)
+values (2, 2, 'cptg2');
+insert into grantcode_table(ID, MAJOR_ID, GRANT_CODE)
+values (3, 3, 'dets3');
 
 insert into council_table
 values (1, now(), now(), '루리', 'test', 7, 1);

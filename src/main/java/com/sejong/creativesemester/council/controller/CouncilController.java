@@ -2,14 +2,12 @@ package com.sejong.creativesemester.council.controller;
 
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.council.service.CouncilService;
+import com.sejong.creativesemester.council.service.req.CouncilGrantRequest;
 import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -30,7 +28,10 @@ public class CouncilController {
 
     @ApiOperation(value = "학과별 인증 코드를 통해 권한을 부여하는 api")
     @PostMapping("/auth")
-    public SuccessResponse getAuth(@ApiIgnore Principal principal){
+    public SuccessResponse getAuth(@ApiIgnore Principal principal,
+                                   @RequestBody CouncilGrantRequest councilGrantRequest){
 
+        councilService.grantAuthority(principal.getName(), councilGrantRequest.getGrantCode());
+        return SuccessResponse.ok("권한이 변경되었습니다.");
     }
 }

@@ -65,4 +65,6 @@ public class User extends BaseTimeEntity {
         this.evaluations.add(evaluation);
     }
 
+    public void updateRole(){this.role = Role.ROLE_COUNCIL; }
+
 }
