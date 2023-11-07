@@ -3,6 +3,7 @@ package com.sejong.creativesemester.council.entity;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.major.entity.Major;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 @Entity(name = "GRANTCODE_TABLE")
 public class GrantCode extends BaseTimeEntity {
 
