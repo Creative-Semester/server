@@ -1,7 +1,7 @@
 package com.sejong.creativesemester.council.service;
 
-import com.sejong.creativesemester.common.format.exception.council.NoMatchException;
-import com.sejong.creativesemester.common.format.exception.council.NotFoundCodeException;
+import com.sejong.creativesemester.common.format.exception.council.NoMatchCouncilCodeException;
+import com.sejong.creativesemester.common.format.exception.council.NotFoundCouncilCodeException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.council.entity.GrantCode;
 import com.sejong.creativesemester.council.repository.GrantCodeRepository;
@@ -28,10 +28,10 @@ public class CouncilService {
 
     public void grantAuthority(String studentNum, String grantCode){
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
-        GrantCode byCode = grantCodeRepository.findByGrantCode(grantCode).orElseThrow(NotFoundCodeException::new);
+        GrantCode byCode = grantCodeRepository.findByGrantCode(grantCode).orElseThrow(NotFoundCouncilCodeException::new);
 
         if(!(byStudentNum.getMajor()).equals(byCode.getMajor())){
-            throw new NoMatchException();
+            throw new NoMatchCouncilCodeException();
         }
         byStudentNum.updateRole();
         log.info("학생 권한: {}", byStudentNum.getRole());

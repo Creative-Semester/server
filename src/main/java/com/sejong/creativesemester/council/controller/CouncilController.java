@@ -27,7 +27,7 @@ public class CouncilController {
     }
 
     @ApiOperation(value = "학과별 인증 코드를 통해 권한을 부여하는 api")
-    @PostMapping("/auth")
+    @PutMapping ("/auth")
     public SuccessResponse getAuth(@ApiIgnore Principal principal,
                                    @RequestBody CouncilGrantRequest councilGrantRequest){
 
