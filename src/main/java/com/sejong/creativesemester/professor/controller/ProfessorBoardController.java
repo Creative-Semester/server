@@ -52,7 +52,7 @@ public class ProfessorBoardController {
                                          @PathVariable(value = "courseId", required = true) Long courseId,
                                          @Valid @RequestBody AddCommentRequest addCommentRequest) {
         professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest.toRequestDto());
-        return SuccessResponse.ok();
+        return SuccessResponse.ok("평가가 작성되었습니다.");
     }
 
     @ApiOperation(value = "평가게시글 조회 api",
