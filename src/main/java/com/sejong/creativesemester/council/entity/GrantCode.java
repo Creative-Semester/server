@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.council.entity;
 
+import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.major.entity.Major;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,16 +13,16 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Getter
 @Entity(name = "GRANTCODE_TABLE")
-public class GrantCode {
+public class GrantCode extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_id")
     private Major major;
 
-    @NotNull
+    @Column(nullable = false)
     private String grantCode;
 }

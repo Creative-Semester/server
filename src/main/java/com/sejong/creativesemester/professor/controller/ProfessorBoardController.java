@@ -52,7 +52,7 @@ public class ProfessorBoardController {
                                          @PathVariable(value = "courseId", required = true) Long courseId,
                                          @Valid @RequestBody AddCommentRequest addCommentRequest) {
         professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest.toRequestDto());
-        return SuccessResponse.ok("댓글이 작성되었습니다.");
+        return SuccessResponse.ok();
     }
 
     @ApiOperation(value = "평가게시글 조회 api",
@@ -65,4 +65,13 @@ public class ProfessorBoardController {
         return new SuccessResponse<>(professorBoardService.getEvaluationBoards(professorId, courseId, authentication.getName(), page));
     }
 
+//    @ApiOperation(value = "평가게시글 삭제 api",
+//    notes = "작성한 평가댓글을 삭제합니다.")
+//    @DeleteMapping("/{professorId}/{courseId}/{evaluationId}")
+//    public SuccessResponse deleteEvalutaion(@ApiIgnore Principal principal,
+//                                            @PathVariable(value = "professorId") Long professorId,
+//                                            @PathVariable(value = "courseId") Long courseId,
+//                                            @PathVariable(value = "evaluationId") Long evaluationId){
+//
+//    }
 }
