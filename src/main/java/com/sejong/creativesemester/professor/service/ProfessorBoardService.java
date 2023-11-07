@@ -1,9 +1,10 @@
 package com.sejong.creativesemester.professor.service;
 
+import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
+import com.sejong.creativesemester.comment.service.req.AddCommentRequestDto;
 import com.sejong.creativesemester.common.format.exception.professor.NotFoundCourseException;
 import com.sejong.creativesemester.common.format.exception.professor.NotMatchProfessorException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
-import com.sejong.creativesemester.professor.controller.req.AddEvaluationRequest;
 import com.sejong.creativesemester.professor.dto.*;
 import com.sejong.creativesemester.professor.entity.Course;
 import com.sejong.creativesemester.professor.entity.Evaluation;
@@ -81,7 +82,7 @@ public class ProfessorBoardService {
                 .build();
     }
 
-    public void addEvaluation(Long professorId, Long courseId, String studentNum, AddEvaluationRequest addCommentRequestDto) {
+    public void addEvaluation(Long professorId, Long courseId, String studentNum, AddCommentRequestDto addCommentRequestDto) {
 
         User userByStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Course course = courseRepository.findById(courseId).orElseThrow(NotFoundCourseException::new);
@@ -97,7 +98,6 @@ public class ProfessorBoardService {
                 .build());
 
         log.info("text: {}", evaluation.getText());
-        evaluation.getUser().addEvaluation(evaluation);
     }
 
     public EvaluationListResponseDto getEvaluationBoards(Long professorId, Long courseId, String studentNum, int page){

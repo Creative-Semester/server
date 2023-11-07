@@ -7,7 +7,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CouncilErrorCode implements ErrorEnumCode {
-    ONLY_USE_COUNCIL("C001","학생회만 사용가능한 기능입니다.");
+    ONLY_USE_COUNCIL("C001","학생회만 사용가능한 기능입니다."),
+    NOT_FOUND_CODE("C002", "코드가 일치하지 않습니다."),
+    NO_MATCH("C003", "해당 학과의 코드와 일치하지 않습니다.");
+
     private String code;
     private String message;
 }

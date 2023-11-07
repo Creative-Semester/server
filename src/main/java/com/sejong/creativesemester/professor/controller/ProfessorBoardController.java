@@ -2,13 +2,11 @@ package com.sejong.creativesemester.professor.controller;
 
 import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
-import com.sejong.creativesemester.professor.controller.req.AddEvaluationRequest;
 import com.sejong.creativesemester.professor.dto.CourseListResponseDto;
 import com.sejong.creativesemester.professor.dto.EvaluationListResponseDto;
 import com.sejong.creativesemester.professor.dto.ProfessorListResponseDto;
 import com.sejong.creativesemester.professor.service.ProfessorBoardService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -50,10 +48,10 @@ public class ProfessorBoardController {
             notes = "강의에 대한 평가댓글을 작성합니다.")
     @RequestMapping(value = "/{professorId}/{courseId}", method = RequestMethod.POST)
     public SuccessResponse addEvaluation(@ApiIgnore Principal principal,
-            @PathVariable(value = "professorId", required = true) Long professorId,
-            @PathVariable(value = "courseId", required = true) Long courseId,
-            @Valid @RequestBody AddEvaluationRequest addCommentRequest) {
-        professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest);
+                                         @PathVariable(value = "professorId", required = true) Long professorId,
+                                         @PathVariable(value = "courseId", required = true) Long courseId,
+                                         @Valid @RequestBody AddCommentRequest addCommentRequest) {
+        professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest.toRequestDto());
         return SuccessResponse.ok("댓글이 작성되었습니다.");
     }
 
