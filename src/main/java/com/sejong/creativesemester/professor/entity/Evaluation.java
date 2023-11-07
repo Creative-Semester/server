@@ -21,7 +21,7 @@ public class Evaluation extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String text;
 
     @JoinColumn(name = "courseId")
