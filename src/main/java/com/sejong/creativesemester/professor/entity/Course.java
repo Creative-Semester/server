@@ -36,6 +36,6 @@ public class Course extends BaseTimeEntity {
     @NotNull
     private String score;
 
-    @OneToMany(mappedBy = "course",orphanRemoval = true)
-    private List<Evaluation> evaluation;
+    @OneToMany(mappedBy = "course", orphanRemoval = true)
+    private List<Evaluation> evaluations;
 }

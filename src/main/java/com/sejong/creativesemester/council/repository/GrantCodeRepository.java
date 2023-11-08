@@ -6,8 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
 public interface GrantCodeRepository extends JpaRepository<GrantCode, Long> {
 
     Optional<GrantCode> findByGrantCode(String grantCode);
+
+
 }

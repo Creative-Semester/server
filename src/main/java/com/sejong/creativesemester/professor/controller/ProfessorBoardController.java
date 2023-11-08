@@ -48,7 +48,7 @@ public class ProfessorBoardController {
             notes = "강의에 대한 평가댓글을 작성합니다.")
     @RequestMapping(value = "/{professorId}/{courseId}", method = RequestMethod.POST)
     public SuccessResponse addEvaluation(@ApiIgnore Principal principal,
-                                         @PathVariable(value = "professorId", required = true) Long professorId,
+                                         @PathVariable Long professorId,
                                          @PathVariable(value = "courseId", required = true) Long courseId,
                                          @Valid @RequestBody AddCommentRequest addCommentRequest) {
         professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest.toRequestDto());
@@ -65,13 +65,14 @@ public class ProfessorBoardController {
         return new SuccessResponse<>(professorBoardService.getEvaluationBoards(professorId, courseId, authentication.getName(), page));
     }
 
-//    @ApiOperation(value = "평가게시글 삭제 api",
-//    notes = "작성한 평가댓글을 삭제합니다.")
-//    @DeleteMapping("/{professorId}/{courseId}/{evaluationId}")
-//    public SuccessResponse deleteEvalutaion(@ApiIgnore Principal principal,
-//                                            @PathVariable(value = "professorId") Long professorId,
-//                                            @PathVariable(value = "courseId") Long courseId,
-//                                            @PathVariable(value = "evaluationId") Long evaluationId){
-//
-//    }
+    @ApiOperation(value = "평가게시글 삭제 api",
+    notes = "작성한 평가댓글을 삭제합니다.")
+    @DeleteMapping("/{professorId}/{courseId}/{evaluationId}")
+    public SuccessResponse deleteEvalutaion(@ApiIgnore Principal principal,
+                                            @PathVariable(value = "professorId") Long professorId,
+                                            @PathVariable(value = "courseId") Long courseId,
+                                            @PathVariable(value = "evaluationId") Long evaluationId){
+        professorBoardService.deleteEvaluation(professorId, courseId, evaluationId, principal.getName());
+        return SuccessResponse.ok("평가글이 성공적으로 삭제되었습니다.");
+    }
 }

@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity(name = "EVALUATION_TABLE")
 public class Evaluation extends BaseTimeEntity {
 
@@ -33,5 +32,10 @@ public class Evaluation extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-
+    @Builder
+    public Evaluation(String text, Course course, User user){
+        this.text = text;
+        this.course = course;
+        this.user = user;
+    }
 }
