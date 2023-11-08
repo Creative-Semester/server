@@ -2,7 +2,9 @@ package com.sejong.creativesemester.professor.service;
 
 import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
 import com.sejong.creativesemester.comment.service.req.AddCommentRequestDto;
+import com.sejong.creativesemester.common.format.exception.board.NotMatchBoardAndUserException;
 import com.sejong.creativesemester.common.format.exception.professor.NotFoundCourseException;
+import com.sejong.creativesemester.common.format.exception.professor.NotFoundEvalException;
 import com.sejong.creativesemester.common.format.exception.professor.NotMatchProfessorException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.professor.dto.*;
@@ -124,4 +126,20 @@ public class ProfessorBoardService {
                         .collect(Collectors.toList())).build();
     }
 
+    @Transactional(readOnly = true)
+    public void deleteEvaluation(Long professorId, Long courseId, Long evaluationId, String studentNum){
+
+        // 1차 검사
+        Course byCourse = courseRepository.findById(courseId).orElseThrow(NotFoundCourseException::new);
+        if(!(byCourse.getProfessor().getId()).equals(professorId)){
+            throw new NotMatchProfessorException();
+        }
+
+        // 2차 검사, evaluation이 존재하는가?
+        Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(NotFoundEvalException::new);
+        if(!(byEvaluation.getUser().getStudentNum()).equals(studentNum)){
+            throw new NotMatchBoardAndUserException();
+        }
+        evaluationRepository.delete(byEvaluation);
+    }
 }
