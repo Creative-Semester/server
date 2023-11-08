@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Entity(name = "GRANTCODE_TABLE")
-public class GrantCode extends BaseTimeEntity {
+public class GrantCode{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

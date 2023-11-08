@@ -11,7 +11,6 @@ values (1, 1, 'Jngj1');
 insert into GRANTCODE_TABLE(ID, MAJOR_ID, GRANT_CODE)
 values (2, 2, 'cptg2');
 insert into GRANTCODE_TABLE(ID, MAJOR_ID, GRANT_CODE)
->>>>>>> 364c276bad81b603a3ffe6b293fb12b8e89bf5c3
 values (3, 3, 'dets3');
 
 insert into council_table
