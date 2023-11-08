@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class ProfessorBoardService {
     private final EvaluationRepository evaluationRepository;
     private final int TOTAL_ITEMS_PER_PAGE = 20;
 
+    @Transactional(readOnly = true)
     public ProfessorListResponseDto getBoards(String studentNum, int page){
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Page<Professor> list = professorRepository.findAllByOrderByName(user.getMajor().getId(), PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
@@ -51,6 +53,7 @@ public class ProfessorBoardService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public CourseListResponseDto getCourseBoards(Long professorId, String studentNum,  int page){
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
 
@@ -101,6 +104,7 @@ public class ProfessorBoardService {
         userByStudentNum.addEvaluation(evaluation);
     }
 
+    @Transactional(readOnly = true)
     public EvaluationListResponseDto getEvaluationBoards(Long professorId, Long courseId, String studentNum, int page){
 
         Course course = courseRepository.findById(courseId).orElseThrow(NotFoundCourseException::new);

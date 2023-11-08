@@ -20,10 +20,11 @@ public class GrantCode extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "GrantCode", nullable = false)
+    private String grantCode;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_id")
     private Major major;
 
-    @Column(nullable = false)
-    private String grantCode;
 }
