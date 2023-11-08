@@ -27,6 +27,10 @@ public class CouncilService {
     }
 
     public void grantAuthority(String studentNum, String grantCode){
+        log.info("grantCode: {}", grantCode);
+        log.info("codeId: {}", grantCodeRepository.findById(1L));
+        log.info("codeId: {}", grantCodeRepository.findById(2L));
+
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         GrantCode byCode = grantCodeRepository.findByGrantCode(grantCode).orElseThrow(NotFoundCouncilCodeException::new);
 

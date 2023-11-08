@@ -87,6 +87,7 @@ public class ProfessorBoardService {
         User userByStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Course course = courseRepository.findById(courseId).orElseThrow(NotFoundCourseException::new);
 
+        log.info("text: {}", addCommentRequestDto.getText());
         if(!(course.getProfessor().getId()).equals(professorId)){
             throw new NotMatchProfessorException();
         }

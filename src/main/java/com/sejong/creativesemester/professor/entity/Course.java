@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.professor.entity;
 
+import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -33,4 +35,7 @@ public class Course extends BaseTimeEntity {
 
     @NotNull
     private String score;
+
+    @OneToMany(mappedBy = "course",orphanRemoval = true)
+    private List<Evaluation> evaluation;
 }

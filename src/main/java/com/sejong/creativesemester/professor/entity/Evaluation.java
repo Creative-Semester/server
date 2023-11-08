@@ -14,12 +14,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity(name = "EVALUATION_TABLE")
 public class Evaluation extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String text;
@@ -32,10 +33,5 @@ public class Evaluation extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Builder
-    public Evaluation(String text, Course course, User user) {
-        this.text = text;
-        this.course = course;
-        this.user = user;
-    }
+
 }
