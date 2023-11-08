@@ -5,11 +5,13 @@ values (2, '컴퓨터공학과');
 insert into major_table
 values (3, '데이터사이언스학과');
 
-insert into GRANTCODE_TABLE
+
+insert into GRANTCODE_TABLE(ID, MAJOR_ID, GRANT_CODE)
 values (1, 1, 'Jngj1');
-insert into GRANTCODE_TABLE
+insert into GRANTCODE_TABLE(ID, MAJOR_ID, GRANT_CODE)
 values (2, 2, 'cptg2');
-insert into GRANTCODE_TABLE
+insert into GRANTCODE_TABLE(ID, MAJOR_ID, GRANT_CODE)
+>>>>>>> 364c276bad81b603a3ffe6b293fb12b8e89bf5c3
 values (3, 3, 'dets3');
 
 insert into council_table
@@ -60,7 +62,8 @@ insert into PROFESSOR_TABLE(NAME, LOCATION, PHONENUM, EMAIL, MAJOR_SUB, LAB, INT
 values ('김세원', 'ai센터 524호', '02-6935-2678', 'sewonkim@sejong.ac.kr', 'Autonomous Ship', 'Autonomous Shipping Lab',
         'Autonomous Vessel, Navigation Algorithm, Optimal Routind Algorithm을 연구하고 있습니다.', 'image', 1);
 
-insert into COURSE_TABLE
-values (1, 1, '신호 및 시스템', '전선', '2학년', '3학점');
-insert into COURSE_TABLE
-values (2, 1, '인공지능', '전필', '3학년', '3학점');
+
+insert into COURSE_TABLE(PROFESSOR_ID, TITLE, CLASSIFICATION, GRADE, SCORE)
+values (1, '신호 및 시스템', '전선', '2학년', '3학점');
+insert into COURSE_TABLE(PROFESSOR_ID, TITLE, CLASSIFICATION, GRADE, SCORE)
+values (1, '인공지능', '전필', '3학년', '3학점');
