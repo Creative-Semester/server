@@ -98,7 +98,6 @@ public class ProfessorBoardService {
                 .user(userByStudentNum)
                 .build());
 
-        log.info("text: {}", evaluation.getText());
         userByStudentNum.addEvaluation(evaluation);
     }
 

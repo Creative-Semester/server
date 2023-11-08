@@ -48,7 +48,7 @@ public class ProfessorBoardController {
             notes = "강의에 대한 평가댓글을 작성합니다.")
     @RequestMapping(value = "/{professorId}/{courseId}", method = RequestMethod.POST)
     public SuccessResponse addEvaluation(@ApiIgnore Principal principal,
-                                         @PathVariable(value = "professorId", required = true) Long professorId,
+                                         @PathVariable Long professorId,
                                          @PathVariable(value = "courseId", required = true) Long courseId,
                                          @Valid @RequestBody AddCommentRequest addCommentRequest) {
         professorBoardService.addEvaluation(professorId, courseId, principal.getName(), addCommentRequest.toRequestDto());
