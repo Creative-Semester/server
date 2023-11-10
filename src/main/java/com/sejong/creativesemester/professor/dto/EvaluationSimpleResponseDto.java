@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class EvaluationSimpleResponseDto {
 
+    private Long evaluationId;
     private String name;
     private String text;
     private LocalDateTime createdTime;

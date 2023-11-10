@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.professor.service;
 
+import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
 import com.sejong.creativesemester.comment.service.req.AddCommentRequestDto;
 import com.sejong.creativesemester.common.format.exception.board.NotMatchBoardAndUserException;
@@ -119,6 +120,7 @@ public class ProfessorBoardService {
                 .totalPage(evaluationPage.getTotalPages())
                 .currentPage(evaluationPage.getNumber())
                 .evaluationList(evaluationPage.getContent().stream().map((evaluation) -> EvaluationSimpleResponseDto.builder()
+                        .evaluationId(evaluation.getId())
                         .name(evaluation.getUser().getName())
                         .text(evaluation.getText())
                         .createdTime(evaluation.getCreatedTime())
@@ -135,11 +137,19 @@ public class ProfessorBoardService {
             throw new NotMatchProfessorException();
         }
 
-        // 2차 검사, evaluation이 존재하는가?
+        // 2차 검사, 내 evaluation인가?
         Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(NotFoundEvalException::new);
-        if(!(byEvaluation.getUser().getStudentNum()).equals(studentNum)){
+        if(!isMyEvaluation(studentNum, byEvaluation)){
             throw new NotMatchBoardAndUserException();
         }
+
         evaluationRepository.delete(byEvaluation);
+    }
+
+    private static Boolean isMyEvaluation(String studentNum, Evaluation evaluation) {
+        if (evaluation.getUser().getStudentNum().equals(studentNum)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 }
