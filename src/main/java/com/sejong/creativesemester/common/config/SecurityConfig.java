@@ -2,6 +2,7 @@ package com.sejong.creativesemester.common.config;
 
 import com.sejong.creativesemester.login.jwt.JwtAuthenticationFilter;
 import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
+import com.sejong.creativesemester.user.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +51,7 @@ public class SecurityConfig{
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers("/api/v1/affair/council", "/api/v1/promise/**").hasRole("ROLE_COUNCIL")
                 .antMatchers("/swagger-ui/**", "/api/v1/auth/**","/h2-console/**", "/health-check").permitAll()
                 .anyRequest().authenticated()
                 .and()

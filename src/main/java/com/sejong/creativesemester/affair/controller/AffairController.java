@@ -3,6 +3,7 @@ package com.sejong.creativesemester.affair.controller;
 import com.sejong.creativesemester.affair.service.AffairFileInfoResponse;
 import com.sejong.creativesemester.affair.service.AffairService;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,23 +17,31 @@ import java.util.List;
 public class AffairController {
     private final AffairService affairService;
 
-    @PostMapping("")
+    @ApiOperation(value = "사무내역을 작성하고 생성하는 api",
+    notes = "학생회의 사무부서를 맡고 있는 부장이 사무내역을 작성합니다.")
+    @PostMapping("/council")
     public SuccessResponse saveAffair(@ApiIgnore Authentication authentication, @RequestBody SaveAffairRequest saveAffairRequest) {
         affairService.saveAffair(authentication,saveAffairRequest);
         return SuccessResponse.ok("사무내역이 저장되엇습니다.");
     }
 
+    @ApiOperation(value = "사무내역 리스트를 조회하는 api",
+    notes = "저장되었던 모든 사무내역을 리스트로 조회합니다.")
     @GetMapping("")
     public SuccessResponse<List<AffairFileInfoResponse>> findAffairLists() {
         return new SuccessResponse(affairService.findAllAffair());
     }
 
+    @ApiOperation(value = "특정 사무내역을 조회하는 api",
+    notes = "affairId를 통해 원하는 사무내역을 상세조회합니다.")
     @GetMapping("/{affairId}")
     public SuccessResponse<AffairFileInfoResponse> findAffair(@PathVariable Long affairId) {
         return new SuccessResponse(affairService.findAffair(affairId));
     }
 
-    @DeleteMapping("/{affairId}")
+    @ApiOperation(value = "특정 사무내역을 삭제하는 api",
+    notes = "affairId를 통해 원하는 사무내역을 학생회 측에서 삭제합니다.")
+    @DeleteMapping("/council/{affairId}")
     public SuccessResponse removeAffair(@PathVariable Long affairId,
                                         @RequestBody RemoveAffairRequest removeAffairRequest,
                                         @ApiIgnore Authentication authentication) {
