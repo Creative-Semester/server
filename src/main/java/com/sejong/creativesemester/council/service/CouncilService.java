@@ -7,7 +7,6 @@ import com.sejong.creativesemester.council.entity.GrantCode;
 import com.sejong.creativesemester.council.repository.GrantCodeRepository;
 import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import com.sejong.creativesemester.council.repository.CouncilRepository;
-import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +36,7 @@ public class CouncilService {
         if(!(byStudentNum.getMajor()).equals(byCode.getMajor())){
             throw new NoMatchCouncilCodeException();
         }
-        byStudentNum.updateRole();
+
+        userRepository.findByStudentNumAndUpdate(byStudentNum.getStudentNum());
     }
 }
