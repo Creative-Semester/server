@@ -84,6 +84,8 @@ public class LoginSecurityService {
         AuthUser authUser = new AuthUser(user);
 
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, Helper.getClientIp(httpServletRequest));
+        tokenInfo.setRole(authUser.getRole());
+        tokenInfo.setName(authUser.getStudentNum());
 
         redisTemplate.opsForValue()
                 .set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
@@ -110,13 +112,13 @@ public class LoginSecurityService {
         if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
             User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(token)).orElseThrow(NotFoundUserException::new);
             AuthUser authUser = new AuthUser(user);
+            log.info("reissue: {}, {}", authUser.getUsername(), authUser.getRole());
 
             String currentIp = Helper.getClientIp(request);
             RefreshToken refreshToken = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NoRefreshTokenException::new);
             log.info("currentIp: {}", currentIp);
             if(refreshToken.getIp().equals(currentIp)) {
                 TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, currentIp);
-                log.info("role update? : {}", authUser.getRole());
                 redisTemplate.opsForValue().set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
                         tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
 
@@ -125,6 +127,9 @@ public class LoginSecurityService {
                         .ip(currentIp)
                         .refreshToken(tokenInfo.getRefreshToken())
                         .expiration(tokenInfo.getRefreshTokenExpiration()).build());
+
+                tokenInfo.setRole(authUser.getRole());
+                tokenInfo.setName(authUser.getUsername());
                 return tokenInfo;
             }
         }
