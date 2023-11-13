@@ -47,7 +47,7 @@ values (9, now(), now(), '기획4', true, 3);
 insert into user_table(STUDENT_NUM, NAME, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
 values ('19011721', '이재표', now(), now(), 1, 'ROLE_ADMIN', '재학', 1);
 insert into user_table(STUDENT_NUM, NAME, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
-values ('19011729', '박정곤', now(), now(), 1, 'ROLE_ADMIN', '재학', 1);
+values ('19011729', '박정곤', now(), now(), 1, 'ROLE_USER', '재학', 1);
 
 
 -- -- insert into board_table
