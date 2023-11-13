@@ -116,6 +116,7 @@ public class LoginSecurityService {
             log.info("currentIp: {}", currentIp);
             if(refreshToken.getIp().equals(currentIp)) {
                 TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, currentIp);
+                log.info("role update? : {}", authUser.getRole());
                 redisTemplate.opsForValue().set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
                         tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
 
