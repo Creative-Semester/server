@@ -1,19 +1,13 @@
 package com.sejong.creativesemester.login.controller;
 
 
-import antlr.Token;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.login.dto.LoginRequest;
-import com.sejong.creativesemester.login.dto.TokenRequest;
-import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
 import com.sejong.creativesemester.login.jwt.TokenInfo;
-import com.sejong.creativesemester.login.repository.RefreshTokenRepository;
 import com.sejong.creativesemester.login.service.LoginSecurityService;
-import com.sejong.creativesemester.user.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
     private final LoginSecurityService loginSecurityService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final UserRepository userRepository;
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final RefreshTokenRepository refreshTokenRepository;
 
     @ApiOperation(value = "로그인 기능",
     notes = "세종대학교 api를 이용하여 로그인 합니다.")

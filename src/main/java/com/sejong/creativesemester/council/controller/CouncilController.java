@@ -1,9 +1,11 @@
 package com.sejong.creativesemester.council.controller;
 
+
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import com.sejong.creativesemester.council.service.CouncilService;
 import com.sejong.creativesemester.council.service.req.CouncilGrantRequest;
 import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
+import com.sejong.creativesemester.user.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
