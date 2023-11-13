@@ -7,11 +7,13 @@ import com.sejong.creativesemester.council.entity.GrantCode;
 import com.sejong.creativesemester.council.repository.GrantCodeRepository;
 import com.sejong.creativesemester.council.service.res.CouncilInfoResponse;
 import com.sejong.creativesemester.council.repository.CouncilRepository;
+import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 
 @RequiredArgsConstructor
 @Slf4j
@@ -36,6 +38,5 @@ public class CouncilService {
             throw new NoMatchCouncilCodeException();
         }
         byStudentNum.updateRole();
-        log.info("학생 권한: {}", byStudentNum.getRole());
     }
 }

@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
 import java.security.Principal;
 
 @Slf4j
@@ -30,8 +29,7 @@ public class CouncilController {
     @PutMapping ("/auth")
     public SuccessResponse getAuth(@ApiIgnore Principal principal,
                                    @RequestBody CouncilGrantRequest councilGrantRequest){
-
         councilService.grantAuthority(principal.getName(), councilGrantRequest.getGrantCode());
-        return SuccessResponse.ok("권한이 변경되었습니다.");
+        return SuccessResponse.ok("권한 변경에 성공하였습니다.");
     }
 }

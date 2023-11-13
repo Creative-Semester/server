@@ -3,6 +3,7 @@ package com.sejong.creativesemester.login.jwt;
 import com.sejong.creativesemester.login.domain.AccessToken;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.login.domain.RefreshToken;
+import com.sejong.creativesemester.user.entity.Role;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -161,4 +162,5 @@ public class JwtTokenProvider {
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
+
 }
