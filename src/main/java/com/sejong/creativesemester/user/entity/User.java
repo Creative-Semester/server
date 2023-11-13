@@ -15,7 +15,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
@@ -65,6 +65,8 @@ public class User extends BaseTimeEntity {
         this.evaluations.add(evaluation);
     }
 
-    public void updateRole(){this.role = Role.ROLE_COUNCIL; }
+    public void updateRole(){
+        this.role = Role.ROLE_COUNCIL;
+    }
 
 }
