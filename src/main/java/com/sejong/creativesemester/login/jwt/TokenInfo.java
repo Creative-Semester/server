@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.login.jwt;
 
+import com.sejong.creativesemester.user.entity.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,10 @@ public class TokenInfo {
     private Long accessTokenExpiration;
     @Schema(description = "refreshToken 만료시간`")
     private Long refreshTokenExpiration;
+
+    @Schema(description = "JWT의 사용자의 권한")
+    private Role role;
+
+    @Schema(description = "JWT의 사용자 이름")
+    private String name;
 }
