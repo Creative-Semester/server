@@ -7,6 +7,7 @@ import com.sejong.creativesemester.professor.dto.EvaluationListResponseDto;
 import com.sejong.creativesemester.professor.dto.ProfessorListResponseDto;
 import com.sejong.creativesemester.professor.service.ProfessorBoardService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -74,5 +75,19 @@ public class ProfessorBoardController {
                                             @PathVariable(value = "evaluationId") Long evaluationId){
         professorBoardService.deleteEvaluation(professorId, courseId, evaluationId, principal.getName());
         return SuccessResponse.ok("평가글이 성공적으로 삭제되었습니다.");
+    }
+
+    @ApiOperation(
+            value = "댓글 신고 api",
+            notes = "수정예정으로 사용하지말기, 동시성 고려안함"
+    )
+    @PostMapping("/{professorId}/{courseId}/{evaluationId}/report")
+    public SuccessResponse reportComment(@ApiIgnore Principal principal,
+                                         @PathVariable(value = "professorId") Long professorId,
+                                         @PathVariable(value = "courseId") Long courseId,
+                                         @PathVariable(value = "evaluationId") Long evaluationId) {
+
+        professorBoardService.reportEvaluation(principal.getName(), evaluationId);
+        return SuccessResponse.ok("평가글을 신고하였습니다.");
     }
 }
