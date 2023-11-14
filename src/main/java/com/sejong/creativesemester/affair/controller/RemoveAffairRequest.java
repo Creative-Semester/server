@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 public class RemoveAffairRequest {
     @Schema(name = "사무내역 파일 이름")
-    private String affairName;
+    private String fileName;
 }

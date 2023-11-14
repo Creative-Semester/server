@@ -46,8 +46,9 @@ public class UserService {
                 .currentPage(findByStudentNumDesc.getNumber())
                 .boardDtoList(collect)
                 .build();
-
-
+    }
+    public User findUser(String studentNum){
+        return userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
     }
 
     public Page<UserCommentResponseDto> getMyComment(String studentNum, int page) {
@@ -61,5 +62,9 @@ public class UserService {
                 .name(findUser.getName())
                 .majorName(findUser.getMajor().getName())
                 .build();
+    }
+
+    public User findUserByBoardId(Long boardId){
+        return userRepository.findByBoardId(boardId);
     }
 }
