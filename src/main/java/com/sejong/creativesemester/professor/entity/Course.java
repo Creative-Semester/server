@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,10 +19,10 @@ public class Course extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @JoinColumn(name = "professorId")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "professorId")
     private Professor professor;
 
     @NotNull
@@ -36,6 +37,6 @@ public class Course extends BaseTimeEntity {
     @NotNull
     private String score;
 
-    @OneToMany(mappedBy = "course", orphanRemoval = true)
-    private List<Evaluation> evaluations;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Evaluation> evaluations = new ArrayList<>();
 }
