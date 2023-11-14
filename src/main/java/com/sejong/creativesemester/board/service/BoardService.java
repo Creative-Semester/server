@@ -72,13 +72,15 @@ public class BoardService {
             buildBoard.makeVote(saveVote);
         }
         Board saveBoard = boardRepository.save(buildBoard);
-        for (ImageInfoRequest imageInfoRequest : dto.getImage()) {
-            File saveFile = fileRepository.save(File.builder()
-                    .board(saveBoard)
-                    .fileUrl(imageInfoRequest.getImageUrl())
-                    .fileName(imageInfoRequest.getImageName())
-                    .build());
-            saveBoard.updateImage(saveFile);
+        if(dto.getImage()!=null){
+            for (ImageInfoRequest imageInfoRequest : dto.getImage()) {
+                File saveFile = fileRepository.save(File.builder()
+                        .board(saveBoard)
+                        .fileUrl(imageInfoRequest.getImageUrl())
+                        .fileName(imageInfoRequest.getImageName())
+                        .build());
+                saveBoard.updateImage(saveFile);
+            }
         }
     }
 
@@ -179,5 +181,8 @@ public class BoardService {
         board.getFiles().stream()
                 .parallel().forEach(image -> fileS3Service.deleteImageToS3(image.getFileName()));
         boardRepository.delete(board);
+    }
+    public Board findBoardById(Long boardId){
+        return boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
     }
 }

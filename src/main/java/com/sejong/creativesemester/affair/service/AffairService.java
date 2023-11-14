@@ -4,7 +4,6 @@ import com.sejong.creativesemester.affair.controller.RemoveAffairRequest;
 import com.sejong.creativesemester.affair.controller.SaveAffairRequest;
 import com.sejong.creativesemester.affair.entity.Affair;
 import com.sejong.creativesemester.affair.repository.AffairRepository;
-import com.sejong.creativesemester.board.entity.BoardType;
 import com.sejong.creativesemester.common.format.exception.user.NotHaveRoleException;
 import com.sejong.creativesemester.file.entity.File;
 import com.sejong.creativesemester.file.repository.FileRepository;
@@ -73,7 +72,7 @@ public class AffairService {
         if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
             throw new NotHaveRoleException();
         }
-        fileS3Service.deleteImageToS3(removeAffairRequest.getAffairName());
+        fileS3Service.deleteImageToS3(removeAffairRequest.getFileName());
         affairRepository.deleteById(affairId);
     }
 }
