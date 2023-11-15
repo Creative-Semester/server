@@ -122,7 +122,7 @@ public class ProfessorBoardService {
                 .currentPage(evaluationPage.getNumber())
                 .evaluationList(evaluationPage.getContent().stream().map((evaluation) -> EvaluationSimpleResponseDto.builder()
                         .evaluationId(evaluation.getId())
-                        .name(evaluation.getUser().getName())
+                        .studentNum(evaluation.getUser().getStudentNum())
                         .text(evaluation.getText())
                         .createdTime(evaluation.getCreatedTime())
                         .build())
