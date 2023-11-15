@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -46,5 +48,8 @@ public class Professor extends BaseTimeEntity {
     @JoinColumn(name = "majorId")
     @ManyToOne(fetch = FetchType.LAZY)
     private Major major;
+
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.REMOVE)
+    private List<Course> courses = new ArrayList<>();
 
 }

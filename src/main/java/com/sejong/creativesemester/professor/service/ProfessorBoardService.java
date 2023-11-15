@@ -2,12 +2,14 @@ package com.sejong.creativesemester.professor.service;
 
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.comment.controller.req.AddCommentRequest;
+import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.comment.service.req.AddCommentRequestDto;
 import com.sejong.creativesemester.common.format.exception.board.NotMatchBoardAndUserException;
 import com.sejong.creativesemester.common.format.exception.professor.NotFoundCourseException;
 import com.sejong.creativesemester.common.format.exception.professor.NotFoundEvalException;
 import com.sejong.creativesemester.common.format.exception.professor.NotMatchProfessorException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
+import com.sejong.creativesemester.common.meta.DistributeLock;
 import com.sejong.creativesemester.professor.dto.*;
 import com.sejong.creativesemester.professor.entity.Course;
 import com.sejong.creativesemester.professor.entity.Evaluation;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class ProfessorBoardService {
 
     private final UserRepository userRepository;
@@ -37,8 +40,8 @@ public class ProfessorBoardService {
     private final CourseRepository courseRepository;
     private final EvaluationRepository evaluationRepository;
     private final int TOTAL_ITEMS_PER_PAGE = 20;
+    private static final String EVALUATION_KEY = "EVALUATION_";
 
-    @Transactional(readOnly = true)
     public ProfessorListResponseDto getBoards(String studentNum, int page){
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Page<Professor> list = professorRepository.findAllByOrderByName(user.getMajor().getId(), PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
@@ -56,7 +59,6 @@ public class ProfessorBoardService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
     public CourseListResponseDto getCourseBoards(Long professorId, String studentNum,  int page){
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
 
@@ -98,16 +100,15 @@ public class ProfessorBoardService {
             throw new NotMatchProfessorException();
         }
 
-        Evaluation evaluation = evaluationRepository.save(Evaluation.builder()
+        evaluationRepository.save(Evaluation.builder()
                 .text(addCommentRequestDto.getText())
                 .course(course)
                 .user(userByStudentNum)
                 .build());
 
-        userByStudentNum.addEvaluation(evaluation);
     }
 
-    @Transactional(readOnly = true)
+
     public EvaluationListResponseDto getEvaluationBoards(Long professorId, Long courseId, String studentNum, int page){
 
         Course course = courseRepository.findById(courseId).orElseThrow(NotFoundCourseException::new);
@@ -128,22 +129,23 @@ public class ProfessorBoardService {
                         .collect(Collectors.toList())).build();
     }
 
-    @Transactional(readOnly = true)
+
     public void deleteEvaluation(Long professorId, Long courseId, Long evaluationId, String studentNum){
 
-        // 1차 검사
-        Course byCourse = courseRepository.findById(courseId).orElseThrow(NotFoundCourseException::new);
-        if(!(byCourse.getProfessor().getId()).equals(professorId)){
-            throw new NotMatchProfessorException();
-        }
-
-        // 2차 검사, 내 evaluation인가?
+        // 1차 검사, 내 evaluation인가?
         Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(NotFoundEvalException::new);
         if(!isMyEvaluation(studentNum, byEvaluation)){
             throw new NotMatchBoardAndUserException();
         }
 
         evaluationRepository.delete(byEvaluation);
+    }
+
+    @DistributeLock(identifier = EVALUATION_KEY, key = "#evaluationId")
+    public void reportEvaluation(String studentNum, Long evaluationId) {
+        Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(NotFoundEvalException::new);
+
+        byEvaluation.reportEval();
     }
 
     private static Boolean isMyEvaluation(String studentNum, Evaluation evaluation) {

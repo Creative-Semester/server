@@ -54,15 +54,9 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     private List<Voter> voter = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    @Builder.Default
-    private List<Evaluation> evaluations = new ArrayList<>();
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
-    }
-    public void addEvaluation(Evaluation evaluation) {
-        this.evaluations.add(evaluation);
     }
 
     public void updateRole(){
