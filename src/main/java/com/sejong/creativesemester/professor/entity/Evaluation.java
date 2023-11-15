@@ -33,7 +33,7 @@ public class Evaluation extends BaseTimeEntity {
     @JoinColumn(name = "userId")
     private User user;
 
-    private Long count;
+    private Integer count;
 
     public void reportEval(){
         this.count++;

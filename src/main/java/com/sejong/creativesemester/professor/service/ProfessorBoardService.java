@@ -104,6 +104,7 @@ public class ProfessorBoardService {
                 .text(addCommentRequestDto.getText())
                 .course(course)
                 .user(userByStudentNum)
+                .count(0)
                 .build());
 
     }
