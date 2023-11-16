@@ -44,7 +44,6 @@ public class LoginSecurityService {
 
 
     // login 했을 때 정보들 가져오기
-    @Transactional
     public TokenInfo doLogin(SejongMemberRequestDto sejongMemberRequestDto, HttpServletRequest httpServletRequest){
 
 //        sejongMemberRequestDto.setId("19011729");
@@ -105,19 +104,22 @@ public class LoginSecurityService {
 
 
     // 토큰
-    @Transactional
-    public TokenInfo reissueToken(HttpServletRequest request){
-        String token = jwtTokenProvider.resolveRefreshToken(request);
+    public Object reissueToken(HttpServletRequest request){
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+        String accessToken = jwtTokenProvider.resolveAccessToken(request);
 
-        if(jwtTokenProvider.validationToken(token) && jwtTokenProvider.isRefreshToken(token)){
-            User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(token)).orElseThrow(NotFoundUserException::new);
+        if(jwtTokenProvider.getExpiration(accessToken)>0){
+            return "reissue not required";
+        }
+        if(jwtTokenProvider.validationToken(refreshToken) && jwtTokenProvider.isRefreshToken(refreshToken)){
+            User user = userRepository.findByStudentNum(jwtTokenProvider.isUserPK(refreshToken)).orElseThrow(NotFoundUserException::new);
             AuthUser authUser = new AuthUser(user);
             log.info("reissue: {}, {}", authUser.getUsername(), authUser.getRole());
 
             String currentIp = Helper.getClientIp(request);
-            RefreshToken refreshToken = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NoRefreshTokenException::new);
+            RefreshToken refreshToken1 = refreshTokenRepository.findById(authUser.getStudentNum()).orElseThrow(NoRefreshTokenException::new);
             log.info("currentIp: {}", currentIp);
-            if(refreshToken.getIp().equals(currentIp)) {
+            if(refreshToken1.getIp().equals(currentIp)) {
                 TokenInfo tokenInfo = jwtTokenProvider.generateToken(authUser, currentIp);
                 redisTemplate.opsForValue().set("RefreshToken:" + authUser.getStudentNum(), tokenInfo.getRefreshToken(),
                         tokenInfo.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
@@ -136,7 +138,6 @@ public class LoginSecurityService {
         throw new NoValidTokenException();
     }
 
-    @Transactional
     public ResponseEntity<?> doLogout(HttpServletRequest httpServletRequest){
         String accessToken = jwtTokenProvider.resolveAccessToken(httpServletRequest);
         log.info("accessToken: {}", accessToken);
