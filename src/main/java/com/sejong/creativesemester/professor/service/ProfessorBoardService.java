@@ -131,6 +131,7 @@ public class ProfessorBoardService {
     }
 
 
+
     public void deleteEvaluation(Long professorId, Long courseId, Long evaluationId, String studentNum){
 
         // 1차 검사, 내 evaluation인가?
@@ -144,7 +145,9 @@ public class ProfessorBoardService {
 
     @DistributeLock(identifier = EVALUATION_KEY, key = "#evaluationId")
     public void reportEvaluation(String studentNum, Long evaluationId) {
-        Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(NotFoundEvalException::new);
+        Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(
+                () -> new NullPointerException("존재하지 않는 댓글입니다.")
+        );
 
         byEvaluation.reportEval();
     }
