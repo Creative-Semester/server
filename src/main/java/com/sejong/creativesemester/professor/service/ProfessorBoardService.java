@@ -145,9 +145,7 @@ public class ProfessorBoardService {
 
     @DistributeLock(identifier = EVALUATION_KEY, key = "#evaluationId")
     public void reportEvaluation(String studentNum, Long evaluationId) {
-        Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(
-                () -> new NullPointerException("존재하지 않는 댓글입니다.")
-        );
+        Evaluation byEvaluation = evaluationRepository.findById(evaluationId).orElseThrow(NotFoundEvalException::new);
 
         byEvaluation.reportEval();
     }
