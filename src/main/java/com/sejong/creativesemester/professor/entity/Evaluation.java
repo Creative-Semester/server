@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,18 +25,17 @@ public class Evaluation extends BaseTimeEntity {
     @Column(nullable = false)
     private String text;
 
-    @JoinColumn(name = "courseId")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "courseId")
     private Course course;
 
-    @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
     private User user;
 
-    @Builder
-    public Evaluation(String text, Course course, User user){
-        this.text = text;
-        this.course = course;
-        this.user = user;
+    private Integer count;
+
+    public void reportEval(){
+        this.count++;
     }
 }

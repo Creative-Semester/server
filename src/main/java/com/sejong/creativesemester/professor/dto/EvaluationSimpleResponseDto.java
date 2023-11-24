@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class EvaluationSimpleResponseDto {
 
     private Long evaluationId;
-    private String name;
+    private String studentNum;
     private String text;
     private LocalDateTime createdTime;
 }
