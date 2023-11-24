@@ -50,6 +50,9 @@ public class Board extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.LAZY,orphanRemoval = true)
     private Vote vote;
 
+//    @OneToMany(mappedBy = "board")
+//    private List<ChatRoom> chatRoom;
+
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
 

@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import springfox.documentation.spring.web.scanners.CachingOperationReader;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class SecurityConfig{
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/api/v1/affair/council", "/api/v1/promise/**").hasRole("COUNCIL")
-                .antMatchers("/swagger-ui/**", "/api/v1/auth/**","/h2-console/**", "/health-check").permitAll()
+                .antMatchers("/ws/**","/pub/**","/sub/**","/chat/**","/ws/chat/**","/swagger-ui/**", "/api/v1/auth/**","/h2-console/**", "/health-check").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
@@ -62,7 +63,7 @@ public class SecurityConfig{
                 .and()
                 .sessionManagement() // 다중 세션 로그인 유무
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.headers().frameOptions().sameOrigin();
 
 
         return http.build();
@@ -77,9 +78,9 @@ public class SecurityConfig{
     public CorsConfigurationSource configurationSource(){
         CorsConfiguration cors = new CorsConfiguration();
         cors.setAllowCredentials(true);
-        cors.setAllowedOrigins(List.of("*"));
-        cors.setAllowedMethods(List.of("POST","PUT","PATCH","DELETE","GET","OPTIONS"));
-        cors.setAllowedHeaders(List.of("*"));
+        cors.addAllowedOriginPattern("*");
+        cors.addAllowedMethod("*");
+        cors.addAllowedHeader("*");
         cors.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
