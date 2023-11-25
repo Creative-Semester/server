@@ -2,8 +2,9 @@ package com.sejong.creativesemester.chat.controller;
 
 import com.sejong.creativesemester.board.service.BoardService;
 import com.sejong.creativesemester.chat.controller.req.PostRequest;
-import com.sejong.creativesemester.chat.controller.res.ChatRoomResponse;
-import com.sejong.creativesemester.chat.controller.res.RoomResponse;
+import com.sejong.creativesemester.chat.controller.res.ChatRoomInfoResponse;
+import com.sejong.creativesemester.chat.controller.res.ChatRoomListResponse;
+import com.sejong.creativesemester.chat.controller.res.ChatRoomDetailInfoResponse;
 import com.sejong.creativesemester.chat.domain.ChatRoom;
 import com.sejong.creativesemester.chat.service.RoomService;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -36,8 +38,8 @@ public class RoomController {
 
     // 채팅방 주소 가져오기
     @PostMapping
-    public SuccessResponse getOrCreateRoom(@Valid @RequestBody PostRequest postRequest,
-                                           Authentication authentication) {
+    public SuccessResponse<ChatRoomInfoResponse> getOrCreateRoom(@Valid @RequestBody PostRequest postRequest,
+                                                                 @ApiIgnore Authentication authentication) {
 
         String receiveStudentNum = boardService.findBoardById(postRequest.getBoardId()).getUser().getStudentNum();
         // 탈퇴한 회원 확인
@@ -45,47 +47,42 @@ public class RoomController {
 
         Long roomId = roomService.createRoom(receiver.getStudentNum(), authentication);
 
-        URI location = UriComponentsBuilder.newInstance()
-                .path("/chats/{room-id}")
-                .buildAndExpand(roomId)
-                .toUri();
-
-        return new SuccessResponse(location);
+        return new SuccessResponse(ChatRoomInfoResponse.builder().roomId(roomId).build());
 
     }
 
     //  채팅방 열기
     @GetMapping("/{room-id}")
-    public SuccessResponse<RoomResponse> getChatRoom(@Positive @PathVariable("room-id") Long roomId,
-                                                     Authentication authentication) {
+    public SuccessResponse<ChatRoomDetailInfoResponse> getChatRoom(@Positive @PathVariable("room-id") Long roomId,
+                                                                   @ApiIgnore Authentication authentication) {
         ChatRoom chatRoom = roomService.findRoom(roomId);
-        RoomResponse roomResponse = RoomResponse.builder()
+        ChatRoomDetailInfoResponse chatRoomDetailInfoResponse = ChatRoomDetailInfoResponse.builder()
                 .senderStudentNum(authentication.getName())
                 .receiverStudentNum(chatRoom.getReceiver().getStudentNum())
                 .roomId(chatRoom.getId())
                 .build();
 
-        return new SuccessResponse(roomResponse);
+        return new SuccessResponse(chatRoomDetailInfoResponse);
     }
 
     // 채팅 목록 조회 -> 로그인한 유저가 참여하고 있는 채팅 목록
     @GetMapping
-    public SuccessResponse getChatRooms(Authentication authentication,
-                                       @Positive @RequestParam(defaultValue = "1") int page,
-                                       @Positive @RequestParam(defaultValue = "10") int size) {
+    public SuccessResponse<ChatRoomListResponse> getChatRooms(@ApiIgnore Authentication authentication,
+                                                              @Positive @RequestParam(defaultValue = "1") int page,
+                                                              @Positive @RequestParam(defaultValue = "10") int size) {
 
         Page<ChatRoom> roomPage = roomService.findRooms(authentication, page, size);
-        PageInfo pageInfo = new PageInfo(page, size, (int)roomPage.getTotalElements(), roomPage.getTotalPages());
+        PageInfo pageInfo = new PageInfo(page, size, (int) roomPage.getTotalElements(), roomPage.getTotalPages());
 
         List<ChatRoom> rooms = roomPage.getContent();
-        List<RoomResponse> roomResponseList = rooms.stream().map(chatRoom -> RoomResponse.builder()
+        List<ChatRoomDetailInfoResponse> chatRoomDetailInfoResponseList = rooms.stream().map(chatRoom -> ChatRoomDetailInfoResponse.builder()
                 .roomId(chatRoom.getId())
                 .senderStudentNum(chatRoom.getSender().getStudentNum())
                 .receiverStudentNum(chatRoom.getReceiver().getStudentNum())
                 .build()).collect(Collectors.toList());
 
         return new SuccessResponse(
-                ChatRoomResponse.builder().roomResponseList(roomResponseList).pageInfo(pageInfo).build()
+                ChatRoomListResponse.builder().chatRoomDetailInfoResponseList(chatRoomDetailInfoResponseList).pageInfo(pageInfo).build()
         );
     }
 

@@ -7,6 +7,8 @@ import com.sejong.creativesemester.chat.domain.PublishMessage;
 import com.sejong.creativesemester.chat.service.ChatService;
 import com.sejong.creativesemester.chat.service.MessageDto;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Positive;
@@ -40,10 +43,10 @@ public class MessageController {
     private final RedisTemplate redisTemplate;
 
     @MessageMapping("/chats/messages/{room-id}")
-    public void message(@DestinationVariable("room-id") Long roomId, MessageDto messageDto) {
+    public void message(@Parameter(name = "채팅방ID") @DestinationVariable("room-id") Long roomId, MessageDto messageDto) {
 
         PublishMessage publishMessage =
-                new PublishMessage(messageDto.getRoomId(), messageDto.getSenderStudentNum(), messageDto.getContent(), LocalDateTime.now());
+                new PublishMessage(roomId, messageDto.getSenderStudentNum(), messageDto.getContent(), LocalDateTime.now());
         log.info("/sub/chats/messages/"+roomId);
         String topic1 = topic.getTopic();
         log.info(topic1);
@@ -57,10 +60,10 @@ public class MessageController {
 
     // 채팅메세지 가져오기
     @GetMapping("/chats/messages/{room-id}")
-    public SuccessResponse getMessages(@Positive @PathVariable("room-id") long roomId,
+    public SuccessResponse<MessageListInfoResponse> getMessages(@Positive @PathVariable("room-id") long roomId,
                                        @Positive @RequestParam(defaultValue = "1") int page,
                                        @Positive @RequestParam(defaultValue = "10") int size,
-                                       Authentication authentication) {
+                                       @ApiIgnore Authentication authentication) {
 
         // 해당 채팅방의 메세지를 가져와야 함
         Page<ChatMessage> messages = chatService.findMessages(roomId, page, size);
