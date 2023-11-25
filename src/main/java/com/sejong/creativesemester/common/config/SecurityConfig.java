@@ -53,7 +53,7 @@ public class SecurityConfig{
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/api/v1/affair/council", "/api/v1/promise/**").hasRole("COUNCIL")
-                .antMatchers("/ws/**","/pub/**","/sub/**","/chat/**","/ws/chat/**","/swagger-ui/**", "/api/v1/auth/**","/h2-console/**", "/health-check").permitAll()
+                .antMatchers("/wss/**","/ws/**","/pub/**","/sub/**","/chat/**","/ws/chat/**","/swagger-ui/**", "/api/v1/auth/**","/h2-console/**", "/health-check").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
