@@ -52,8 +52,8 @@ values ('19011729', '박정곤', now(), now(), 1, 'ROLE_USER', '재학', 1);
 
 -- -- insert into board_table
 -- -- values (1, now(), now(), 'Council', 'test1', 'test1', 'test1', 1, '19011721', 1);
--- -- insert into board_table (ID, CREATED_TIME, MODIFIED_TIME, BOARD_TYPE, CONTENT, IMAGE, TITLE, MAJOR_ID, USER_ID)
--- -- values (2, now(), now(), 'Free', 'test2', 'test2', 'test2', 1, '19011729');
+-- insert into board_table (ID, CREATED_TIME, MODIFIED_TIME, BOARD_TYPE, CONTENT, IMAGE, TITLE, MAJOR_ID, USER_ID)
+-- values (10, now(), now(), 'Free', 'test2', 'test2', 'test2', 1, '19011721');
 --
 -- INSERT INTO vote_table VALUES (100, 0, CURRENT_DATE + 1, 0);
 

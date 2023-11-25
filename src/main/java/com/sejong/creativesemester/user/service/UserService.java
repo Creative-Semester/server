@@ -12,10 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -47,7 +50,8 @@ public class UserService {
                 .boardDtoList(collect)
                 .build();
     }
-    public User findUser(String studentNum){
+
+    public User findUser(String studentNum) {
         return userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
     }
 
@@ -64,7 +68,7 @@ public class UserService {
                 .build();
     }
 
-    public User findUserByBoardId(Long boardId){
+    public User findUserByBoardId(Long boardId) {
         return userRepository.findByBoardId(boardId);
     }
 }
