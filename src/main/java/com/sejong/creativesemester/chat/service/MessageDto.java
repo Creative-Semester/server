@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageDto {
-
+ 
     @Schema
     @NotNull
     private String senderStudentNum;

@@ -1,7 +1,10 @@
 package com.sejong.creativesemester.chat.service;
 
+import com.sejong.creativesemester.board.entity.Board;
+import com.sejong.creativesemester.board.service.BoardService;
 import com.sejong.creativesemester.chat.domain.ChatRoom;
 import com.sejong.creativesemester.chat.repository.RoomRepository;
+import com.sejong.creativesemester.common.format.exception.chatroom.NotFoundChatRoomException;
 import com.sejong.creativesemester.login.domain.AuthUser;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.service.UserService;
@@ -24,18 +27,21 @@ import java.util.Optional;
 public class RoomService {
     private final UserService memberService;
     private final RoomRepository roomRepository;
+    private final BoardService boardService;
+    private static final int PAGE_SIZE = 20;
 
-    public Long createRoom(String receiverStudentNum, Authentication authentication) {
+
+    public Long createRoom(Long boardId,String receiverStudentNum, Authentication authentication) {
         User receiver = memberService.findUser(receiverStudentNum);
         User sender = memberService.findUser(authentication.getName());
-
+        Board board = boardService.findBoardById(boardId);
         // 둘의 채팅이 있는 지 확인
         Optional<ChatRoom> optionalChatRoom = roomRepository.findBySenderAndReceiver(sender, receiver);
         Optional<ChatRoom> optionalChatRoom2 = roomRepository.findBySenderAndReceiver(receiver, sender);
 
         ChatRoom chatRoom = null;
 
-        if(optionalChatRoom.isPresent()) {
+        if (optionalChatRoom.isPresent()) {
             chatRoom = optionalChatRoom.get();
             log.info("find chat room");
             return chatRoom.getId();
@@ -44,7 +50,7 @@ public class RoomService {
             log.info("find chat room");
             return chatRoom.getId();
         } else {
-            chatRoom = ChatRoom.builder().sender(sender).receiver(receiver).build();
+            chatRoom = ChatRoom.builder().sender(sender).receiver(receiver).board(board).build();
             log.info("create chat room");
         }
 
@@ -54,9 +60,9 @@ public class RoomService {
     }
 
     // 유저의 채팅 목록 가져오기
-    public Page<ChatRoom> findRooms(Authentication authentication, int page, int size) {
+    public Page<ChatRoom> findRooms(Authentication authentication, int page) {
         User sender = memberService.findUser(authentication.getName());
-        Pageable pageable = PageRequest.of(page-1 , size, Sort.by("roomId").descending());
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Page<ChatRoom> chatRooms = roomRepository.findAllBySenderOrReceiver(pageable, sender, sender);
 
         return chatRooms;
@@ -74,7 +80,7 @@ public class RoomService {
         Optional<ChatRoom> optionalChatRoom = roomRepository.findById(roomId);
 
         ChatRoom findChatRoom = optionalChatRoom.orElseThrow(
-                ()->new IllegalArgumentException("없는 채팅방")
+                NotFoundChatRoomException::new
         );
 
 
