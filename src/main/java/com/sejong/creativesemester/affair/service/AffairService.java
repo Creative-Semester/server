@@ -65,6 +65,7 @@ public class AffairService {
                         .fileName(affair.getFile().getFileName())
                         .fileUrl(affair.getFile().getFileUrl())
                         .build())
+                .createdTime(affair.getCreatedTime())
                 .build();
     }
 

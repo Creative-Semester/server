@@ -2,6 +2,7 @@ package com.sejong.creativesemester.affair.controller;
 
 import com.sejong.creativesemester.affair.service.AffairFileInfoResponse;
 import com.sejong.creativesemester.affair.service.AffairService;
+import com.sejong.creativesemester.common.format.exception.user.NotHaveRoleException;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
+
+import static com.sejong.creativesemester.user.entity.Role.ROLE_ADMIN;
+import static com.sejong.creativesemester.user.entity.Role.ROLE_COUNCIL;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,6 +25,11 @@ public class AffairController {
             notes = "학생회의 사무부서를 맡고 있는 부장이 사무내역을 작성합니다.")
     @PostMapping("/council")
     public SuccessResponse<String> saveAffair(@ApiIgnore Authentication authentication, @RequestBody SaveAffairRequest saveAffairRequest) {
+        if (authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_COUNCIL"))) {
+            throw new NotHaveRoleException();
+        }
+
+
         affairService.saveAffair(authentication, saveAffairRequest);
         return SuccessResponse.ok("사무내역이 저장되엇습니다.");
     }
@@ -45,6 +54,9 @@ public class AffairController {
     public SuccessResponse<String> removeAffair(@PathVariable Long affairId,
                                                 @RequestBody RemoveAffairRequest removeAffairRequest,
                                                 @ApiIgnore Authentication authentication) {
+        if (!(authentication.getAuthorities().contains("ROLE_COUNCIL") && authentication.getAuthorities().contains("ROLE_ADMIN"))) {
+            throw new NotHaveRoleException();
+        }
         affairService.removeAffair(authentication, affairId, removeAffairRequest);
         return SuccessResponse.ok("사무게시글이 삭제되었습니다.");
     }
