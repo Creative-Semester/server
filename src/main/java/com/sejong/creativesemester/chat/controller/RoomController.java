@@ -77,19 +77,12 @@ public class RoomController {
     ) {
 
         Page<ChatRoom> roomPage = roomService.findRooms(authentication, page);
-
-
         List<ChatRoom> rooms = roomPage.getContent();
-
         List<ChatRoomInfoResponse> chatRoomDetailInfoResponseList = rooms.stream().map(chatRoom -> ChatRoomInfoResponse.builder()
                 .roomId(chatRoom.getId())
                 .senderStudentNum(chatRoom.getSender().getStudentNum())
                 .receiverStudentNum(chatRoom.getReceiver().getStudentNum())
-                .noteInfos(NoteInfo.builder()
-                        .senderStudentNum(getLastNoteAtChatRoom(chatRoom).getSender().getStudentNum())
-                        .sendTime(getLastNoteAtChatRoom(chatRoom).getCreatedTime())
-                        .contents(getLastNoteAtChatRoom(chatRoom).getContents())
-                        .build())
+                .noteInfos(getBuild(chatRoom))
                 .boardName(chatRoom.getBoard().getTitle())
                 .build()).collect(Collectors.toList());
 
@@ -99,6 +92,18 @@ public class RoomController {
                         .currentPage(roomPage.getNumber())
                         .totalPages(roomPage.getTotalPages()).build()
         );
+    }
+
+    private NoteInfo getBuild(ChatRoom chatRoom) {
+        Note lastNoteAtChatRoom = getLastNoteAtChatRoom(chatRoom);
+        if (lastNoteAtChatRoom == null) {
+            return null;
+        }
+        return NoteInfo.builder()
+                .senderStudentNum(getLastNoteAtChatRoom(chatRoom).getSender().getStudentNum())
+                .sendTime(getLastNoteAtChatRoom(chatRoom).getCreatedTime())
+                .contents(getLastNoteAtChatRoom(chatRoom).getContents())
+                .build();
     }
 
     private Note getLastNoteAtChatRoom(ChatRoom chatRoom) {
