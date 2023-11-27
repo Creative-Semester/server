@@ -16,4 +16,6 @@ public class Major {
 
     @Column(nullable = false)
     private String name;
+
+    private Long sort;
 }
