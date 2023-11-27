@@ -1,9 +1,9 @@
-insert into major_table
-values (1, '지능기전');
-insert into major_table
-values (2, '컴퓨터공학과');
-insert into major_table
-values (3, '데이터사이언스학과');
+insert into major_table(ID, NAME, SORT)
+values (1, '지능기전공학부', 1);
+insert into major_table(ID, NAME, SORT)
+values (2, '무인이동체공학전공', 1);
+insert into major_table(ID, NAME, SORT)
+values (3, '스마트기기공학과', 1);
 
 
 insert into GRANTCODE_TABLE(ID, MAJOR_ID, GRANT_CODE)
@@ -47,7 +47,7 @@ values (9, now(), now(), '기획4', true, 3);
 insert into user_table(STUDENT_NUM, NAME, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
 values ('19011721', '이재표', now(), now(), 1, 'ROLE_ADMIN', '재학', 1);
 insert into user_table(STUDENT_NUM, NAME, CREATED_TIME, MODIFIED_TIME, GRADE, ROLE, STATUS, MAJOR_ID)
-values ('19011729', '박정곤', now(), now(), 1, 'ROLE_USER', '재학', 1);
+values ('19011729', '박정곤', now(), now(), 1, 'ROLE_USER', '재학', 3);
 
 
 -- -- insert into board_table
