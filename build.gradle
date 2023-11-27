@@ -25,6 +25,8 @@ repositories {
 dependencies {
 	//websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.webjars:sockjs-client:1.1.2'
+	implementation 'org.webjars:stomp-websocket:2.3.3-1'
 
 	//spring
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -57,14 +59,18 @@ dependencies {
 	// testcontainers
 	testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
 	testImplementation "org.testcontainers:junit-jupiter:1.16.3"
+
 	//spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	//webclient
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 	//jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
 	// redisson
 	implementation 'org.redisson:redisson-spring-boot-starter:3.17.4'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'

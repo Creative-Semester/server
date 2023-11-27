@@ -13,6 +13,7 @@ import java.util.List;
 
 import static com.sejong.creativesemester.board.entity.QBoard.board;
 
+
 @RequiredArgsConstructor
 public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;

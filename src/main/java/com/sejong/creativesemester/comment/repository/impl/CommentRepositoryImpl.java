@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.sejong.creativesemester.comment.entity.QComment.comment;
 
+
 @RequiredArgsConstructor
 public class CommentRepositoryImpl implements CommentRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;

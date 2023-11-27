@@ -1,6 +1,7 @@
 package com.sejong.creativesemester.user.entity;
 
 
+import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.comment.entity.Comment;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.council.entity.Council;
