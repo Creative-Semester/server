@@ -22,6 +22,7 @@ public class NoteService {
     private final NoteRepository noteRepository;
     private final UserService userService;
     private final RoomService roomService;
+
     public SendNoteResponse sendNote(SendNoteRequestDto sendNoteRequestDto) {
         ChatRoom room = roomService.findRoom(sendNoteRequestDto.getChatRoomId());
         User sender = userService.findUser(sendNoteRequestDto.getSenderStudentNum());
@@ -45,7 +46,11 @@ public class NoteService {
         return noteRepository.findByChatRoom(chatRoom);
     }
 
-    public Note findLastNoteAtChatRoom(ChatRoom chatRoom){
-        return noteRepository.findByChatRoomOrderByCreatedTimeDesc(chatRoom).stream().findFirst().orElseThrow(NotFoundChatRoomException::new);
+    public Note findLastNoteAtChatRoom(ChatRoom chatRoom) {
+        if (noteRepository.findByChatRoomOrderByCreatedTimeDesc(chatRoom).isEmpty()) {
+            return null;
+        }
+        return noteRepository.findByChatRoomOrderByCreatedTimeDesc(chatRoom).stream()
+                .findFirst().orElseThrow(NotFoundChatRoomException::new);
     }
 }
