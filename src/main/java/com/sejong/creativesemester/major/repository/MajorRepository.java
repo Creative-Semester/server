@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface MajorRepository extends JpaRepository<Major, Long> {
 
     @Override
-    Optional<Major> findById(Long major);
+    Optional<Major> findById(Long majorId);
+
+    Optional<Major> findByName(String majorName);
 }
