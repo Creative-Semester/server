@@ -52,7 +52,7 @@ public class SecurityConfig{
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/api/v1/promise/**").hasRole("COUNCIL")
+                .antMatchers("/api/v1/affair/council/**", "/api/v1/promise/**").hasAnyRole("COUNCIL","ADMIN")
                 .antMatchers("/wss/**","/ws/**","/pub/**","/sub/**","/chat/**","/ws/chat/**","/swagger-ui/**", "/api/v1/auth/**","/h2-console/**", "/health-check").permitAll()
                 .anyRequest().authenticated()
                 .and()

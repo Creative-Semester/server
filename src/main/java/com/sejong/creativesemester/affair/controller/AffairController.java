@@ -25,11 +25,6 @@ public class AffairController {
             notes = "학생회의 사무부서를 맡고 있는 부장이 사무내역을 작성합니다.")
     @PostMapping("/council")
     public SuccessResponse<String> saveAffair(@ApiIgnore Authentication authentication, @RequestBody SaveAffairRequest saveAffairRequest) {
-        if (authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_COUNCIL"))) {
-            throw new NotHaveRoleException();
-        }
-
-
         affairService.saveAffair(authentication, saveAffairRequest);
         return SuccessResponse.ok("사무내역이 저장되엇습니다.");
     }
