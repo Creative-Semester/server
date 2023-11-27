@@ -3,7 +3,7 @@ values (1, '지능기전공학부', 1);
 insert into major_table(ID, NAME, SORT)
 values (2, '무인이동체공학전공', 1);
 insert into major_table(ID, NAME, SORT)
-values (3, '스마트기기공학과', 1);
+values (3, '스마트기기공학전공', 1);
 
 
 insert into GRANTCODE_TABLE(ID, MAJOR_ID, GRANT_CODE)
