@@ -49,9 +49,6 @@ public class AffairController {
     public SuccessResponse<String> removeAffair(@PathVariable Long affairId,
                                                 @RequestBody RemoveAffairRequest removeAffairRequest,
                                                 @ApiIgnore Authentication authentication) {
-        if (!(authentication.getAuthorities().contains("ROLE_COUNCIL") && authentication.getAuthorities().contains("ROLE_ADMIN"))) {
-            throw new NotHaveRoleException();
-        }
         affairService.removeAffair(authentication, affairId, removeAffairRequest);
         return SuccessResponse.ok("사무게시글이 삭제되었습니다.");
     }
