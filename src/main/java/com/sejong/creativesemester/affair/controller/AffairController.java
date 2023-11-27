@@ -2,6 +2,7 @@ package com.sejong.creativesemester.affair.controller;
 
 import com.sejong.creativesemester.affair.service.AffairFileInfoResponse;
 import com.sejong.creativesemester.affair.service.AffairService;
+import com.sejong.creativesemester.common.format.exception.user.NotHaveRoleException;
 import com.sejong.creativesemester.common.format.success.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
+
+import static com.sejong.creativesemester.user.entity.Role.ROLE_ADMIN;
+import static com.sejong.creativesemester.user.entity.Role.ROLE_COUNCIL;
 
 @RequiredArgsConstructor
 @RestController

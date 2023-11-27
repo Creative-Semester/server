@@ -1,5 +1,6 @@
 package com.sejong.creativesemester.affair.entity;
 
+import com.sejong.creativesemester.common.domain.BaseTimeEntity;
 import com.sejong.creativesemester.file.entity.File;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Affair {
+public class Affair extends BaseTimeEntity {
     @Id
     @GeneratedValue
     private Long id;
