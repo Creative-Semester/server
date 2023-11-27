@@ -44,7 +44,7 @@ public class ProfessorBoardService {
 
     public ProfessorListResponseDto getBoards(String studentNum, int page){
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
-        Page<Professor> list = professorRepository.findAllByOrderByName(user.getMajor().getId(), PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
+        Page<Professor> list = professorRepository.findAllByOrderByName(user.getMajor().getSort(), PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
 
         return ProfessorListResponseDto.builder()
                 .totalPage(list.getTotalPages())

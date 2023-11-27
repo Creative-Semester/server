@@ -13,14 +13,14 @@ public class CouncilRepositoryImpl implements CouncilRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public CouncilInfoResponseDto findCouncilInfoByMajorId(Long majorId) {
+    public CouncilInfoResponseDto findCouncilInfoByMajorSort(Long majorSort) {
         return jpaQueryFactory.select(
                         Projections.constructor(CouncilInfoResponseDto.class,
                                 council.name, council.introduce, council.number)
                 )
                 .from(council)
                 .join(council.major)
-                .on(council.major.id.eq(majorId))
+                .on(council.major.id.eq(majorSort))
                 .orderBy(council.createdTime.desc())
                 .fetchFirst();
     }

@@ -33,7 +33,7 @@ public class DepartmentService {
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(
                 () -> new IllegalArgumentException("없는사용자")
         );
-        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
+        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findBySortOrderByCreatedTimeDesc(byStudentNum.getMajor().getSort());
         if (byMajorIdOrderByCreatedTimeDesc.isEmpty()) {
             throw new IllegalArgumentException("해당 학생회가 없습니다");
         }
@@ -63,14 +63,14 @@ public class DepartmentService {
 
     public List<PromiseContentsResponseDto> getPromises(String studentNum, Long departmentId) {
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(() -> new NullPointerException("사용자 없음"));
-        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
+        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findBySortOrderByCreatedTimeDesc(byStudentNum.getMajor().getSort());
         return departmentRepositoryImpl.getPromises(byMajorIdOrderByCreatedTimeDesc.get(0).getId(), departmentId);
 
     }
 
     public List<DepartmentInfoResponseDto> getDepartmentLists(String studentNum) {
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(() -> new NullPointerException("사용자 없음"));
-        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findByMajor_IdOrderByCreatedTimeDesc(byStudentNum.getMajor().getId());
+        List<Council> byMajorIdOrderByCreatedTimeDesc = councilRepository.findBySortOrderByCreatedTimeDesc(byStudentNum.getMajor().getSort());
         return departmentRepositoryImpl.getDepartmentsInfo(byMajorIdOrderByCreatedTimeDesc.get(0).getId());
     }
 }

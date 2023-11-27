@@ -36,10 +36,10 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Page<Board> findAllByBoardTypeAndMajorDesc(Long majorId, BoardType boardType, Pageable pageable) {
+    public Page<Board> findAllByBoardTypeAndMajorDesc(Long majorSort, BoardType boardType, Pageable pageable) {
         List<Board> fetch = queryFactory.selectFrom(board)
                 .where(board.boardType.eq(boardType)
-                        , board.major.id.eq(majorId))
+                        , board.major.sort.eq(majorSort))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(board.createdTime.desc())
@@ -47,7 +47,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         int size = queryFactory.select(board.count())
                 .from(board)
                 .where(board.boardType.eq(boardType)
-                        , board.major.id.eq(majorId)).fetch().size();
+                        , board.major.sort.eq(majorSort)).fetch().size();
         return new PageImpl<>(fetch, pageable, size);
     }
 }
