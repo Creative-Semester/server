@@ -41,11 +41,11 @@ public class RoomService {
 
         ChatRoom chatRoom = null;
 
-        if (optionalChatRoom.isPresent()) {
+        if (optionalChatRoom.isPresent() && optionalChatRoom.get().getBoard().getId()==boardId) {
             chatRoom = optionalChatRoom.get();
             log.info("find chat room");
             return chatRoom.getId();
-        } else if (optionalChatRoom2.isPresent()) {
+        } else if (optionalChatRoom2.isPresent()&& optionalChatRoom2.get().getBoard().getId()==boardId) {
             chatRoom = optionalChatRoom2.get();
             log.info("find chat room");
             return chatRoom.getId();
