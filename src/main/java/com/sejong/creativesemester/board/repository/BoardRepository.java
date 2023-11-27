@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    @Query("select f from BOARD_TABLE as f join f.major as m where m.id=:majorId and f.boardType='Free' order by f.createdTime desc")
-    Page<Board> findAllByOrderByCreatedDateDesc(@Param(value = "majorId") Long majorId, Pageable pageable);
+//    @Query("select f from BOARD_TABLE as f join f.major as m where m.sort=:majorSort and f.boardType='Free' order by f.createdTime desc")
+//    Page<Board> findAllByOrderByCreatedDateDesc(@Param(value = "majorId") Long majorSort, Pageable pageable);
 }
 

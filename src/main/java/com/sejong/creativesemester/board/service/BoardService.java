@@ -89,7 +89,7 @@ public class BoardService {
     public BoardListResponseDto getBoards(String studentNum, int page, BoardType boardType) {
         User byStudentNum = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Page<Board> boardPage = boardRepositoryCustom.findAllByBoardTypeAndMajorDesc(
-                Long.valueOf(byStudentNum.getMajor().getId())
+                Long.valueOf(byStudentNum.getMajor().getSort())
                 , boardType
                 , PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
 

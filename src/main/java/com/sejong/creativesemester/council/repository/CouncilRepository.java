@@ -13,6 +13,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface CouncilRepository extends JpaRepository<Council,Long>,CouncilRepositoryCustom {
-    @Query("select c from COUNCIL_TABLE c where c.major.id=:majorId order by c.createdTime desc")
-    List<Council> findByMajor_IdOrderByCreatedTimeDesc(@Param(value = "majorId") Long majorId);
+    @Query("select c from COUNCIL_TABLE c where c.major.sort=:majorSort order by c.createdTime desc")
+    List<Council> findBySortOrderByCreatedTimeDesc(@Param(value = "majorSort") Long majorSort);
 }

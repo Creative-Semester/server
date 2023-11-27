@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BoardRepositoryCustom {
-    Page<Board> findAllByBoardTypeAndMajorDesc(Long majorId, BoardType boardType, Pageable pageable);
+    Page<Board> findAllByBoardTypeAndMajorDesc(Long majorSort, BoardType boardType, Pageable pageable);
 
     Page<Board> findAllByStudentNumDesc(String studentNum, Pageable pageable);
 }

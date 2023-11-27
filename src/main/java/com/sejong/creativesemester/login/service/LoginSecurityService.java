@@ -14,6 +14,8 @@ import com.sejong.creativesemester.login.dto.sejong.SejongMemberResponseDto;
 import com.sejong.creativesemester.login.jwt.JwtTokenProvider;
 import com.sejong.creativesemester.login.jwt.TokenInfo;
 import com.sejong.creativesemester.login.repository.RefreshTokenRepository;
+import com.sejong.creativesemester.major.entity.Major;
+import com.sejong.creativesemester.major.repository.MajorRepository;
 import com.sejong.creativesemester.user.entity.Role;
 import com.sejong.creativesemester.user.entity.User;
 import com.sejong.creativesemester.user.repository.UserRepository;
@@ -39,6 +41,8 @@ public class LoginSecurityService {
 
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private final MajorRepository majorRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -70,12 +74,20 @@ public class LoginSecurityService {
             throw new NoAuthException();
         }
 
+        // major 찾기, 없으면 새로 생성
+        Major major = majorRepository.findByName(memberDto.getResult().getBody().getMajor()).orElseGet(
+                () -> majorRepository.save(Major.builder()
+                                .name(memberDto.getResult().getBody().getMajor())
+                        .build())
+        );
+
         // 세종 api로 로그인한 정보 userRepository에 없으면 저장.
         User user = userRepository.findByStudentNum(sejongMemberRequestDto.getId()).orElseGet(
                 () -> userRepository.save(User.builder()
                                 .studentNum(sejongMemberRequestDto.getId())
                                 .name(memberDto.getResult().getBody().getName())
                                 .grade(Integer.parseInt(memberDto.getResult().getBody().getGrade()))
+                                .major(major)
                                 .role(Role.ROLE_USER)
                                 .status(memberDto.getResult().getBody().getStatus())
                         .build())
