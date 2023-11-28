@@ -26,7 +26,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .orderBy(board.createdTime.desc())
                 .fetch();
-        int size = queryFactory.select(board.count())
+        int size = queryFactory.select(board)
                 .from(board)
                 .where(board.user.studentNum.eq(studentNum))
                 .fetch()

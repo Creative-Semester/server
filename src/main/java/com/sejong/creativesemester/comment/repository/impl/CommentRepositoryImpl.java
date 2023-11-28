@@ -52,7 +52,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .orderBy(comment.createdTime.desc())
                 .fetch();
 
-        int size = jpaQueryFactory.select(comment.count())
+        int size = jpaQueryFactory.select(comment)
                 .from(comment)
                 .where(comment.user.studentNum.eq(studentNum)).fetch().size();
         return new PageImpl<>(commentReponseList, pageable, size);
