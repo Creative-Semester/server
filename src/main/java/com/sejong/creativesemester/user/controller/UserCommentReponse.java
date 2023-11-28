@@ -13,6 +13,5 @@ import java.util.List;
 public class UserCommentReponse {
     private int totalPage;
     private int currentPage;
-    @JsonFormat(pattern = "YYYY-MM-DD hh:mm")
     private List<UserCommentDto> comment;
 }
