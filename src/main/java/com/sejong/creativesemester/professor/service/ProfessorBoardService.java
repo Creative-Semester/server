@@ -10,6 +10,9 @@ import com.sejong.creativesemester.common.format.exception.professor.NotFoundEva
 import com.sejong.creativesemester.common.format.exception.professor.NotMatchProfessorException;
 import com.sejong.creativesemester.common.format.exception.user.NotFoundUserException;
 import com.sejong.creativesemester.common.meta.DistributeLock;
+import com.sejong.creativesemester.file.entity.File;
+import com.sejong.creativesemester.file.repository.FileRepository;
+import com.sejong.creativesemester.file.service.dto.res.ImageInfoResponseDto;
 import com.sejong.creativesemester.professor.dto.*;
 import com.sejong.creativesemester.professor.entity.Course;
 import com.sejong.creativesemester.professor.entity.Evaluation;
@@ -42,6 +45,7 @@ public class ProfessorBoardService {
     private final int TOTAL_ITEMS_PER_PAGE = 20;
     private static final String EVALUATION_KEY = "EVALUATION_";
 
+    @Transactional(readOnly = true)
     public ProfessorListResponseDto getBoards(String studentNum, int page){
         User user = userRepository.findByStudentNum(studentNum).orElseThrow(NotFoundUserException::new);
         Page<Professor> list = professorRepository.findAllByOrderByName(user.getMajor().getSort(), PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
@@ -53,7 +57,10 @@ public class ProfessorBoardService {
                         .professorId(professor.getId())
                         .name(professor.getName())
                         .intro(professor.getIntro())
-                        .image(professor.getImage())
+                        .file(ImageInfoResponseDto.builder()
+                                .imageName(professor.getFile().getFileName())
+                                .imageUrl(professor.getFile().getFileUrl())
+                                .build())
                         .build())
                         .collect(Collectors.toList()))
                 .build();
@@ -64,7 +71,6 @@ public class ProfessorBoardService {
 
         Page<Course> coursePage = courseRepository.findAllByOrderByName(professorId,
                 PageRequest.of(page, TOTAL_ITEMS_PER_PAGE));
-
         Professor professor = professorRepository.findById(professorId).orElseThrow(NotMatchProfessorException::new);
 
         return CourseListResponseDto.builder()
@@ -80,7 +86,10 @@ public class ProfessorBoardService {
                 )
                 .professorSimpleResponseDto(ProfessorSimpleResponseDto.builder()
                         .name(professor.getName())
-                        .image(professor.getImage())
+                        .file(ImageInfoResponseDto.builder()
+                                .imageName(professor.getFile().getFileName())
+                                .imageUrl(professor.getFile().getFileUrl())
+                                .build())
                         .location(professor.getLocation())
                         .phoneNum(professor.getPhonenum())
                         .email(professor.getEmail())
