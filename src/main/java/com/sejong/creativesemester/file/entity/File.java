@@ -21,9 +21,9 @@ public class File extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 1000)
     private String fileUrl;
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 1000)
     private String fileName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")

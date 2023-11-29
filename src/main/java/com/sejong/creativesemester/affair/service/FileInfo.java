@@ -7,5 +7,6 @@ import lombok.Getter;
 @Getter
 public class FileInfo {
     private String fileName;
+
     private String fileUrl;
 }
