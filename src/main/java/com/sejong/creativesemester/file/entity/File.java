@@ -2,6 +2,7 @@ package com.sejong.creativesemester.file.entity;
 
 import com.sejong.creativesemester.board.entity.Board;
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
+
 import com.sejong.creativesemester.professor.entity.Professor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,9 @@ public class File extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
     private String fileUrl;
+    @Column(columnDefinition = "TEXT")
     private String fileName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
