@@ -28,16 +28,17 @@ public class AffairService {
         if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
             throw new NotHaveRoleException();
         }
-        Affair build = Affair.builder()
-                .title(saveAffairRequest.getTitle())
-                .usedMoney(saveAffairRequest.getUsedMoney())
-                .restMoney(saveAffairRequest.getRestMoney()).build();
-        Affair save = affairRepository.save(build);
         File save1 = fileRepository.save(File.builder()
                 .fileUrl(saveAffairRequest.getAffairFiles().getAffairUrl())
                 .fileName(saveAffairRequest.getAffairFiles().getAffairName())
                 .build());
-        save.updateFile(save1);
+        Affair build = Affair.builder()
+                .title(saveAffairRequest.getTitle())
+                .usedMoney(saveAffairRequest.getUsedMoney())
+                .restMoney(saveAffairRequest.getRestMoney())
+                .file(save1)
+                .build();
+        affairRepository.save(build);
     }
 
     public List<AffairFileInfoResponse> findAllAffair() {
