@@ -57,12 +57,15 @@ values ('19011729', '박정곤', now(), now(), 1, 'ROLE_USER', '재학', 3);
 --
 -- INSERT INTO vote_table VALUES (100, 0, CURRENT_DATE + 1, 0);
 
-insert into PROFESSOR_TABLE(NAME, LOCATION, PHONENUM, EMAIL, MAJOR_SUB, LAB, INTRO, IMAGE, MAJOR_ID)
-values ('김세원', 'ai센터 524호', '02-6935-2678', 'sewonkim@sejong.ac.kr', 'Autonomous Ship', 'Autonomous Shipping Lab',
-        'Autonomous Vessel, Navigation Algorithm, Optimal Routind Algorithm을 연구하고 있습니다.', 'image', 1);
+--insert into FILE_TABLE(FILE_URL, FILE_NAME, PROFESSOR_ID)
+--values('asdf', 'asev', 1)
+
+--insert into PROFESSOR_TABLE(NAME, LOCATION, PHONENUM, EMAIL, MAJOR_SUB, LAB, INTRO, FILE, MAJOR_ID)
+--values ('김세원', 'ai센터 524호', '02-6935-2678', 'sewonkim@sejong.ac.kr', 'Autonomous Ship', 'Autonomous Shipping Lab',
+--        'Autonomous Vessel, Navigation Algorithm, Optimal Routind Algorithm을 연구하고 있습니다.', 1, 1);
 
 
-insert into COURSE_TABLE(PROFESSOR_ID, TITLE, CLASSIFICATION, GRADE, SCORE)
-values (1, '신호 및 시스템', '전선', '2학년', '3학점');
-insert into COURSE_TABLE(PROFESSOR_ID, TITLE, CLASSIFICATION, GRADE, SCORE)
-values (1, '인공지능', '전필', '3학년', '3학점');
+--insert into COURSE_TABLE(PROFESSOR_ID, TITLE, CLASSIFICATION, GRADE, SCORE)
+--values (1, '신호 및 시스템', '전선', '2학년', '3학점');
+--insert into COURSE_TABLE(PROFESSOR_ID, TITLE, CLASSIFICATION, GRADE, SCORE)
+--values (1, '인공지능', '전필', '3학년', '3학점');

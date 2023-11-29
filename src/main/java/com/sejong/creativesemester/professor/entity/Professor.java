@@ -1,8 +1,10 @@
 package com.sejong.creativesemester.professor.entity;
 
 import com.sejong.creativesemester.common.domain.BaseTimeEntity;
+import com.sejong.creativesemester.file.entity.File;
 import com.sejong.creativesemester.major.entity.Major;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity(name = "PROFESSOR_TABLE")
 public class Professor extends BaseTimeEntity {
 
@@ -42,8 +45,9 @@ public class Professor extends BaseTimeEntity {
     @NotNull
     private String intro;
 
-    @NotNull
-    private String image;
+    @JoinColumn(name = "FILE_ID")
+    @OneToOne(mappedBy = "professor",orphanRemoval = true)
+    private File file;
 
     @JoinColumn(name = "majorId")
     @ManyToOne(fetch = FetchType.LAZY)
